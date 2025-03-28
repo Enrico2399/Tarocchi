@@ -4,15 +4,28 @@ import CardComponent from '@/components/CardComponent';
 
 const cards = [
   { 
-    name: "Il Matto", 
-    description: "Rappresenta l'inizio di un viaggio...", 
-    image: require('@/assets/images/Folle0.jpeg') 
+    name: "Il Matto",
+    description: "Rappresenta un momento di nuova avventura...",
+    description1: "La sfida potrebbe essere quella...",
+    description2: "L'azione consigliata potrebbe essere...",
+    description3: "L'esito potrebbe portare...",
+    image: require('@/assets/images/Folle0.jpeg')
   },
   // Aggiungi tutte le altre carte allo stesso modo
 ];
 
 export default function HomeScreen() {
   const [selectedCards, setSelectedCards] = useState<any[]>([]);
+
+  const getDescriptionByIndex = (card: any, index: number) => {
+    switch(index) {
+      case 0: return card.description;
+      case 1: return card.description1;
+      case 2: return card.description2;
+      case 3: return card.description3;
+      default: return card.description;
+    }
+  };
 
   const generateCards = () => {
     const shuffled = [...cards].sort(() => Math.random() - 0.5).slice(0, 4);
@@ -32,7 +45,7 @@ export default function HomeScreen() {
               'Esito'
             ][index]}
             cardName={card.name}
-            description={card.description}
+            description={getDescriptionByIndex(card, index)}
             image={card.image}
           />
         ))}
