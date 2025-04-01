@@ -3,7 +3,8 @@ import { View, Button, ScrollView, StyleSheet } from 'react-native';
 import CardComponent from '@/components/CardComponent';
 
 const cards = [
-  { name: "Il Matto",
+  { 
+    name: "Il Matto",
     description: "Rappresenta un momento di nuova avventura e inizio. Se appare nella situazione attuale, potresti trovarti in un periodo di grande cambiamento e apertura verso nuove opportunità, anche se potrebbero essere imprevedibili.", 
     description1: "La sfida potrebbe essere quella di affrontare l'incertezza e l'imprevedibilità della vita con coraggio e fiducia, nonostante le paure o le insicurezze.",
     description2: "L'azione consigliata potrebbe essere quella di abbracciare l'incertezza con coraggio e fiducia, e di essere aperti alle nuove opportunità che si presentano senza esitazione.",
