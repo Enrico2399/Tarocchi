@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Button,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -18,6 +19,7 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 import { Audio } from 'expo-av';
+import * as Notifications from 'expo-notifications';
 
 const playFlipSound = async () => {
   const { sound } = await Audio.Sound.createAsync(
@@ -26,18 +28,61 @@ const playFlipSound = async () => {
   await sound.playAsync();
 };
 
+  const scheduleDailyNotification = async () => {
+    await Notifications.cancelAllScheduledNotificationsAsync();
+  
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Il tuo Arcano del Giorno ti aspetta!",
+        body: "Scopri cosa le carte hanno in serbo per te oggi",
+        sound: true,
+        data: { type: "daily-arcana" },
+      },
+      trigger: {
+        hour: 9, // Ore 9
+        minute: 0,
+        repeats: true, // Ripete giornalmente
+      },
+    });
+  };
+
+  const NotificationSetup = () => {
+    useEffect(() => {
+      const setupNotifications = async () => {
+        const { status } = await Notifications.requestPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Notifiche disattivate', 'Attiva le notifiche per ricevere il tuo arcano giornaliero!');
+          return;
+        }
+  
+        await scheduleDailyNotification();
+      };
+  
+      setupNotifications();
+    }, []);
+  
+    return null;
+  };
+
 const CircleButtonWithPopup = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   
-  // Ottieni l'arcano del giorno
   const getArcanaOfTheDay = () => {
     const currentDate = new Date();
     const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
     const diff = currentDate.getTime() - startOfYear.getTime();
     const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
     const arcanaIndex = dayOfYear % 22;
-    return cards[arcanaIndex]; // Restituisci l'oggetto card completo
+    return cards[arcanaIndex];
   };
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+    }),
+  });
 
   const arcana = getArcanaOfTheDay();
 
