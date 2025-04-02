@@ -7,6 +7,8 @@ import {
   Text,
   Image,
   TouchableWithoutFeedback,
+  TouchableOpacity,
+  Modal,
   Dimensions,
 } from 'react-native';
 import Animated, {
@@ -22,6 +24,66 @@ const playFlipSound = async () => {
     require('@/assets/flip.mp3')
   );
   await sound.playAsync();
+};
+
+const CircleButtonWithPopup = () => {
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  
+  // Ottieni l'arcano del giorno
+  const getArcanaOfTheDay = () => {
+    const currentDate = new Date();
+    const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
+    const diff = currentDate.getTime() - startOfYear.getTime();
+    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const arcanaIndex = dayOfYear % 22;
+    return cards[arcanaIndex]; // Restituisci l'oggetto card completo
+  };
+
+  const arcana = getArcanaOfTheDay();
+
+  return (
+    <>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => setIsPopupVisible(true)}
+      >
+        <Text style={styles.buttonText}>?</Text>
+      </TouchableOpacity>
+
+      <Modal
+        visible={isPopupVisible}
+        animationType="fade"
+        transparent
+        onRequestClose={() => setIsPopupVisible(false)}
+      >
+        <View style={styles.popupOverlay}>
+          <View style={styles.popupContent}>
+            <Text style={styles.popupSubtitle}>Il tuo Arcano del Giorno</Text>
+            <Text style={styles.popupTitle}>{arcana.name}</Text>
+            
+            <Image 
+              source={arcana.image} 
+              style={styles.arcanaImage}
+              resizeMode="contain"
+            />
+            
+            <ScrollView style={styles.descriptionScroll}>
+              <Text style={styles.arcanaDescription}>
+                {arcana.description}
+              </Text>
+            </ScrollView>
+            
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsPopupVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Chiudi</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </>
+  );
 };
 
 type CardData = {
@@ -239,16 +301,6 @@ export default function HomeScreen(): JSX.Element {
     setSelectedCards(shuffled);
   };
 
-  const getArcanaOfTheDay = (): string => {
-    const currentDate = new Date();
-    const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
-    const diff = currentDate.getTime() - startOfYear.getTime();
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const arcanaIndex = dayOfYear % 22;
-    const arcanaCard = cards[arcanaIndex];
-    return arcanaCard.name;
-  }
-
   const MemoryCard: React.FC<{
     title: string;
     cardName: string;
@@ -309,31 +361,72 @@ export default function HomeScreen(): JSX.Element {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.crossLayout}>
-        {selectedCards.map((card, index) => (
-          <MemoryCard
-            key={index}
-            title={[
-              'Situazione Attuale',
-              'Sfida da Affrontare',
-              'Azione Consigliata',
-              'Esito',
-            ][index]}
-            cardName={card.name}
-            description={getDescriptionByIndex(card, index)}
-            image={card.image}
-          />
-        ))}
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Genera Carte" onPress={generateCards} color="#007bff" />
-      </View>
-    </ScrollView>
+    <View style={{ flex: 1 }}>
+      {/* Pulsante sovrapposto */}
+      <CircleButtonWithPopup />
+      
+      {/* Contenuto principale */}
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.crossLayout}>
+          {selectedCards.map((card, index) => (
+            <MemoryCard
+              key={index}
+              title={[
+                'Situazione Attuale',
+                'Sfida da Affrontare',
+                'Azione Consigliata',
+                'Esito',
+              ][index]}
+              cardName={card.name}
+              description={getDescriptionByIndex(card, index)}
+              image={card.image}
+            />
+          ))}
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button title="Genera Carte" onPress={generateCards} color="#007bff" />
+        </View>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    position: 'relative',
+  },
+  button: {
+    position: 'absolute',
+    top: 15,
+    right: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#2196F3',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 10,
+    zIndex: 100,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: -2,
+  },
+  popupOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 60,
+    paddingRight: 10,
+  },
   container: {
     padding: 10,
     alignItems: 'center',
@@ -346,6 +439,54 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
     width: '60%',
+  },
+  popupContent: {
+    width: width * 0.85,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+    maxHeight: '80%',
+  },
+  popupSubtitle: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 5,
+  },
+  popupTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  arcanaImage: {
+    width: 150,
+    height: 250,
+    marginVertical: 10,
+  },
+  descriptionScroll: {
+    maxHeight: 120,
+    width: '100%',
+    marginVertical: 10,
+  },
+  arcanaDescription: {
+    fontSize: 16,
+    lineHeight: 22,
+    color: '#444',
+    textAlign: 'center',
+  },
+  closeButton: {
+    marginTop: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    backgroundColor: '#6e3b6e',
+    borderRadius: 20,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
