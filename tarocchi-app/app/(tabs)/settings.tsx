@@ -19,7 +19,7 @@ export default function SettingsScreen() {
         <IconSymbol
           size={310}
           color="#808080"
-          name="gearshape" // Nome icona corretto per SFSymbols
+          name="gear"
           style={styles.headerImage}
         />
       }>
@@ -55,7 +55,7 @@ export default function SettingsScreen() {
         />
         <SettingItem 
           title="Modalità scura" 
-          icon="moon" 
+          icon="dark_mode" 
           rightComponent={
             <Switch 
               value={darkModeEnabled} 
