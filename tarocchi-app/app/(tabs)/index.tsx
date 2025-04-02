@@ -281,18 +281,27 @@ export default function HomeScreen(): JSX.Element {
     return (
       <TouchableWithoutFeedback onPress={flipCard}>
         <Animated.View style={cardStyles.cardContainer}>
-
+          {/* Fronte della card */}
           <Animated.View style={[cardStyles.card, frontStyle]}>
             <Text style={cardStyles.cardName}>{cardName}</Text>
             <Image source={image} style={cardStyles.cardImage} />
-            <Text style={cardStyles.cardDescription}>{description}</Text>
+            <View style={cardStyles.scrollWrapper}>
+              <ScrollView>
+                <Text style={cardStyles.cardDescription}>{description}</Text>
+              </ScrollView>
+            </View>
           </Animated.View>
-
+    
+          {/* Retro della card */}
           <Animated.View style={[cardStyles.card, cardStyles.cardBack, backStyle]}>
             <Text style={[cardStyles.cardTitle, { color: 'white' }]}>{title}</Text>
-            <Text style={[cardStyles.cardDescription, { color: 'white' }]}>
-              Informazioni extra
-            </Text>
+            <View style={cardStyles.scrollWrapper}>
+              <ScrollView>
+                <Text style={[cardStyles.cardDescription, { color: 'white' }]}>
+                  Informazioni extra
+                </Text>
+              </ScrollView>
+            </View>
           </Animated.View>
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -356,19 +365,32 @@ const cardStyles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     padding: 10,
     backfaceVisibility: 'hidden',
-  },
-  cardBack: {
-    backgroundColor: 'tomato',
   },
   cardTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 8,
     color: '#333',
     textAlign: 'center',
+    maxWidth: '100%',
+  },
+  scrollWrapper: {
+    flex: 1, // Occupa lo spazio rimanente
+    width: '100%',
+    marginTop: 8,
+  },
+  cardDescription: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'justify',
+    width: '100%',
+  },
+
+  cardBack: {
+    backgroundColor: 'tomato',
   },
   cardName: {
     fontSize: 14,
@@ -382,10 +404,5 @@ const cardStyles = StyleSheet.create({
     height: 100,
     marginBottom: 8,
     resizeMode: 'cover',
-  },
-  cardDescription: {
-    fontSize: 12,
-    color: '#666',
-    textAlign: 'justify',
-  },
+  }
 });
