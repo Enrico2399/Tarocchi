@@ -20,6 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Audio } from 'expo-av';
 import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const playFlipSound = async () => {
   const { sound } = await Audio.Sound.createAsync(
@@ -28,45 +29,52 @@ const playFlipSound = async () => {
   await sound.playAsync();
 };
 
-  const scheduleDailyNotification = async () => {
-    await Notifications.cancelAllScheduledNotificationsAsync();
-  
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Il tuo Arcano del Giorno ti aspetta!",
-        body: "Scopri cosa le carte hanno in serbo per te oggi",
-        sound: true,
-        data: { type: "daily-arcana" },
-      },
-      trigger: {
-        hour: 9, // Ore 9
-        minute: 0,
-        repeats: true, // Ripete giornalmente
-      },
-    });
-  };
-
-  const NotificationSetup = () => {
-    useEffect(() => {
-      const setupNotifications = async () => {
-        const { status } = await Notifications.requestPermissionsAsync();
-        if (status !== 'granted') {
-          Alert.alert('Notifiche disattivate', 'Attiva le notifiche per ricevere il tuo arcano giornaliero!');
-          return;
-        }
-  
-        await scheduleDailyNotification();
-      };
-  
-      setupNotifications();
-    }, []);
-  
-    return null;
-  };
-
 const CircleButtonWithPopup = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  
+  const [showNotificationDot, setShowNotificationDot] = useState(false);
+
+  useEffect(() => {
+    const setupNotifications = async () => {
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+        }),
+      });
+
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') return;
+
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "📯 Il tuo Arcano del Giorno!",
+          body: "Scopri cosa le carte hanno in serbo per te oggi",
+          sound: true,
+          data: { type: "daily-arcana" },
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
+          hour: 9,
+          minute: 0,
+          repeats: true
+        },
+      });
+
+      const today = new Date().toDateString();
+      const lastViewed = await AsyncStorage.getItem('lastArcanaView');
+      setShowNotificationDot(lastViewed !== today);
+    };
+
+    setupNotifications();
+
+    const subscription = Notifications.addNotificationResponseReceivedListener(() => {
+      setIsPopupVisible(true);
+    });
+
+    return () => subscription.remove();
+  }, []);
+
   const getArcanaOfTheDay = () => {
     const currentDate = new Date();
     const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
@@ -76,13 +84,12 @@ const CircleButtonWithPopup = () => {
     return cards[arcanaIndex];
   };
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
-  });
+  const handleButtonPress = async () => {
+    setIsPopupVisible(true);
+    // Segna come visto oggi
+    await AsyncStorage.setItem('lastArcanaView', new Date().toDateString());
+    setShowNotificationDot(false);
+  };
 
   const arcana = getArcanaOfTheDay();
 
@@ -90,9 +97,13 @@ const CircleButtonWithPopup = () => {
     <>
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => setIsPopupVisible(true)}
+        onPress={handleButtonPress}
       >
-        <Text style={styles.buttonText}>?</Text>
+        <Image 
+					source={require('@/assets/images/button.png')} 
+					style={styles.buttonImage} 
+				/>
+        {showNotificationDot && <View style={styles.notificationDot} />}
       </TouchableOpacity>
 
       <Modal
@@ -533,6 +544,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  notificationDot: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: 'red',
+  },
+  buttonImage: {
+		width: 56, 
+		height: 56,
+		resizeMode: 'contain',
+	},
 });
 
 const cardStyles = StyleSheet.create({
