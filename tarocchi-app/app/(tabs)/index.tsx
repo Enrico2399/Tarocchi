@@ -11,6 +11,8 @@ import {
   Modal,
   Dimensions,
   Alert,
+  Platform,
+  ImageBackground
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -20,6 +22,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Audio } from 'expo-av';
 import * as Notifications from 'expo-notifications';
+import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const playFlipSound = async () => {
@@ -29,118 +32,104 @@ const playFlipSound = async () => {
   await sound.playAsync();
 };
 
-const CircleButtonWithPopup = () => {
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [showNotificationDot, setShowNotificationDot] = useState(false);
-
-  useEffect(() => {
-    const setupNotifications = async () => {
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: true,
-          shouldSetBadge: false,
-        }),
-      });
-
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== 'granted') return;
-
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "📯 Il tuo Arcano del Giorno!",
-          body: "Scopri cosa le carte hanno in serbo per te oggi",
-          sound: true,
-          data: { type: "daily-arcana" },
-        },
-        trigger: {
-          type: Notifications.SchedulableTriggerInputTypes.CALENDAR,
-          hour: 9,
-          minute: 0,
-          repeats: true
-        },
-      });
-
-      const today = new Date().toDateString();
-      const lastViewed = await AsyncStorage.getItem('lastArcanaView');
-      setShowNotificationDot(lastViewed !== today);
-    };
-
-    setupNotifications();
-
-    const subscription = Notifications.addNotificationResponseReceivedListener(() => {
-      setIsPopupVisible(true);
-    });
-
-    return () => subscription.remove();
-  }, []);
-
-  const getArcanaOfTheDay = () => {
-    const currentDate = new Date();
-    const startOfYear = new Date(currentDate.getFullYear(), 0, 0);
-    const diff = currentDate.getTime() - startOfYear.getTime();
-    const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const arcanaIndex = dayOfYear % 22;
-    return cards[arcanaIndex];
-  };
-
-  const handleButtonPress = async () => {
-    setIsPopupVisible(true);
-    // Segna come visto oggi
-    await AsyncStorage.setItem('lastArcanaView', new Date().toDateString());
-    setShowNotificationDot(false);
-  };
-
-  const arcana = getArcanaOfTheDay();
-
-  return (
-    <>
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={handleButtonPress}
-      >
-        <Image 
-					source={require('@/assets/images/button.png')} 
-					style={styles.buttonImage} 
+const CircleButtonWithPopup=()=>{
+	const [isPopupVisible,setIsPopupVisible]=useState(false)
+	const [showNotificationDot,setShowNotificationDot]=useState(false)
+	useEffect(()=>{
+		const setupNotifications=async()=>{
+			Notifications.setNotificationHandler({
+				handleNotification:async()=>({
+					shouldShowAlert:true,
+					shouldPlaySound:true,
+					shouldSetBadge:false
+				})
+			})
+			const {status}=await Notifications.requestPermissionsAsync()
+			if(status!=='granted')return
+			if(Platform.OS!=='web'){
+				await Notifications.scheduleNotificationAsync({
+					content:{
+						title:"📯 Il tuo Arcano del Giorno!",
+						body:"Scopri cosa le carte hanno in serbo per te oggi",
+						sound:true,
+						data:{type:"daily-arcana"}
+					},
+					trigger:{
+						type:Notifications.SchedulableTriggerInputTypes.CALENDAR,
+						hour:9,
+						minute:0,
+						repeats:true
+					}
+				})
+			}
+			const today=new Date().toDateString()
+			const lastViewed=await AsyncStorage.getItem('lastArcanaView')
+			setShowNotificationDot(lastViewed!==today)
+		}
+		setupNotifications()
+		const subscription=Notifications.addNotificationResponseReceivedListener(()=>{
+			setIsPopupVisible(true)
+		})
+		return ()=>subscription.remove()
+	},[])
+	const getArcanaOfTheDay=()=>{
+		const currentDate=new Date()
+		const startOfYear=new Date(currentDate.getFullYear(),0,0)
+		const diff=currentDate.getTime()-startOfYear.getTime()
+		const dayOfYear=Math.floor(diff/(1000*60*60*24))
+		const arcanaIndex=dayOfYear%22
+		return cards[arcanaIndex]
+	}
+	const handleButtonPress=async()=>{
+		setIsPopupVisible(true)
+		await AsyncStorage.setItem('lastArcanaView',new Date().toDateString())
+		setShowNotificationDot(false)
+	}
+	const arcana=getArcanaOfTheDay()
+	return (
+		<>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={handleButtonPress}
+			>
+				<Image
+					source={require('@/assets/images/button.png')}
+					style={styles.buttonImage}
 				/>
-        {showNotificationDot && <View style={styles.notificationDot} />}
-      </TouchableOpacity>
-
-      <Modal
-        visible={isPopupVisible}
-        animationType="fade"
-        transparent
-        onRequestClose={() => setIsPopupVisible(false)}
-      >
-        <View style={styles.popupOverlay}>
-          <View style={styles.popupContent}>
-            <Text style={styles.popupSubtitle}>Il tuo Arcano del Giorno</Text>
-            <Text style={styles.popupTitle}>{arcana.name}</Text>
-            
-            <Image 
-              source={arcana.image} 
-              style={styles.arcanaImage}
-              resizeMode="contain"
-            />
-            
-            <ScrollView style={styles.descriptionScroll}>
-              <Text style={styles.arcanaDescription}>
-                {arcana.description}
-              </Text>
-            </ScrollView>
-            
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setIsPopupVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Chiudi</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </>
-  );
-};
+				{showNotificationDot&&<View style={styles.notificationDot}/>}
+			</TouchableOpacity>
+			<Modal
+				visible={isPopupVisible}
+				animationType="fade"
+				transparent
+				onRequestClose={()=>setIsPopupVisible(false)}
+			>
+				<View style={styles.popupOverlay}>
+					<View style={styles.popupContent}>
+						<Text style={styles.popupSubtitle}>Il tuo Arcano del Giorno</Text>
+						<Text style={styles.popupTitle}>{arcana.name}</Text>
+						<Image
+							source={arcana.image}
+							style={styles.arcanaImage}
+							resizeMode="contain"
+						/>
+						<ScrollView style={styles.descriptionScroll}>
+							<Text style={styles.arcanaDescription}>
+								{arcana.description}
+							</Text>
+						</ScrollView>
+						<TouchableOpacity
+							style={styles.closeButton}
+							onPress={()=>setIsPopupVisible(false)}
+						>
+							<Text style={styles.closeButtonText}>Chiudi</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</Modal>
+		</>
+	)
+}
 
 type CardData = {
   name: string;
@@ -402,6 +391,11 @@ export default function HomeScreen(): JSX.Element {
     
           {/* Retro della card */}
           <Animated.View style={[cardStyles.card, cardStyles.cardBack, backStyle]}>
+          <ImageBackground 
+            source={require('@/assets/images/backcarta.jpeg')} 
+            style={cardStyles.cardBack} 
+            resizeMode="cover"
+          >
             <Text style={[cardStyles.cardTitle, { color: 'white' }]}>{title}</Text>
             <View style={cardStyles.scrollWrapper}>
               <ScrollView>
@@ -410,6 +404,7 @@ export default function HomeScreen(): JSX.Element {
                 </Text>
               </ScrollView>
             </View>
+            </ImageBackground>
           </Animated.View>
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -417,6 +412,7 @@ export default function HomeScreen(): JSX.Element {
   };
 
   return (
+    <ImageBackground style={styles.imageBackground} source={require('@/assets/images/TavoloGioco.jpeg')} resizeMode='cover'>
     <View style={{ flex: 1 }}>
       {/* Pulsante sovrapposto */}
       <CircleButtonWithPopup />
@@ -439,11 +435,24 @@ export default function HomeScreen(): JSX.Element {
             />
           ))}
         </View>
-        <View style={styles.buttonContainer}>
-          <Button title="Genera Carte" onPress={generateCards} color="#007bff" />
-        </View>
+ 
+        <TouchableOpacity 
+          onPress={generateCards} 
+          activeOpacity={0.9}
+          style={styles.buttonContainer}
+        >
+          <LinearGradient
+            colors={['#8a2be2', '#4b0082']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.esotericButton}
+          >
+            <Text style={styles.buttonText}>🔮 Genera Carte</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </ScrollView>
     </View>
+    </ImageBackground>
   );
 }
 
@@ -469,12 +478,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
   },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginTop: -2,
-  },
   popupOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
@@ -493,8 +496,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
-    marginTop: 20,
-    width: '60%',
+    alignSelf: 'center',
+    borderRadius: 25,
+    overflow: 'hidden', // Per mantenere il gradiente dentro i bordi arrotondati
+  },
+  esotericButton: {
+    paddingVertical: 14,
+    paddingHorizontal: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    shadowColor: '#8a2be2',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#fff',
+    fontFamily: 'Papyrus', // Se vuoi un font già presente su iOS
+    letterSpacing: 1.5,
+    textShadowColor: '#000',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
   },
   popupContent: {
     width: width * 0.85,
@@ -558,6 +583,11 @@ const styles = StyleSheet.create({
 		height: 56,
 		resizeMode: 'contain',
 	},
+  imageBackground: {
+    flex: 1,
+    width: '100%',
+    height: '100%'
+  }
 });
 
 const cardStyles = StyleSheet.create({
@@ -601,7 +631,8 @@ const cardStyles = StyleSheet.create({
   },
 
   cardBack: {
-    backgroundColor: 'tomato',
+    width: '100%',
+    height: '100%',
   },
   cardName: {
     fontSize: 14,
