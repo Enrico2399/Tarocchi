@@ -552,6 +552,13 @@ const styles = StyleSheet.create({
     maxHeight: 120,
     width: '100%',
     marginVertical: 10,
+    paddingHorizontal: 10,
+    borderTopWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.5)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4
   },
   arcanaDescription: {
     fontSize: 16,
