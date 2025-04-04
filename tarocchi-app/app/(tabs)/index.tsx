@@ -533,6 +533,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginBottom: 5,
+    fontFamily: 'Papyrus'
   },
   popupTitle: {
     fontSize: 24,
@@ -540,6 +541,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 15,
     textAlign: 'center',
+    fontFamily: 'Papyrus'
   },
   arcanaImage: {
     width: 150,
@@ -556,6 +558,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#444',
     textAlign: 'center',
+    fontFamily: 'Papyrus'
   },
   closeButton: {
     marginTop: 15,
@@ -568,6 +571,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    fontFamily: 'Papyrus'
   },
   notificationDot: {
     position: 'absolute',
@@ -617,6 +621,7 @@ const cardStyles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     maxWidth: '100%',
+    fontFamily: 'Papyrus'
   },
   scrollWrapper: {
     flex: 1, // Occupa lo spazio rimanente
@@ -628,6 +633,7 @@ const cardStyles = StyleSheet.create({
     color: '#666',
     textAlign: 'justify',
     width: '100%',
+    fontFamily: 'Papyrus'
   },
 
   cardBack: {
@@ -640,6 +646,7 @@ const cardStyles = StyleSheet.create({
     marginBottom: 8,
     color: '#666',
     textAlign: 'center',
+    fontFamily: 'Papyrus'
   },
   cardImage: {
     width: 100,
