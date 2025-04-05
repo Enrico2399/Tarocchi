@@ -12,7 +12,9 @@ import {
   Dimensions,
   Alert,
   Platform,
-  ImageBackground
+  ImageBackground,
+  SafeAreaView, 
+  KeyboardAvoidingView
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -403,10 +405,18 @@ export default function HomeScreen(): JSX.Element {
           </Animated.View>
         </Animated.View>
       </TouchableWithoutFeedback>
+
+
+      
     );
   };
 
   return (
+    <SafeAreaView style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
     <ImageBackground style={styles.imageBackground} source={require('@/assets/images/TavoloGioco.jpeg')} resizeMode='cover'>
     <View style={{ flex: 1 }}>
       {/* Pulsante sovrapposto */}
@@ -448,6 +458,8 @@ export default function HomeScreen(): JSX.Element {
       </ScrollView>
     </View>
     </ImageBackground>
+    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
