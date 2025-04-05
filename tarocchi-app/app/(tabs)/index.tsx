@@ -115,7 +115,7 @@ const CircleButtonWithPopup=()=>{
 						/>
 						<ScrollView style={styles.descriptionScroll}>
 							<Text style={styles.arcanaDescription}>
-								{arcana.description}
+								{arcana.description1}
 							</Text>
 						</ScrollView>
 						<TouchableOpacity
@@ -398,11 +398,6 @@ export default function HomeScreen(): JSX.Element {
           >
             <Text style={[cardStyles.cardTitle, { color: 'white' }]}>{title}</Text>
             <View style={cardStyles.scrollWrapper}>
-              <ScrollView>
-                <Text style={[cardStyles.cardDescription, { color: 'white' }]}>
-                  Informazioni extra
-                </Text>
-              </ScrollView>
             </View>
             </ImageBackground>
           </Animated.View>
@@ -549,7 +544,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   descriptionScroll: {
-    maxHeight: 120,
+    maxHeight: 200,
     width: '100%',
     marginVertical: 10,
     paddingHorizontal: 10,
@@ -565,7 +560,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     color: '#444',
     textAlign: 'center',
-    fontFamily: 'Papyrus'
+    fontFamily: 'Papyrus',
   },
   closeButton: {
     marginTop: 15,
@@ -640,7 +635,8 @@ const cardStyles = StyleSheet.create({
     color: '#666',
     textAlign: 'justify',
     width: '100%',
-    fontFamily: 'Papyrus'
+    fontFamily: 'Papyrus',
+    fontWeight: 'bold',
   },
 
   cardBack: {
