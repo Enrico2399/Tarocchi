@@ -423,27 +423,26 @@ export default function HomeScreen(): JSX.Element {
     >
     <ImageBackground style={styles.imageBackground} source={require('@/assets/images/TavoloGioco.jpeg')} resizeMode='cover'>
     <View style={styles.marginTop}>
-    <View style={{ flex: 1 }}>
       {/* Pulsante sovrapposto */}
       <CircleButtonWithPopup />
       
       {/* Contenuto principale */}
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.crossLayout}>
-          {selectedCards.map((card, index) => (
-            <MemoryCard
-              key={index}
-              title={[
-                'Situazione Attuale',
-                'Sfida da Affrontare',
-                'Azione Consigliata',
-                'Esito',
-              ][index]}
-              cardName={card.name}
-              description={getDescriptionByIndex(card, index)}
-              image={card.image}
-            />
-          ))}
+        {selectedCards.filter(card => card).map((card, index) => (
+          <MemoryCard
+            key={index}
+            title={[
+              'Situazione Attuale',
+              'Sfida da Affrontare',
+              'Azione Consigliata',
+              'Esito',
+            ][index]}
+            cardName={card.name}
+            description={getDescriptionByIndex(card, index)}
+            image={card.image}
+          />
+        ))}
         </View>
  
         <TouchableOpacity 
@@ -461,7 +460,6 @@ export default function HomeScreen(): JSX.Element {
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
-    </View>
     </View>
     </ImageBackground>
     </KeyboardAvoidingView>
@@ -508,9 +506,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
+    marginTop: 20,
     alignSelf: 'center',
     borderRadius: 25,
-    overflow: 'hidden', // Per mantenere il gradiente dentro i bordi arrotondati
+    overflow: 'hidden',
   },
   esotericButton: {
     paddingVertical: 14,
@@ -527,7 +526,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 18,
     color: '#fff',
-    fontFamily: 'Papyrus', // Se vuoi un font già presente su iOS
+    fontFamily: 'Papyrus',
     letterSpacing: 1.5,
     textShadowColor: '#000',
     textShadowOffset: { width: 1, height: 1 },
@@ -561,24 +560,24 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   descriptionScroll: {
-    maxHeight: 150, // Impostato al valore che vuoi
+    maxHeight: 150,
     width: '100%',
     marginVertical: 8,
     paddingHorizontal: 5,
-    flexGrow: 1, // Aggiungi questo per consentire lo scorrimento
+    flexGrow: 1,
   },
     arcanaDescription: {
-    fontSize: 14, // Ridotto da 16
-    lineHeight: 20, // Ridotto da 22
+    fontSize: 14,
+    lineHeight: 20,
     color: '#444',
-    textAlign: 'justify', // Cambiato da center per migliore formattazione
+    textAlign: 'justify',
     fontFamily: 'Papyrus',
-    paddingHorizontal: 5, // Aggiunto per spaziatura laterale
+    paddingHorizontal: 5,
   },
   closeButton: {
-    marginTop: 12, // Ridotto da 15
-    paddingVertical: 8, // Ridotto da 10
-    paddingHorizontal: 20, // Ridotto da 25
+    marginTop: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 20,
     backgroundColor: '#6e3b6e',
     borderRadius: 20,
   },
@@ -608,7 +607,8 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   marginTop: {
-    marginTop: 40
+    marginTop: 40,
+    flex: 1
   }
 });
 
@@ -642,7 +642,7 @@ const cardStyles = StyleSheet.create({
     fontFamily: 'Papyrus'
   },
   scrollWrapper: {
-    flex: 1, // Occupa lo spazio rimanente
+    flex: 1,
     width: '100%',
     marginTop: 8,
   },
