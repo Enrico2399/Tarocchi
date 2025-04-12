@@ -100,35 +100,39 @@ const CircleButtonWithPopup=()=>{
 				/>
 				{showNotificationDot&&<View style={styles.notificationDot}/>}
 			</TouchableOpacity>
-			<Modal
-				visible={isPopupVisible}
-				animationType="fade"
-				transparent
-				onRequestClose={()=>setIsPopupVisible(false)}
+      <Modal
+	visible={isPopupVisible}
+	transparent={true}
+	animationType="fade"
+	onRequestClose={() => setIsPopupVisible(false)}
+>
+	<View style={styles.popupOverlay}>
+		<View style={styles.popupContent}>
+			<Text style={styles.popupSubtitle}>Il tuo Arcano del Giorno</Text>
+			<Text style={styles.popupTitle}>{arcana.name}</Text>
+			<Image
+				source={arcana.image}
+				style={styles.arcanaImage}
+				resizeMode="contain"
+			/>
+			<ScrollView
+				style={styles.descriptionScroll}
+				contentContainerStyle={{ flexGrow: 1 }} // Permette lo scorrimento
 			>
-				<View style={styles.popupOverlay}>
-					<View style={styles.popupContent}>
-						<Text style={styles.popupSubtitle}>Il tuo Arcano del Giorno</Text>
-						<Text style={styles.popupTitle}>{arcana.name}</Text>
-						<Image
-							source={arcana.image}
-							style={styles.arcanaImage}
-							resizeMode="contain"
-						/>
-						<ScrollView style={styles.descriptionScroll}>
-							<Text style={styles.arcanaDescription}>
-								{arcana.description1}
-							</Text>
-						</ScrollView>
-						<TouchableOpacity
-							style={styles.closeButton}
-							onPress={()=>setIsPopupVisible(false)}
-						>
-							<Text style={styles.closeButtonText}>Chiudi</Text>
-						</TouchableOpacity>
-					</View>
-				</View>
-			</Modal>
+				<Text style={styles.arcanaDescription}>
+					{arcana.description1}
+				</Text>
+			</ScrollView>
+			<TouchableOpacity
+				style={styles.closeButton}
+				onPress={() => setIsPopupVisible(false)}
+			>
+				<Text style={styles.closeButtonText}>Chiudi</Text>
+			</TouchableOpacity>
+		</View>
+	</View>
+</Modal>
+
 		</>
 	)
 }
@@ -418,6 +422,7 @@ export default function HomeScreen(): JSX.Element {
       style={{ flex: 1 }}
     >
     <ImageBackground style={styles.imageBackground} source={require('@/assets/images/TavoloGioco.jpeg')} resizeMode='cover'>
+    <View style={styles.marginTop}>
     <View style={{ flex: 1 }}>
       {/* Pulsante sovrapposto */}
       <CircleButtonWithPopup />
@@ -457,6 +462,7 @@ export default function HomeScreen(): JSX.Element {
         </TouchableOpacity>
       </ScrollView>
     </View>
+    </View>
     </ImageBackground>
     </KeyboardAvoidingView>
     </SafeAreaView>
@@ -487,13 +493,12 @@ const styles = StyleSheet.create({
   },
   popupOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 60,
-    paddingRight: 10,
+    backgroundColor: 'rgba(0,0,0,0.5)'
   },
   container: {
+    paddingTop: 70,
     padding: 10,
     alignItems: 'center',
   },
@@ -532,52 +537,48 @@ const styles = StyleSheet.create({
     width: width * 0.85,
     backgroundColor: 'white',
     borderRadius: 12,
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
-    maxHeight: '80%',
+    maxHeight: '80%'
   },
   popupSubtitle: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 5,
+    marginBottom: 4,
     fontFamily: 'Papyrus'
   },
   popupTitle: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 15,
+    marginBottom: 12,
     textAlign: 'center',
     fontFamily: 'Papyrus'
   },
   arcanaImage: {
     width: 150,
     height: 250,
-    marginVertical: 10,
+    marginVertical: 8,
   },
   descriptionScroll: {
-    maxHeight: 200,
+    maxHeight: 150, // Impostato al valore che vuoi
     width: '100%',
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    borderTopWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.5)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4
+    marginVertical: 8,
+    paddingHorizontal: 5,
+    flexGrow: 1, // Aggiungi questo per consentire lo scorrimento
   },
-  arcanaDescription: {
-    fontSize: 16,
-    lineHeight: 22,
+    arcanaDescription: {
+    fontSize: 14, // Ridotto da 16
+    lineHeight: 20, // Ridotto da 22
     color: '#444',
-    textAlign: 'center',
+    textAlign: 'justify', // Cambiato da center per migliore formattazione
     fontFamily: 'Papyrus',
+    paddingHorizontal: 5, // Aggiunto per spaziatura laterale
   },
   closeButton: {
-    marginTop: 15,
-    paddingVertical: 10,
-    paddingHorizontal: 25,
+    marginTop: 12, // Ridotto da 15
+    paddingVertical: 8, // Ridotto da 10
+    paddingHorizontal: 20, // Ridotto da 25
     backgroundColor: '#6e3b6e',
     borderRadius: 20,
   },
@@ -605,6 +606,9 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%'
+  },
+  marginTop: {
+    marginTop: 40
   }
 });
 
@@ -612,7 +616,7 @@ const cardStyles = StyleSheet.create({
   cardContainer: {
     width: CARD_WIDTH,
     height: CARD_WIDTH * 1.4,
-    margin: 5,
+    margin: 3,
     position: 'relative',
   },
   card: {
@@ -629,9 +633,9 @@ const cardStyles = StyleSheet.create({
     backfaceVisibility: 'hidden',
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 4,
     color: '#333',
     textAlign: 'center',
     maxWidth: '100%',
@@ -643,7 +647,8 @@ const cardStyles = StyleSheet.create({
     marginTop: 8,
   },
   cardDescription: {
-    fontSize: 12,
+    fontSize: 11,
+    lineHeight: 16,
     color: '#666',
     textAlign: 'justify',
     width: '100%',
