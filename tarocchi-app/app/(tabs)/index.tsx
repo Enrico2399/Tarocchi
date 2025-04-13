@@ -423,11 +423,8 @@ export default function HomeScreen(): JSX.Element {
     >
     <ImageBackground style={styles.imageBackground} source={require('@/assets/images/TavoloGioco.jpeg')} resizeMode='cover'>
     <View style={styles.marginTop}>
-      {/* Pulsante sovrapposto */}
-      <CircleButtonWithPopup />
-      
-      {/* Contenuto principale */}
       <ScrollView contentContainerStyle={styles.container}>
+      <CircleButtonWithPopup />
         <View style={styles.crossLayout}>
         {selectedCards.filter(card => card).map((card, index) => (
           <MemoryCard
