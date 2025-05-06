@@ -39,12 +39,21 @@
         {
           "icon": "./assets/notification-icon.png",
           "color": "#6e3b6e",
-          "sounds": ["./assets/notification.mp3"]
+          "sounds": [
+            "./assets/notification.mp3"
+          ]
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4ef48c3b-cdb5-4de5-9500-4a2a611a56db"
+      }
+    },
+    "owner": "enricodev"
   }
 }
