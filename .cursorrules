@@ -1,0 +1,28 @@
+# Tarocchi — Cursor Project Intelligence
+
+App canonica: `tarocchi-ionic/` (Ionic 8 + React 19 + Capacitor 8 + Vite)
+Package Android: `com.enrico2399.tarocchi` | Store name: Tarocchi
+
+## Path critici
+- Carte: `tarocchi-ionic/src/constants/cardsData.ts`
+- Home: `tarocchi-ionic/src/pages/Home.tsx`
+- Componenti: `MemoryCard.tsx`, `ArcanaDelGiorno.tsx`
+- Asset: `tarocchi-ionic/public/assets/`
+- Docs: `tarocchi-ionic/docs/`, `memory-bank/`
+- Rules: `.cursor/rules/*.mdc`
+
+## Comandi
+```bash
+cd tarocchi-ionic && npm run dev
+cd tarocchi-ionic && npm run build
+cd tarocchi-ionic && npm run test.unit
+```
+
+## Regole
+- Non modificare `tarocchi-app/` salvo porting esplicito
+- Build verde prima di considerare task completato
+- Parity Taro: carte retro-first, rainbow titles, gold border, pulse arcano
+- Leggere `memory-bank/activeContext.md` a ogni sessione
+
+## Fasi
+0 ✅ Setup ambiente | 1 ⏳ Audit/test | 2 ⏳ Android | 3 ⏳ Features | 4 ⏳ Play Store
