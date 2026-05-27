@@ -1,0 +1,35 @@
+---
+description: Testing e prevenzione regressioni su flussi Tarocchi
+alwaysApply: true
+---
+
+# Testing & No Regression
+
+## Flussi critici (non rompere)
+1. Tap "Genera Carte" → 4 carte appaiono con **retro visibile**
+2. Tap carta → flip mostra arcano + descrizione posizione + suono
+3. Tap arcano (alto dx) → modal con arcano del giorno
+4. Pallino rosso se arcano non visto oggi; scompare dopo apertura
+5. Titoli retro cambiano colore ciclicamente dopo generazione
+
+## Dopo ogni modifica
+```bash
+cd tarocchi-ionic
+npm run build        # obbligatorio
+npm run test.unit    # se test esistono per area toccata
+```
+
+## Test da mantenere/creare (Fase 1)
+- **Unit**: `getArcanaOfTheDay`, `getDescriptionByIndex`, `cards.length === 22`
+- **Component**: MemoryCard flip toggle, ArcanaDelGiorno dot logic
+- **E2E Cypress**: genera → flip → apri arcano
+
+## Definition of Done
+- [ ] Nessun errore TypeScript
+- [ ] `npm run build` verde
+- [ ] Test pertinenti verdi
+- [ ] Parity Taro verificata su flussi sopra
+- [ ] Nessun permesso Android aggiunto senza documentazione
+
+## Parity reference
+Confrontare con [Taro script.js](https://github.com/Enrico2399/Taro/blob/main/script.js) per comportamento UI.

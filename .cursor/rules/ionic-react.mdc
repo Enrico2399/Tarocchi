@@ -1,0 +1,32 @@
+---
+description: Convenzioni Ionic React per componenti Tarocchi
+globs: tarocchi-ionic/src/**/*.tsx
+alwaysApply: false
+---
+
+# Ionic React Patterns
+
+- Componenti funzionali con tipi espliciti sulle props
+- Logica riusabile in `hooks/` o `utils/`, non nei componenti pagina
+- CSS co-located (`Component.css`); inline style solo per valori dinamici
+- Preferire componenti Ionic: `IonPage`, `IonContent`, `IonModal`, `IonButton`
+- Accessibilità: `aria-label` su bottoni icona e carte cliccabili
+- Usare `<button type="button">` per azioni non-submit
+
+## Esempio struttura componente
+```tsx
+import './MyComponent.css';
+
+type MyComponentProps = { title: string };
+
+const MyComponent: React.FC<MyComponentProps> = ({ title }) => (
+  <div className="my-component">{title}</div>
+);
+
+export default MyComponent;
+```
+
+## Evitare
+- Stili inline per layout statico
+- Import da `tarocchi-app/` (React Native API incompatibili)
+- Nuove dipendenze senza motivo

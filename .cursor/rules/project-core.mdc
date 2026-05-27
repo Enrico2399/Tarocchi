@@ -1,0 +1,26 @@
+---
+description: Regole core del progetto Tarocchi — scope, build, sicurezza
+alwaysApply: true
+---
+
+# Project Core
+
+- App canonica: `tarocchi-ionic/` — non modificare `tarocchi-app/` salvo porting mirato esplicito
+- TypeScript strict; commenti in italiano solo se spiegano logica non ovvia
+- Minimizza scope: niente refactor non richiesti
+- Definition of Done: `npm run build` passa senza errori TS
+- Non committare segreti: `.env`, keystore, `*.jks`, API keys
+- Leggi `memory-bank/activeContext.md` e `progress.md` all'inizio di ogni sessione
+- Package Android: `com.enrico2399.tarocchi` (confermare con owner se cambia)
+
+## Path critici
+- Dati carte: `tarocchi-ionic/src/constants/cardsData.ts`
+- Home: `tarocchi-ionic/src/pages/Home.tsx`
+- Asset: `tarocchi-ionic/public/assets/`
+- Capacitor: `tarocchi-ionic/capacitor.config.ts`
+
+## Comandi
+```bash
+cd tarocchi-ionic && npm run dev
+cd tarocchi-ionic && npm run build
+```

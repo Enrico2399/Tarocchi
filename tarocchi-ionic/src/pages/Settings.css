@@ -1,0 +1,31 @@
+.settings-content {
+  --background: var(--ion-background-color);
+}
+
+.settings-error {
+  margin: 1rem;
+  color: var(--ion-color-danger);
+  font-size: 0.9rem;
+}
+
+.settings-about {
+  margin-top: 2rem;
+  padding: 0 1rem;
+  color: var(--ion-text-color);
+}
+
+.settings-about h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.settings-about p {
+  margin: 0.25rem 0;
+  opacity: 0.85;
+}
+
+.settings-about__package {
+  font-family: monospace;
+  font-size: 0.85rem;
+  opacity: 0.65;
+}

@@ -1,0 +1,37 @@
+---
+description: Dominio tarocchi — dati carte, posizioni, arcano del giorno
+globs: tarocchi-ionic/src/constants/**,**/cardsData*
+alwaysApply: false
+---
+
+# Tarocchi Domain
+
+## 22 arcani maggiori
+Definiti in `cardsData.ts`. Ogni carta ha 4 descrizioni per posizione.
+
+## 4 posizioni lettura
+| Index | Label | Campo CardData |
+|-------|-------|----------------|
+| 0 | Situazione Attuale | `description` |
+| 1 | Sfida da Affrontare | `description1` |
+| 2 | Azione Consigliata | `description2` |
+| 3 | Esito | `description3` |
+
+Usare `getDescriptionByIndex(card, index)` — non duplicare la logica switch.
+
+## Arcano del giorno
+```typescript
+dayOfYear = Math.floor((now - startOfYear) / 86400000)
+return cards[dayOfYear % cards.length]
+```
+Modal mostra `description1` (sfida), non `description`.
+
+## Asset
+- Path web: `/assets/images/Folle0.jpeg` … `Mondo21.jpeg`
+- Retro: `/assets/images/backcarta.jpeg`
+- Tavolo: `/assets/images/TavoloGioco.jpeg`
+- Audio: `/assets/audio/flip.mp3`
+
+## Generazione lettura
+Shuffle Fisher-Yates semplificato (`sort(() => Math.random() - 0.5)`) → slice(0, 4).
+Incrementare `generation` counter per reset flip state React.

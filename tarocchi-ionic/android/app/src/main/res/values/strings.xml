@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tarocchi</string>
+    <string name="title_activity_main">Tarocchi</string>
+    <string name="package_name">com.enrico2399.tarocchi</string>
+    <string name="custom_url_scheme">com.enrico2399.tarocchi</string>
+</resources>

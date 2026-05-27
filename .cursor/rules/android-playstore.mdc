@@ -1,0 +1,38 @@
+---
+description: Android Capacitor e requisiti Google Play Store
+globs: tarocchi-ionic/android/**,tarocchi-ionic/capacitor.config.ts
+alwaysApply: false
+---
+
+# Android & Play Store
+
+## Capacitor config
+- `appId`: `com.enrico2399.tarocchi`
+- `appName`: `Tarocchi`
+- `webDir`: `dist`
+
+## Requisiti Play (2025-2026)
+- **targetSdk 35** (Android 15) — obbligatorio per nuove app/update
+- **16 KB page size** — AGP ≥ 8.5.1, NDK r28+ ([guida](https://developer.android.com/guide/practices/page-sizes))
+- Release solo **AAB** con Play App Signing
+- compileSdk 35, minSdk 24 consigliato
+
+## Permessi — principio minimo
+Ogni permission nel manifest va giustificata in PLAYSTORE_CHECKLIST.md.
+
+| Permesso | Quando |
+|----------|--------|
+| POST_NOTIFICATIONS | Solo se notifiche P1 implementate |
+| USE_EXACT_ALARM | Evitare — solo alarm clock core; preferire local-notifications inexact |
+| INTERNET | Capacitor default se serve |
+
+## Workflow release
+```bash
+npm run build
+npx cap sync android
+# Android Studio → Build → Generate Signed Bundle (AAB)
+```
+
+## Privacy
+- localStorage `lastArcanaView`: dichiarare in Data safety come dato locale non trasmesso
+- Privacy policy URL obbligatorio anche con zero raccolta server-side

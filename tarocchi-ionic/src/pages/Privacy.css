@@ -1,0 +1,23 @@
+.privacy-content {
+  --background: var(--ion-background-color);
+  line-height: 1.6;
+}
+
+.privacy-content h2 {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  color: var(--ion-color-primary);
+}
+
+.privacy-updated {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.privacy-content ul {
+  padding-left: 1.25rem;
+}
+
+.privacy-content a {
+  color: var(--ion-color-primary);
+}
