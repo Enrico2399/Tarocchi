@@ -9,6 +9,8 @@ type MemoryCardProps = {
   description: string;
   image: string;
   titleColor?: string;
+  descriptionLoading?: boolean;
+  descriptionSource?: 'json' | 'ai';
 };
 
 const MemoryCard: React.FC<MemoryCardProps> = ({
@@ -17,6 +19,8 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
   description,
   image,
   titleColor = '#fff',
+  descriptionLoading = false,
+  descriptionSource,
 }) => {
   const [flipped, setFlipped] = useState(true);
 
@@ -40,7 +44,18 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
           <p className="memory-card__name">{cardName}</p>
           <img src={image} alt={cardName} className="memory-card__image" />
           <div className="memory-card__scroll">
-            <p className="memory-card__description">{description}</p>
+            {descriptionLoading ? (
+              <p className="memory-card__description memory-card__description--loading" data-testid="description-loading">
+                ✨ L&apos;oracolo sta interpretando...
+              </p>
+            ) : (
+              <p className="memory-card__description" data-testid="card-description">
+                {description}
+                {descriptionSource === 'ai' && (
+                  <span className="memory-card__ai-badge" data-testid="ai-badge"> AI</span>
+                )}
+              </p>
+            )}
           </div>
         </div>
         <div

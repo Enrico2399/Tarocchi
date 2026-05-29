@@ -14,6 +14,8 @@ import {
 } from '@ionic/react';
 import { PRIVACY_POLICY_URL } from '../constants/appLinks';
 import { useTheme } from '../hooks/useTheme';
+import { getAiReadingsEnabled, setAiReadingsEnabled } from '../utils/aiStorage';
+import { getLlmAvailability, type LlmAvailability } from '../services/localLlm';
 import {
   disableDailyNotifications,
   enableDailyNotifications,
@@ -28,9 +30,13 @@ const Settings: React.FC = () => {
   const { isDark, setThemeMode } = useTheme();
   const [notificationsEnabled, setNotificationsEnabledState] = useState(false);
   const [notificationError, setNotificationError] = useState<string | null>(null);
+  const [aiEnabled, setAiEnabled] = useState(true);
+  const [llmStatus, setLlmStatus] = useState<LlmAvailability>('unavailable');
 
   useEffect(() => {
     setNotificationsEnabledState(getNotificationsEnabled());
+    setAiEnabled(getAiReadingsEnabled());
+    getLlmAvailability().then(setLlmStatus);
   }, []);
 
   const handleThemeToggle = (enabled: boolean) => {
@@ -54,6 +60,18 @@ const Settings: React.FC = () => {
 
     setNotificationsEnabledState(enabled);
     setNotificationsEnabled(enabled);
+  };
+
+  const handleAiToggle = (enabled: boolean) => {
+    setAiEnabled(enabled);
+    setAiReadingsEnabled(enabled);
+  };
+
+  const llmStatusLabel: Record<LlmAvailability, string> = {
+    available: 'AI on-device disponibile',
+    unavailable: 'AI non disponibile — uso testi classici',
+    notready: 'AI in preparazione sul dispositivo',
+    downloadable: 'Modello AI scaricabile (Android)',
   };
 
   return (
@@ -82,6 +100,17 @@ const Settings: React.FC = () => {
               checked={notificationsEnabled}
               onIonChange={(e) => handleNotificationsToggle(e.detail.checked)}
               data-testid="notifications-toggle"
+            />
+          </IonItem>
+          <IonItem>
+            <IonLabel>
+              <h2>Interpretazioni AI on-device</h2>
+              <p>{llmStatusLabel[llmStatus]}</p>
+            </IonLabel>
+            <IonToggle
+              checked={aiEnabled}
+              onIonChange={(e) => handleAiToggle(e.detail.checked)}
+              data-testid="ai-toggle"
             />
           </IonItem>
           <IonItem button routerLink="/privacy" detail data-testid="privacy-link">

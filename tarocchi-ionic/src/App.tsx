@@ -7,6 +7,7 @@ import Settings from './pages/Settings';
 import Privacy from './pages/Privacy';
 import AdBanner from './components/AdBanner';
 import { applyTheme, getStoredTheme } from './utils/themeStorage';
+import { warmupTarotLlm } from './services/localLlm';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,6 +35,7 @@ setupIonicReact();
 const App: React.FC = () => {
   useEffect(() => {
     applyTheme(getStoredTheme());
+    warmupTarotLlm();
   }, []);
 
   return (

@@ -103,6 +103,17 @@
   padding: 0 4px;
 }
 
+.arcana-modal__ai-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #7c3aed;
+  background: rgba(124, 58, 237, 0.15);
+}
+
 .arcana-modal__close {
   margin-top: 12px;
   padding: 8px 20px;

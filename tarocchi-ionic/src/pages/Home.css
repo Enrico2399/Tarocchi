@@ -105,6 +105,11 @@
   color: #fff;
 }
 
+.generate-btn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+
 .ion-palette-dark .generate-btn:hover .generate-btn__label,
 .ion-palette-dark .generate-btn:focus-visible .generate-btn__label {
   color: #fff;
