@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import Privacy from './pages/Privacy';
+import { LocaleProvider } from './i18n/LocaleProvider';
 import Onboarding from './components/Onboarding';
 import AdBanner from './components/AdBanner';
 import { applyTheme, getStoredTheme } from './utils/themeStorage';
@@ -40,26 +41,28 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/settings">
-            <Settings />
-          </Route>
-          <Route exact path="/privacy">
-            <Privacy />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
-      <Onboarding />
-      <AdBanner />
-    </IonApp>
+    <LocaleProvider>
+      <IonApp>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/settings">
+              <Settings />
+            </Route>
+            <Route exact path="/privacy">
+              <Privacy />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+        </IonReactRouter>
+        <Onboarding />
+        <AdBanner />
+      </IonApp>
+    </LocaleProvider>
   );
 };
 

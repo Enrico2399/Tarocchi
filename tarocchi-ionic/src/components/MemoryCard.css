@@ -127,3 +127,19 @@
   background: rgba(124, 58, 237, 0.15);
   font-style: normal;
 }
+
+.memory-card--alchemical .memory-card__face--front {
+  filter: sepia(0.22) saturate(1.15) contrast(1.05);
+}
+
+.memory-card--alchemical .memory-card__face--back {
+  filter: sepia(0.35) saturate(1.1);
+}
+
+.memory-card--fantasy .memory-card__face--front {
+  filter: hue-rotate(-12deg) saturate(1.25) brightness(1.02);
+}
+
+.memory-card--fantasy .memory-card__face--back {
+  filter: hue-rotate(-18deg) saturate(1.2);
+}

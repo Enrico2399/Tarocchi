@@ -85,6 +85,26 @@
   z-index: 1;
 }
 
+.home-bg--velvet::before {
+  background: rgba(91, 33, 182, 0.42) !important;
+}
+
+.home-bg--night::before {
+  background: rgba(5, 2, 15, 0.78) !important;
+}
+
+.home-bg--night {
+  filter: brightness(0.88) saturate(0.95);
+}
+
+html.has-ad-banner .home-content {
+  --padding-bottom: calc(72px + env(safe-area-inset-bottom, 0));
+}
+
+html.has-ad-banner .generate-btn {
+  margin-bottom: 0.5rem;
+}
+
 .home-empty {
   margin: 0.5rem 0 1.25rem;
   padding: 0.75rem 1rem;

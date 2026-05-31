@@ -8,14 +8,35 @@ import {
   IonLabel,
   IonList,
   IonPage,
+  IonSelect,
+  IonSelectOption,
   IonTitle,
   IonToggle,
   IonToolbar,
 } from '@ionic/react';
+import { Capacitor } from '@capacitor/core';
 import { PRIVACY_POLICY_URL } from '../constants/appLinks';
+import {
+  DECK_THEME_IDS,
+  TABLE_THEME_IDS,
+  getStoredDeckThemeId,
+  getStoredTableThemeId,
+  setStoredDeckThemeId,
+  setStoredTableThemeId,
+  type DeckThemeId,
+  type TableThemeId,
+} from '../constants/visualThemes';
 import { useTheme } from '../hooks/useTheme';
+import { useTranslation } from '../i18n/useTranslation';
+import type { Locale } from '../i18n/localeStorage';
+import { clearInterpretationCache } from '../services/interpretation/interpretationService';
 import { getAiReadingsEnabled, setAiReadingsEnabled } from '../utils/aiStorage';
-import { getLlmAvailability, isCloudConfigured, type LlmAvailability } from '../services/interpretation/interpretationService';
+import { getAdsEnabled, setAdsEnabled } from '../utils/adsStorage';
+import {
+  getLlmAvailability,
+  isCloudConfigured,
+  type LlmAvailability,
+} from '../services/interpretation/interpretationService';
 import {
   disableDailyNotifications,
   enableDailyNotifications,
@@ -28,14 +49,22 @@ import './Settings.css';
 
 const Settings: React.FC = () => {
   const { isDark, setThemeMode } = useTheme();
+  const { locale, setLocale, t } = useTranslation();
   const [notificationsEnabled, setNotificationsEnabledState] = useState(false);
   const [notificationError, setNotificationError] = useState<string | null>(null);
   const [aiEnabled, setAiEnabled] = useState(true);
+  const [adsEnabled, setAdsEnabledState] = useState(true);
+  const [tableThemeId, setTableThemeId] = useState<TableThemeId>('classic');
+  const [deckThemeId, setDeckThemeId] = useState<DeckThemeId>('classic');
   const [llmStatus, setLlmStatus] = useState<LlmAvailability>('unavailable');
+  const isNative = Capacitor.isNativePlatform();
 
   useEffect(() => {
     setNotificationsEnabledState(getNotificationsEnabled());
     setAiEnabled(getAiReadingsEnabled());
+    setAdsEnabledState(getAdsEnabled());
+    setTableThemeId(getStoredTableThemeId());
+    setDeckThemeId(getStoredDeckThemeId());
     getLlmAvailability().then(setLlmStatus);
   }, []);
 
@@ -49,7 +78,7 @@ const Settings: React.FC = () => {
     if (enabled) {
       const success = await enableDailyNotifications();
       if (!success) {
-        setNotificationError('Permesso notifiche negato o non disponibile su web.');
+        setNotificationError(t.notificationDenied);
         setNotificationsEnabledState(false);
         setNotificationsEnabled(false);
         return;
@@ -67,13 +96,21 @@ const Settings: React.FC = () => {
     setAiReadingsEnabled(enabled);
   };
 
+  const handleAdsToggle = (enabled: boolean) => {
+    setAdsEnabledState(enabled);
+    setAdsEnabled(enabled);
+  };
+
+  const handleLocaleChange = (value: Locale) => {
+    setLocale(value);
+    clearInterpretationCache();
+  };
+
   const llmStatusLabel: Record<LlmAvailability, string> = {
-    available: 'AI on-device disponibile',
-    unavailable: isCloudConfigured()
-      ? 'AI cloud configurata (VITE_AI_API_URL)'
-      : 'Generazione dinamica — configura AI cloud o usa device nativo',
-    notready: 'AI in preparazione sul dispositivo',
-    downloadable: 'Modello AI scaricabile (Android)',
+    available: t.settingsAiAvailable,
+    unavailable: isCloudConfigured() ? t.settingsAiCloud : t.settingsAiFallback,
+    notready: t.settingsAiNotReady,
+    downloadable: t.settingsAiDownloadable,
   };
 
   return (
@@ -81,15 +118,27 @@ const Settings: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" text="Indietro" />
+            <IonBackButton defaultHref="/home" text={t.back} />
           </IonButtons>
-          <IonTitle>Impostazioni</IonTitle>
+          <IonTitle>{t.settings}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="settings-content ion-padding">
         <IonList>
           <IonItem>
-            <IonLabel>Tema scuro</IonLabel>
+            <IonLabel>{t.settingsLanguage}</IonLabel>
+            <IonSelect
+              value={locale}
+              onIonChange={(e) => handleLocaleChange(e.detail.value as Locale)}
+              interface="popover"
+              data-testid="language-select"
+            >
+              <IonSelectOption value="it">Italiano</IonSelectOption>
+              <IonSelectOption value="en">English</IonSelectOption>
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>{t.settingsDarkTheme}</IonLabel>
             <IonToggle
               checked={isDark}
               onIonChange={(e) => handleThemeToggle(e.detail.checked)}
@@ -97,7 +146,45 @@ const Settings: React.FC = () => {
             />
           </IonItem>
           <IonItem>
-            <IonLabel>Notifica arcano giornaliero</IonLabel>
+            <IonLabel>{t.settingsTableTheme}</IonLabel>
+            <IonSelect
+              value={tableThemeId}
+              onIonChange={(e) => {
+                const id = e.detail.value as TableThemeId;
+                setTableThemeId(id);
+                setStoredTableThemeId(id);
+              }}
+              interface="popover"
+              data-testid="table-theme-select"
+            >
+              {TABLE_THEME_IDS.map((id) => (
+                <IonSelectOption key={id} value={id}>
+                  {t.tableThemes[id]}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>{t.settingsDeckTheme}</IonLabel>
+            <IonSelect
+              value={deckThemeId}
+              onIonChange={(e) => {
+                const id = e.detail.value as DeckThemeId;
+                setDeckThemeId(id);
+                setStoredDeckThemeId(id);
+              }}
+              interface="popover"
+              data-testid="deck-theme-select"
+            >
+              {DECK_THEME_IDS.map((id) => (
+                <IonSelectOption key={id} value={id}>
+                  {t.deckThemes[id]}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>{t.settingsNotifications}</IonLabel>
             <IonToggle
               checked={notificationsEnabled}
               onIonChange={(e) => handleNotificationsToggle(e.detail.checked)}
@@ -106,7 +193,7 @@ const Settings: React.FC = () => {
           </IonItem>
           <IonItem>
             <IonLabel>
-              <h2>Interpretazioni AI on-device</h2>
+              <h2>{t.settingsAiTitle}</h2>
               <p>{llmStatusLabel[llmStatus]}</p>
             </IonLabel>
             <IonToggle
@@ -115,11 +202,24 @@ const Settings: React.FC = () => {
               data-testid="ai-toggle"
             />
           </IonItem>
+          {isNative && (
+            <IonItem>
+              <IonLabel>
+                <h2>{t.settingsAds}</h2>
+                <p>{t.settingsAdsHint}</p>
+              </IonLabel>
+              <IonToggle
+                checked={adsEnabled}
+                onIonChange={(e) => handleAdsToggle(e.detail.checked)}
+                data-testid="ads-toggle"
+              />
+            </IonItem>
+          )}
           <IonItem button routerLink="/privacy" detail data-testid="privacy-link">
-            <IonLabel>Privacy Policy (in-app)</IonLabel>
+            <IonLabel>{t.settingsPrivacyInApp}</IonLabel>
           </IonItem>
           <IonItem button href={PRIVACY_POLICY_URL} target="_blank" rel="noopener noreferrer" detail>
-            <IonLabel>Privacy Policy (web)</IonLabel>
+            <IonLabel>{t.settingsPrivacyWeb}</IonLabel>
           </IonItem>
         </IonList>
 
@@ -130,9 +230,9 @@ const Settings: React.FC = () => {
         )}
 
         <section className="settings-about">
-          <h2>Tarocchi</h2>
-          <p>Versione 1.0</p>
-          <p>Lettura a 4 carte e arcano del giorno.</p>
+          <h2>{t.aboutTitle}</h2>
+          <p>{t.aboutVersion}</p>
+          <p>{t.aboutDesc}</p>
           <p className="settings-about__package">com.enrico2399.tarocchi</p>
         </section>
       </IonContent>

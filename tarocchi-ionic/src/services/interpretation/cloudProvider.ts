@@ -1,5 +1,6 @@
 import type { CardData } from '../../constants/cardsData';
-import { buildDailyArcanaPrompt, buildReadingPrompt, SYSTEM_INSTRUCTIONS } from './prompts';
+import { buildDailyArcanaPrompt, buildReadingPrompt, getSystemInstructions } from './prompts';
+import { getStoredLocale } from '../../i18n/localeStorage';
 
 type ChatMessage = { role: 'system' | 'user'; content: string };
 
@@ -46,14 +47,14 @@ export async function generateCloudReading(
   position: string,
 ): Promise<string | null> {
   return callChatApi([
-    { role: 'system', content: SYSTEM_INSTRUCTIONS },
+    { role: 'system', content: getSystemInstructions(getStoredLocale()) },
     { role: 'user', content: buildReadingPrompt(position, card) },
   ]);
 }
 
 export async function generateCloudDaily(card: CardData): Promise<string | null> {
   return callChatApi([
-    { role: 'system', content: SYSTEM_INSTRUCTIONS },
+    { role: 'system', content: getSystemInstructions(getStoredLocale()) },
     { role: 'user', content: buildDailyArcanaPrompt(card) },
   ]);
 }

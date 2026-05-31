@@ -13,6 +13,7 @@ describe('formatReadingText', () => {
       cards.slice(0, 2),
       ['Prima interpretazione', 'Seconda interpretazione'],
       positions,
+      'it',
     );
     expect(text).toContain('🔮 Lettura Tarocchi');
     expect(text).toContain('Situazione Attuale');

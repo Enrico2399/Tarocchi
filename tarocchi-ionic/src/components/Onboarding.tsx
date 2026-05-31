@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useTranslation } from '../i18n/useTranslation';
 import { IonAlert } from '@ionic/react';
+import { useEffect, useState } from 'react';
 
 const ONBOARDING_KEY = 'tarocchi-onboarding-v1';
 
 const Onboarding: React.FC = () => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -21,14 +23,11 @@ const Onboarding: React.FC = () => {
     <IonAlert
       isOpen={show}
       onDidDismiss={dismiss}
-      header="Benvenuto nello Studio Tarocchi"
-      message={
-        'Scegli il tipo di consulto, genera le carte e lascia che l\'oracolo AI interpreti il messaggio. ' +
-        'L\'Arcano del giorno ti attende in alto a sinistra.'
-      }
+      header={t.onboardingHeader}
+      message={t.onboardingMessage}
       buttons={[
         {
-          text: 'Inizia',
+          text: t.onboardingStart,
           handler: dismiss,
         },
       ]}

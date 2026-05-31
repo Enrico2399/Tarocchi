@@ -13,6 +13,8 @@ import {
   warmupTarotLlm,
 } from './onDeviceProvider';
 import { generateTemplateInterpretation } from './templateProvider';
+import { getDailyArcanaPositionLabel } from './cache';
+import { getStoredLocale } from '../../i18n/localeStorage';
 
 export type InterpretationSource = 'ai' | 'cloud' | 'cache' | 'generated';
 
@@ -65,7 +67,12 @@ async function resolveInterpretation(params: RequestParams): Promise<Interpretat
     }
   }
 
-  const generated = generateTemplateInterpretation(card, position, dateKey);
+  const generated = generateTemplateInterpretation(
+    card,
+    position,
+    dateKey,
+    getStoredLocale(),
+  );
   setCachedInterpretation(card.id, position, context, generated, dateKey);
   return { text: generated, source: 'generated' };
 }
@@ -88,7 +95,7 @@ export async function getDailyArcanaInterpretation(
 ): Promise<InterpretationResult> {
   return resolveInterpretation({
     card,
-    position: 'Arcano del Giorno',
+    position: getDailyArcanaPositionLabel(getStoredLocale()),
     context: 'daily',
     dateKey,
   });

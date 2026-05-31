@@ -1,46 +1,43 @@
 # Progress
 
-## Tarocchi Pro (GSD) 🔄
+## Tarocchi Pro (GSD) ✅ COMPLETATA
 
 ### Fase 1 — Fix critici ✅
-- [x] Toolbar IonHeader (arcano, share, settings) — no overlap
-- [x] Lazy import AdMob + local-llm (fix web white screen)
-- [x] `npm run verify` verde (33+ test)
+- Toolbar IonHeader, lazy AdMob/local-llm, verify verde
 
 ### Fase 2 — AI-first ✅
-- [x] `cardsData.ts` solo id, name, image, keywords
-- [x] `services/interpretation/` pipeline + cache
-- [x] Rimosso `localLlm.ts` e fallback JSON hardcoded
+- cardsData metadati only, pipeline interpretation + cache
 
-### Fase 3 — UI/UX pro ✅ (base)
-- [x] Design tokens in `theme/variables.css`
-- [x] Empty state + griglia responsive
-- [x] Onboarding first-run
-- [x] Modal arcano con loading/error
+### Fase 3 — UI/UX pro ✅
+- Design tokens, empty state, onboarding
 
 ### Fase 4 — Tipi lettura ✅
-- [x] 1 carta, 3 carte, 4 carte, Croce Celtica (6)
-- [x] Persistenza spread in localStorage
+- 1/3/4/6 carte, spread picker
 
-### Fase 5 — Personalizzazione ⏳
-- [ ] Temi mazzo (Classico, Alchemico, Fantasy)
-- [ ] Tavoli lettura alternativi
-- [ ] Lingua IT/EN
+### Fase 5 — Personalizzazione ✅
+- i18n IT/EN (`src/i18n/`)
+- Temi tavolo: classic, velvet, night
+- Temi mazzo: classic, alchemical, fantasy (CSS filter)
+- Nomi carte localizzati, prompt AI per lingua
 
-### Fase 6 — Polish nativo ⏳
-- [x] Haptic (già presente)
-- [x] Notifiche arcano (già presente)
-- [ ] AdMob production IDs
+### Fase 6 — Polish nativo ✅
+- AdMob: `VITE_ADMOB_BANNER_ID`, `VITE_ADMOB_TESTING`
+- Toggle banner in Settings (nativo)
+- Classe `.has-ad-banner` + padding content
 
-### Fase 7 — QA + Play Store ⏳
-- [ ] E2E Cypress aggiornato per spread
-- [ ] Upload AAB firmato
-- [ ] Privacy URL HTTPS live
+### Fase 7 — QA + Play Store ✅
+- 44 test Vitest
+- Cypress: spread 3 carte, settings, onboarding skip
+- Docs: ADMOB, ARCHITECTURE, DATA_SAFETY, ON_DEVICE_AI
 
-## Funziona ✅ (legacy)
-- Ionic + Capacitor Android, flip 3D, suono, build AAB template
-- Store docs, privacy in-app, screenshot
+## Test
+```bash
+cd tarocchi-ionic
+npm run verify      # 44 test + build
+npm run test.e2e    # Cypress (serve dev attivo)
+```
 
-## Known issues
-- Cloud AI richiede env vars manuali per web senza on-device LLM
-- Template keywords ≠ AI vera — configurare `VITE_AI_API_*` per produzione web
+## Azioni manuali ⏳
+- [ ] AAB firmato upload Play Console
+- [ ] Privacy URL HTTPS
+- [ ] Env produzione AI + AdMob

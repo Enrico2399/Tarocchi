@@ -1,6 +1,7 @@
 describe('Tarocchi reading flow', () => {
   beforeEach(() => {
     localStorage.clear();
+    localStorage.setItem('tarocchi-onboarding-v1', 'done');
   });
 
   it('generates four cards, flips one, and opens daily arcana', () => {
@@ -20,6 +21,13 @@ describe('Tarocchi reading flow', () => {
     cy.get('[data-testid="arcana-modal"]').should('not.exist');
   });
 
+  it('generates three cards with past-present-future spread', () => {
+    cy.visit('/home');
+    cy.get('[data-testid="spread-three"]').click();
+    cy.get('[data-testid="generate-btn"]').click();
+    cy.get('[data-testid="memory-card"]').should('have.length', 3);
+  });
+
   it('regenerates cards with backs visible', () => {
     cy.visit('/home');
     cy.get('[data-testid="generate-btn"]').click();
@@ -29,5 +37,12 @@ describe('Tarocchi reading flow', () => {
     cy.get('[data-testid="memory-card"]').each(($card) => {
       cy.wrap($card).should('have.attr', 'data-flipped', 'true');
     });
+  });
+
+  it('opens settings and shows language selector', () => {
+    cy.visit('/settings');
+    cy.get('[data-testid="language-select"]').should('exist');
+    cy.get('[data-testid="table-theme-select"]').should('exist');
+    cy.get('[data-testid="deck-theme-select"]').should('exist');
   });
 });

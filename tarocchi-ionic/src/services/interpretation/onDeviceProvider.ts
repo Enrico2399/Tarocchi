@@ -1,6 +1,7 @@
 import { Capacitor } from '@capacitor/core';
 import type { CardData } from '../../constants/cardsData';
-import { buildDailyArcanaPrompt, buildReadingPrompt, SYSTEM_INSTRUCTIONS } from './prompts';
+import { buildDailyArcanaPrompt, buildReadingPrompt, getSystemInstructions } from './prompts';
+import { getStoredLocale } from '../../i18n/localeStorage';
 
 export type LlmAvailability = 'available' | 'unavailable' | 'notready' | 'downloadable';
 
@@ -74,7 +75,7 @@ export async function warmupTarotLlm(): Promise<void> {
 
     await LocalLLM.warmup({
       sessionId: TAROT_SESSION,
-      promptPrefix: SYSTEM_INSTRUCTIONS,
+      promptPrefix: getSystemInstructions(getStoredLocale()),
     });
   } catch {
     // Silenzioso
@@ -93,7 +94,7 @@ async function promptLlm(
   try {
     const { text } = await LocalLLM.prompt({
       sessionId,
-      instructions: SYSTEM_INSTRUCTIONS,
+      instructions: getSystemInstructions(getStoredLocale()),
       prompt,
       options: {
         temperature: 0.7,

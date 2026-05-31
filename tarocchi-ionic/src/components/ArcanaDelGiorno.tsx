@@ -6,6 +6,8 @@ import {
   getDailyArcanaInterpretation,
   type InterpretationSource,
 } from '../services/interpretation/interpretationService';
+import { getCardDisplayName } from '../constants/readingSpreads';
+import { useTranslation } from '../i18n/useTranslation';
 import './ArcanaDelGiorno.css';
 
 type ArcanaDelGiornoProps = {
@@ -13,6 +15,7 @@ type ArcanaDelGiornoProps = {
 };
 
 const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' }) => {
+  const { locale, t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [showDot, setShowDot] = useState(false);
   const [description, setDescription] = useState('');
@@ -21,6 +24,7 @@ const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' 
   const [loadError, setLoadError] = useState<string | null>(null);
   const arcana = useMemo(() => getArcanaOfTheDay(), []);
   const todayKey = useMemo(() => new Date().toDateString(), []);
+  const displayName = getCardDisplayName(arcana, locale);
 
   useEffect(() => {
     const lastViewed = localStorage.getItem(ARCANA_VIEW_STORAGE_KEY);
@@ -48,7 +52,7 @@ const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' 
       })
       .catch(() => {
         if (!cancelled) {
-          setLoadError('Impossibile generare l\'interpretazione. Riprova.');
+          setLoadError(t.arcanaError);
         }
       })
       .finally(() => {
@@ -60,7 +64,7 @@ const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' 
     return () => {
       cancelled = true;
     };
-  }, [open, arcana, todayKey]);
+  }, [open, arcana, todayKey, t.arcanaError]);
 
   const openModal = () => {
     setOpen(true);
@@ -77,7 +81,7 @@ const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' 
         type="button"
         className={`arcana-btn ${variant === 'toolbar' ? 'arcana-btn--toolbar' : ''}`}
         onClick={openModal}
-        aria-label="Arcano del giorno"
+        aria-label={t.dailyArcana}
         data-testid="arcana-btn"
       >
         <img src="/assets/images/button.png" alt="" className="arcana-btn__img" />
@@ -92,19 +96,19 @@ const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' 
         data-testid="arcana-modal"
       >
         <IonContent className="arcana-modal__content ion-padding">
-          <p className="arcana-modal__subtitle">Il tuo Arcano del Giorno</p>
-          <h2 className="arcana-modal__title" data-testid="arcana-modal-title">{arcana.name}</h2>
-          <img src={arcana.image} alt={arcana.name} className="arcana-modal__image" />
+          <p className="arcana-modal__subtitle">{t.arcanaModalSubtitle}</p>
+          <h2 className="arcana-modal__title" data-testid="arcana-modal-title">{displayName}</h2>
+          <img src={arcana.image} alt={displayName} className="arcana-modal__image" />
           <div className="arcana-modal__description" data-testid="arcana-description">
-            {loadingDescription && '✨ L\'oracolo sta interpretando...'}
+            {loadingDescription && t.arcanaLoading}
             {!loadingDescription && loadError && loadError}
             {!loadingDescription && !loadError && description}
             {!loadingDescription && !loadError && showAiBadge && (
-              <span className="arcana-modal__ai-badge" data-testid="arcana-ai-badge"> AI</span>
+              <span className="arcana-modal__ai-badge" data-testid="arcana-ai-badge">{t.aiBadge}</span>
             )}
           </div>
           <button type="button" className="arcana-modal__close" onClick={() => setOpen(false)}>
-            Chiudi
+            {t.close}
           </button>
         </IonContent>
       </IonModal>
