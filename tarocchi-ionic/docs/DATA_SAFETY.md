@@ -16,6 +16,10 @@
 | `tarocchi-theme` | Tema chiaro/scuro |
 | `dailyArcanaNotifications` | Preferenza notifiche |
 | `tarocchi-spread` | Tipo consulto selezionato |
+| `tarocchi-locale` | Lingua IT/EN |
+| `tarocchi-table-theme` | Tavolo da lettura |
+| `tarocchi-deck-theme` | Stile mazzo |
+| `tarocchi-ads-enabled` | Toggle banner AdMob |
 | `tarocchi-interpretation:*` | Cache interpretazioni generate |
 | `tarocchi-onboarding-v1` | Onboarding completato |
 
