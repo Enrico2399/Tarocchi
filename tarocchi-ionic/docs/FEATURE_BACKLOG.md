@@ -18,12 +18,12 @@ Priorità derivata da `MinimalTODO.md` e gap vs tarocchi-app/Taro.
 ## P2 — Polish
 | ID | Feature | Stato | Note |
 |----|---------|-------|------|
-| F-20 | Tema mazzo Classico | ⏳ | Asset swap |
-| F-21 | Tema mazzo Alchemico/Esoterico | ⏳ | Asset swap |
-| F-22 | Tema mazzo Fantasy | ⏳ | Asset swap |
-| F-23 | Tavoli lettura alternativi | ⏳ | Sfondo configurabile |
+| F-20 | Tema mazzo Classico | ✅ | CSS + deck theme selector |
+| F-21 | Tema mazzo Alchemico/Esoterico | ✅ | CSS filter alchemical |
+| F-22 | Tema mazzo Fantasy | ✅ | CSS filter fantasy |
+| F-23 | Tavoli lettura alternativi | ✅ | classic/velvet/night overlay |
 | F-24 | Haptic feedback al flip | ✅ | `@capacitor/haptics` |
-| F-25 | Animazioni flip avanzate | ⏳ | CSS 3D tuning |
+| F-25 | Animazioni flip avanzate | ✅ | cubic-bezier + scale |
 
 ## P3 — Monetizzazione
 | ID | Feature | Stato | Note |

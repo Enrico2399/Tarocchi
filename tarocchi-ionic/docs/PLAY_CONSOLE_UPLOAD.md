@@ -1,13 +1,14 @@
 # Upload Play Console — passo finale
 
-## AAB firmato (pronto)
+## AAB firmato (pronto — aggiornato New Functions)
 ```
-tarocchi-ionic/store/tarocchi-release.aab   (~15 MB)
+tarocchi-ionic/store/tarocchi-release.aab
 ```
-Copia originale Gradle:
+Copia Gradle:
 ```
 tarocchi-ionic/android/app/build/outputs/bundle/release/app-release.aab
 ```
+Rigenerare: `npm run android:bundle` (richiede `android/keystore.properties` + upload keystore).
 
 ## Credenziali firma
 Password upload key: **`tarocchi-ionic/android/SIGNING.local.txt`** (solo locale, gitignored).

@@ -42,6 +42,29 @@ export const translations = {
     aboutTitle: 'Tarocchi',
     aboutVersion: 'Versione 1.0',
     aboutDesc: 'Consulto tarocchi con interpretazioni AI.',
+    historyTitle: 'Ultime letture',
+    historyEmpty: 'Nessuna lettura salvata ancora.',
+    historyClear: 'Cancella storico',
+    privacyTitle: 'Privacy Policy',
+    privacyUpdated: 'Ultimo aggiornamento: 27 maggio 2026',
+    privacyIntro:
+      'Tarocchi (com.enrico2399.tarocchi) è un\'app per letture con carte dei tarocchi. Non richiede account e non possiede server propri.',
+    privacyLocalTitle: 'Dati sul dispositivo',
+    privacyLocalBody:
+      'Memorizziamo solo in locale: preferenza tema, data arcano, notifiche, lingua, temi visuali, cache interpretazioni e ultime 5 letture. Puoi eliminarli disinstallando l\'app.',
+    privacyAdsTitle: 'Annunci (Google AdMob)',
+    privacyAdsBody:
+      'L\'app può mostrare annunci tramite Google AdMob. Google può raccogliere identificatori pubblicitari secondo la Privacy Policy di Google.',
+    privacyPermissionsTitle: 'Permessi',
+    privacyPermissionsBody: 'Internet, notifiche (opzionale), vibrazione al flip carte.',
+    privacyShareTitle: 'Condivisione',
+    privacyShareBody:
+      'Se condividi una lettura, il testo va alle app che scegli. Tarocchi non riceve una copia.',
+    privacyAiTitle: 'Interpretazioni AI',
+    privacyAiBody:
+      'Le interpretazioni possono essere generate on-device o via API cloud configurabile. Nessun testo interpretativo è hardcoded nell\'app.',
+    privacyContactTitle: 'Contatti',
+    privacyContactBody: 'Per domande: email di supporto su Google Play.',
     dailyArcanaPosition: 'Arcano del Giorno',
     spreads: {
       single: { name: 'Carta del Momento', subtitle: 'Un messaggio chiaro per il presente' },
@@ -130,6 +153,29 @@ export const translations = {
     aboutTitle: 'Tarot',
     aboutVersion: 'Version 1.0',
     aboutDesc: 'Tarot readings with AI interpretations.',
+    historyTitle: 'Recent readings',
+    historyEmpty: 'No saved readings yet.',
+    historyClear: 'Clear history',
+    privacyTitle: 'Privacy Policy',
+    privacyUpdated: 'Last updated: May 27, 2026',
+    privacyIntro:
+      'Tarot (com.enrico2399.tarocchi) is a tarot reading app. No account required and no proprietary servers.',
+    privacyLocalTitle: 'On-device data',
+    privacyLocalBody:
+      'We store locally only: theme, daily arcana date, notifications, language, visual themes, interpretation cache, and last 5 readings. Uninstall the app to remove them.',
+    privacyAdsTitle: 'Ads (Google AdMob)',
+    privacyAdsBody:
+      'The app may show ads via Google AdMob. Google may collect advertising identifiers per Google\'s Privacy Policy.',
+    privacyPermissionsTitle: 'Permissions',
+    privacyPermissionsBody: 'Internet, notifications (optional), vibration on card flip.',
+    privacyShareTitle: 'Sharing',
+    privacyShareBody:
+      'If you share a reading, the text goes to apps you choose. Tarot does not receive a copy.',
+    privacyAiTitle: 'AI interpretations',
+    privacyAiBody:
+      'Interpretations may be generated on-device or via configurable cloud API. No interpretive text is hardcoded in the app.',
+    privacyContactTitle: 'Contact',
+    privacyContactBody: 'Questions: use the support email on Google Play.',
     dailyArcanaPosition: 'Daily Arcana',
     spreads: {
       single: { name: 'Card of the Moment', subtitle: 'A clear message for the present' },

@@ -37,6 +37,7 @@ import {
   type InterpretationSource,
 } from '../services/interpretation/interpretationService';
 import { useRainbowColor } from '../hooks/useRainbowColor';
+import { saveReadingToHistory } from '../utils/readingHistory';
 import './Home.css';
 
 type ReadingState = {
@@ -88,8 +89,13 @@ const Home: React.FC = () => {
 
     try {
       const results = await getReadingInterpretations(picked, positions);
+      const descriptions = results.map((r) => r.text);
+      const cardNames = picked.map((c) => getCardDisplayName(c, locale));
+
+      saveReadingToHistory(spreadId, picked, positions, descriptions, cardNames);
+
       setReading({
-        descriptions: results.map((r) => r.text),
+        descriptions,
         sources: results.map((r) => r.source),
         loading: false,
         error: null,

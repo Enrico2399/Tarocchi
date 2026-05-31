@@ -1,15 +1,16 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import Home from './pages/Home';
-import Settings from './pages/Settings';
-import Privacy from './pages/Privacy';
 import { LocaleProvider } from './i18n/LocaleProvider';
 import Onboarding from './components/Onboarding';
 import AdBanner from './components/AdBanner';
 import { applyTheme, getStoredTheme } from './utils/themeStorage';
 import { warmupTarotLlm } from './services/interpretation/interpretationService';
+
+const Settings = lazy(() => import('./pages/Settings'));
+const Privacy = lazy(() => import('./pages/Privacy'));
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -44,20 +45,22 @@ const App: React.FC = () => {
     <LocaleProvider>
       <IonApp>
         <IonReactRouter>
-          <IonRouterOutlet>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route exact path="/settings">
-              <Settings />
-            </Route>
-            <Route exact path="/privacy">
-              <Privacy />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </IonRouterOutlet>
+          <Suspense fallback={null}>
+            <IonRouterOutlet>
+              <Route exact path="/home">
+                <Home />
+              </Route>
+              <Route exact path="/settings">
+                <Settings />
+              </Route>
+              <Route exact path="/privacy">
+                <Privacy />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
+            </IonRouterOutlet>
+          </Suspense>
         </IonReactRouter>
         <Onboarding />
         <AdBanner />

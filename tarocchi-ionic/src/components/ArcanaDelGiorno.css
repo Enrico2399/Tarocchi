@@ -80,14 +80,35 @@
 }
 
 .arcana-modal__content {
-  --background: #fff;
+  --background: linear-gradient(180deg, #f8f5ff 0%, #fff 40%);
   text-align: center;
+  border-radius: 16px 16px 0 0;
+}
+
+.ion-palette-dark .arcana-modal__content {
+  --background: linear-gradient(180deg, #1a0a2e 0%, #120820 40%);
+}
+
+.arcana-modal__description {
+  text-align: justify;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #444;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding: 0 8px;
+}
+
+.ion-palette-dark .arcana-modal__subtitle,
+.ion-palette-dark .arcana-modal__title {
+  color: #f3e8ff;
 }
 
 .arcana-modal__subtitle {
   color: #666;
   font-size: 14px;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .arcana-modal__title {
@@ -103,17 +124,6 @@
   object-fit: contain;
   margin: 0 auto 16px;
   display: block;
-}
-
-.arcana-modal__description {
-  text-align: justify;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #444;
-  max-height: 150px;
-  overflow-y: auto;
-  margin-bottom: 12px;
-  padding: 0 4px;
 }
 
 .arcana-modal__ai-badge {

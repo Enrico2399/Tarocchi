@@ -94,6 +94,8 @@ const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' 
         backdropDismiss
         className="arcana-modal"
         data-testid="arcana-modal"
+        breakpoints={[0, 0.55, 0.92]}
+        initialBreakpoint={0.92}
       >
         <IonContent className="arcana-modal__content ion-padding">
           <p className="arcana-modal__subtitle">{t.arcanaModalSubtitle}</p>

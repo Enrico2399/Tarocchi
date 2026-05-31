@@ -59,9 +59,11 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
           <img src={image} alt={cardName} className="memory-card__image" />
           <div className="memory-card__scroll">
             {descriptionLoading ? (
-              <p className="memory-card__description memory-card__description--loading" data-testid="description-loading">
-                {loadingLabel}
-              </p>
+              <div className="memory-card__skeleton" data-testid="description-loading" aria-label={loadingLabel}>
+                <div className="memory-card__skeleton-line" />
+                <div className="memory-card__skeleton-line" />
+                <div className="memory-card__skeleton-line memory-card__skeleton-line--short" />
+              </div>
             ) : (
               <p className="memory-card__description" data-testid="card-description">
                 {description}

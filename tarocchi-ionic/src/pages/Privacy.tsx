@@ -7,64 +7,46 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
+import { useTranslation } from '../i18n/useTranslation';
 import './Privacy.css';
 
-const Privacy: React.FC = () => (
-  <IonPage>
-    <IonHeader>
-      <IonToolbar>
-        <IonButtons slot="start">
-          <IonBackButton defaultHref="/settings" text="Indietro" />
-        </IonButtons>
-        <IonTitle>Privacy Policy</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent className="privacy-content ion-padding">
-      <p className="privacy-updated">Ultimo aggiornamento: 27 maggio 2026</p>
+const Privacy: React.FC = () => {
+  const { t } = useTranslation();
 
-      <p>
-        Tarocchi (<code>com.enrico2399.tarocchi</code>) è un&apos;app per letture con carte dei
-        tarocchi. Non richiede account e non possiede server propri.
-      </p>
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/settings" text={t.back} />
+          </IonButtons>
+          <IonTitle>{t.privacyTitle}</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className="privacy-content ion-padding">
+        <p className="privacy-updated">{t.privacyUpdated}</p>
+        <p>{t.privacyIntro}</p>
 
-      <h2>Dati sul dispositivo</h2>
-      <p>Memorizziamo solo in locale:</p>
-      <ul>
-        <li>Preferenza tema (chiaro/scuro)</li>
-        <li>Data ultima visualizzazione arcano del giorno</li>
-        <li>Preferenza notifiche (on/off)</li>
-      </ul>
-      <p>
-        Puoi eliminarli disinstallando l&apos;app o cancellando i dati dalle impostazioni Android.
-      </p>
+        <h2>{t.privacyLocalTitle}</h2>
+        <p>{t.privacyLocalBody}</p>
 
-      <h2>Annunci (Google AdMob)</h2>
-      <p>
-        L&apos;app mostra annunci tramite Google AdMob. Google può raccogliere identificatori
-        pubblicitari e dati di interazione secondo la{' '}
-        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
-          Privacy Policy di Google
-        </a>
-        .
-      </p>
+        <h2>{t.privacyAiTitle}</h2>
+        <p>{t.privacyAiBody}</p>
 
-      <h2>Permessi</h2>
-      <ul>
-        <li>Internet — funzionamento app e annunci</li>
-        <li>Notifiche — solo se attivi il promemoria arcano (opzionale)</li>
-        <li>Vibrazione — feedback al girare le carte</li>
-      </ul>
+        <h2>{t.privacyAdsTitle}</h2>
+        <p>{t.privacyAdsBody}</p>
 
-      <h2>Condivisione</h2>
-      <p>
-        Se condividi una lettura, il testo va alle app che scegli tu. Tarocchi non riceve una
-        copia.
-      </p>
+        <h2>{t.privacyPermissionsTitle}</h2>
+        <p>{t.privacyPermissionsBody}</p>
 
-      <h2>Contatti</h2>
-      <p>Per domande: usa la email di supporto indicata su Google Play.</p>
-    </IonContent>
-  </IonPage>
-);
+        <h2>{t.privacyShareTitle}</h2>
+        <p>{t.privacyShareBody}</p>
+
+        <h2>{t.privacyContactTitle}</h2>
+        <p>{t.privacyContactBody}</p>
+      </IonContent>
+    </IonPage>
+  );
+};
 
 export default Privacy;

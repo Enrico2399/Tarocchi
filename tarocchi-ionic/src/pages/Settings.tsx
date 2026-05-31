@@ -45,6 +45,10 @@ import {
   getNotificationsEnabled,
   setNotificationsEnabled,
 } from '../utils/notificationStorage';
+import {
+  clearReadingHistory,
+  getReadingHistory,
+} from '../utils/readingHistory';
 import './Settings.css';
 
 const Settings: React.FC = () => {
@@ -57,6 +61,7 @@ const Settings: React.FC = () => {
   const [tableThemeId, setTableThemeId] = useState<TableThemeId>('classic');
   const [deckThemeId, setDeckThemeId] = useState<DeckThemeId>('classic');
   const [llmStatus, setLlmStatus] = useState<LlmAvailability>('unavailable');
+  const [history, setHistory] = useState(getReadingHistory());
   const isNative = Capacitor.isNativePlatform();
 
   useEffect(() => {
@@ -228,6 +233,37 @@ const Settings: React.FC = () => {
             {notificationError}
           </p>
         )}
+
+        <section className="settings-history" data-testid="reading-history">
+          <h2>{t.historyTitle}</h2>
+          {history.length === 0 ? (
+            <p className="settings-history__empty">{t.historyEmpty}</p>
+          ) : (
+            <>
+              <ul className="settings-history__list">
+                {history.map((entry) => (
+                  <li key={entry.id} className="settings-history__item">
+                    <time dateTime={entry.createdAt}>
+                      {new Date(entry.createdAt).toLocaleString(locale === 'en' ? 'en-GB' : 'it-IT')}
+                    </time>
+                    <span>{entry.lines.map((l) => l.cardName).join(' · ')}</span>
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                className="settings-history__clear"
+                onClick={() => {
+                  clearReadingHistory();
+                  setHistory([]);
+                }}
+                data-testid="clear-history-btn"
+              >
+                {t.historyClear}
+              </button>
+            </>
+          )}
+        </section>
 
         <section className="settings-about">
           <h2>{t.aboutTitle}</h2>

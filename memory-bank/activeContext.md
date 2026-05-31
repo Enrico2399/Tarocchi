@@ -1,22 +1,19 @@
 # Active Context
 
-## Stato: Milestone **Tarocchi Pro** completata ✅
+## Stato: Milestone **Tarocchi New Functions** completata ✅
 
-Tutte le fasi GSD 1–7 implementate. Play Store submit resta manuale.
+Release con storico letture, privacy i18n, code-splitting, UX polish e AAB firmato.
 
 ## Completato
-- Fasi 1–4: toolbar, AI pipeline, UX pro, spread multipli
-- Fase 5: i18n IT/EN, temi tavolo (classic/velvet/night), mazzo (classic/alchemical/fantasy)
-- Fase 6: AdMob via `VITE_ADMOB_*`, toggle annunci, padding safe area
-- Fase 7: Cypress E2E (spread, settings), 44 test Vitest, docs
+- Fase 8: Vite manualChunks, lazy Settings/Privacy, `.env.example`
+- Fase 9: flip anim migliorata, skeleton loading, modal arcano sheet
+- Fase 10: storico ultime 5 letture in Settings
+- Fase 11: Privacy IT/EN
+- Fase 12: AAB firmato `store/tarocchi-release.aab`, 47 test Vitest
 
 ## Prossimo (manuale)
-- AAB firmato + Play Console
-- `VITE_AI_API_*` e `VITE_ADMOB_*` in produzione
+- Push GitHub + Play Console internal testing
+- Env produzione AI + AdMob
 
-## Decisioni
-| Decisione | Valore |
-|-----------|--------|
-| i18n | `src/i18n/` — IT default, EN opzionale |
-| Cache interpretazioni | include locale (v3) |
-| Temi visuali | CSS overlay/filter su asset esistenti |
+## Git
+Commit: `new functions` — autore `fededev9`
