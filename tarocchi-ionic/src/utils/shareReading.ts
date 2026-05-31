@@ -1,4 +1,4 @@
-import { CardData, POSITIONS, getDescriptionByIndex } from '../constants/cardsData';
+import { CardData } from '../constants/cardsData';
 
 export type ReadingLine = {
   position: string;
@@ -9,23 +9,25 @@ export type ReadingLine = {
 export function buildReadingLines(
   cards: CardData[],
   descriptions?: string[],
+  positions?: string[],
 ): ReadingLine[] {
   return cards.map((card, index) => ({
-    position: POSITIONS[index] ?? `Carta ${index + 1}`,
+    position: positions?.[index] ?? `Carta ${index + 1}`,
     cardName: card.name,
-    description: descriptions?.[index] ?? getDescriptionByIndex(card, index),
+    description: descriptions?.[index] ?? '',
   }));
 }
 
 export function formatReadingText(
   cards: CardData[],
   descriptions?: string[],
+  positions?: string[],
 ): string {
   if (cards.length === 0) {
     return '';
   }
 
-  const lines = buildReadingLines(cards, descriptions).map(
+  const lines = buildReadingLines(cards, descriptions, positions).map(
     (line) => `${line.position}\n${line.cardName}\n${line.description}`,
   );
 

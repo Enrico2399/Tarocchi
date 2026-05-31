@@ -1,83 +1,103 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Share } from '@capacitor/share';
-import { IonContent, IonIcon, IonPage } from '@ionic/react';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
 import { settingsOutline, shareOutline } from 'ionicons/icons';
 import ArcanaDelGiorno from '../components/ArcanaDelGiorno';
 import MemoryCard from '../components/MemoryCard';
-import { CardData, POSITIONS, cards } from '../constants/cardsData';
+import { CardData, cards } from '../constants/cardsData';
+import {
+  getSpreadById,
+  getStoredSpreadId,
+  READING_SPREADS,
+  setStoredSpreadId,
+  type ReadingSpreadId,
+} from '../constants/readingSpreads';
 import { pickRandomCards } from '../utils/cardUtils';
 import { formatReadingText } from '../utils/shareReading';
-import { getAiReadingsEnabled } from '../utils/aiStorage';
 import {
-  generateReadingDescriptions,
-  getJsonDescriptions,
-  type DescriptionSource,
-} from '../services/localLlm';
+  getReadingInterpretations,
+  type InterpretationSource,
+} from '../services/interpretation/interpretationService';
 import { useRainbowColor } from '../hooks/useRainbowColor';
 import './Home.css';
 
 type ReadingState = {
   descriptions: string[];
-  sources: DescriptionSource[];
+  sources: InterpretationSource[];
   loading: boolean;
+  error: string | null;
 };
 
 const Home: React.FC = () => {
+  const [spreadId, setSpreadId] = useState<ReadingSpreadId>(getStoredSpreadId);
+  const spread = getSpreadById(spreadId);
   const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
+  const [activePositions, setActivePositions] = useState<string[]>([]);
   const [reading, setReading] = useState<ReadingState>({
     descriptions: [],
     sources: [],
     loading: false,
+    error: null,
   });
   const [generation, setGeneration] = useState(0);
   const titleColor = useRainbowColor(selectedCards.length > 0);
 
+  const handleSpreadChange = (id: ReadingSpreadId) => {
+    setSpreadId(id);
+    setStoredSpreadId(id);
+    setSelectedCards([]);
+    setActivePositions([]);
+    setReading({ descriptions: [], sources: [], loading: false, error: null });
+  };
+
   const generateCards = useCallback(async () => {
-    const picked = pickRandomCards(cards, 4);
-    const jsonDescriptions = getJsonDescriptions(picked);
+    const currentSpread = getSpreadById(spreadId);
+    const picked = pickRandomCards(cards, currentSpread.cardCount);
+    const positions = [...currentSpread.positions];
 
     setSelectedCards(picked);
+    setActivePositions(positions);
     setGeneration((g) => g + 1);
     setReading({
-      descriptions: jsonDescriptions,
-      sources: picked.map(() => 'json' as const),
-      loading: false,
-    });
-
-    if (!getAiReadingsEnabled()) {
-      return;
-    }
-
-    setReading({
-      descriptions: jsonDescriptions,
-      sources: picked.map(() => 'json' as const),
+      descriptions: positions.map(() => ''),
+      sources: [],
       loading: true,
+      error: null,
     });
 
-    const aiDescriptions = await generateReadingDescriptions(picked);
-
-    if (aiDescriptions) {
+    try {
+      const results = await getReadingInterpretations(picked, positions);
       setReading({
-        descriptions: aiDescriptions,
-        sources: picked.map(() => 'ai' as const),
+        descriptions: results.map((r) => r.text),
+        sources: results.map((r) => r.source),
         loading: false,
+        error: null,
       });
-    } else {
+    } catch {
       setReading({
-        descriptions: jsonDescriptions,
-        sources: picked.map(() => 'json' as const),
+        descriptions: positions.map(() => ''),
+        sources: [],
         loading: false,
+        error: 'Impossibile generare le interpretazioni. Riprova.',
       });
     }
-  }, []);
+  }, [spreadId]);
 
   const shareReading = async () => {
-    if (selectedCards.length === 0) {
+    if (selectedCards.length === 0 || reading.loading) {
       return;
     }
 
-    const text = formatReadingText(selectedCards, reading.descriptions);
+    const text = formatReadingText(selectedCards, reading.descriptions, activePositions);
 
     try {
       await Share.share({
@@ -92,18 +112,19 @@ const Home: React.FC = () => {
     }
   };
 
+  const hasReading = selectedCards.length > 0;
+  const placeholderPositions = [...spread.positions];
+
   return (
     <IonPage>
-      <IonContent fullscreen className="home-content">
-        <div
-          className="home-bg"
-          style={{ backgroundImage: "url('/assets/images/TavoloGioco.jpeg')" }}
-        >
-          <div className="home-toolbar">
-            <Link to="/settings" className="home-icon-btn" aria-label="Impostazioni" data-testid="settings-link">
-              <IonIcon icon={settingsOutline} />
-            </Link>
-            {selectedCards.length > 0 && !reading.loading && (
+      <IonHeader className="home-header">
+        <IonToolbar className="home-toolbar-bar">
+          <IonButtons slot="start">
+            <ArcanaDelGiorno variant="toolbar" />
+          </IonButtons>
+          <IonTitle className="home-title">Tarocchi</IonTitle>
+          <IonButtons slot="end" className="home-toolbar-actions">
+            {hasReading && !reading.loading && (
               <button
                 type="button"
                 className="home-icon-btn"
@@ -114,25 +135,81 @@ const Home: React.FC = () => {
                 <IonIcon icon={shareOutline} />
               </button>
             )}
-          </div>
+            <Link
+              to="/settings"
+              className="home-icon-btn"
+              aria-label="Impostazioni"
+              data-testid="settings-link"
+            >
+              <IonIcon icon={settingsOutline} />
+            </Link>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
 
-          <ArcanaDelGiorno />
-
+      <IonContent fullscreen className="home-content">
+        <div
+          className="home-bg"
+          style={{ backgroundImage: "url('/assets/images/TavoloGioco.jpeg')" }}
+        >
           <div className="home-inner">
-            <div className="cards-grid" data-testid="cards-grid">
-              {selectedCards.map((card, index) => (
-                <MemoryCard
-                  key={`${generation}-${index}`}
-                  title={POSITIONS[index]}
-                  cardName={card.name}
-                  description={reading.descriptions[index] ?? ''}
-                  image={card.image}
-                  titleColor={titleColor}
-                  descriptionLoading={reading.loading}
-                  descriptionSource={reading.sources[index]}
-                />
-              ))}
+            <section className="spread-picker" aria-label="Tipo di consulto">
+              {(Object.keys(READING_SPREADS) as ReadingSpreadId[]).map((id) => {
+                const item = READING_SPREADS[id];
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    className={`spread-picker__btn ${spreadId === id ? 'spread-picker__btn--active' : ''}`}
+                    onClick={() => handleSpreadChange(id)}
+                    data-testid={`spread-${id}`}
+                  >
+                    <span className="spread-picker__name">{item.name}</span>
+                    <span className="spread-picker__subtitle">{item.subtitle}</span>
+                  </button>
+                );
+              })}
+            </section>
+
+            {!hasReading && (
+              <p className="home-empty" data-testid="home-empty">
+                Prepara il tuo consulto — l&apos;oracolo ti attende.
+              </p>
+            )}
+
+            <div
+              className={`cards-grid cards-grid--${spreadId}`}
+              data-testid="cards-grid"
+            >
+              {hasReading
+                ? selectedCards.map((card, index) => (
+                    <MemoryCard
+                      key={`${generation}-${index}`}
+                      title={activePositions[index] ?? `Carta ${index + 1}`}
+                      cardName={card.name}
+                      description={reading.descriptions[index] ?? ''}
+                      image={card.image}
+                      titleColor={titleColor}
+                      descriptionLoading={reading.loading}
+                      descriptionSource={reading.sources[index]}
+                    />
+                  ))
+                : placeholderPositions.map((position) => (
+                    <div key={position} className="cards-grid__placeholder" aria-hidden="true">
+                      <div
+                        className="cards-grid__placeholder-back"
+                        style={{ backgroundImage: "url('/assets/images/backcarta.jpeg')" }}
+                      />
+                      <span className="cards-grid__placeholder-label">{position}</span>
+                    </div>
+                  ))}
             </div>
+
+            {reading.error && (
+              <p className="home-error" data-testid="reading-error">
+                {reading.error}
+              </p>
+            )}
 
             <button
               type="button"

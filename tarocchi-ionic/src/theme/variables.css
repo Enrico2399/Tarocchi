@@ -10,6 +10,11 @@
 
   --ion-background-color: #f8f5ff;
   --ion-text-color: #1a0a2e;
+
+  --tarocchi-gold: #d4af37;
+  --tarocchi-purple-deep: #1a0a2e;
+  --tarocchi-purple-mist: #5b21b6;
+  --tarocchi-accent-cyan: #22d3ee;
 }
 
 .ion-palette-dark {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { playFlipSound } from '../utils/audio';
 import { triggerFlipHaptic } from '../utils/haptics';
+import type { InterpretationSource } from '../services/interpretation/interpretationService';
 import './MemoryCard.css';
 
 type MemoryCardProps = {
@@ -10,7 +11,7 @@ type MemoryCardProps = {
   image: string;
   titleColor?: string;
   descriptionLoading?: boolean;
-  descriptionSource?: 'json' | 'ai';
+  descriptionSource?: InterpretationSource;
 };
 
 const MemoryCard: React.FC<MemoryCardProps> = ({
@@ -29,6 +30,9 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
     triggerFlipHaptic();
     setFlipped((f) => !f);
   };
+
+  const showAiBadge =
+    descriptionSource === 'ai' || descriptionSource === 'cloud';
 
   return (
     <button
@@ -51,7 +55,7 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
             ) : (
               <p className="memory-card__description" data-testid="card-description">
                 {description}
-                {descriptionSource === 'ai' && (
+                {showAiBadge && (
                   <span className="memory-card__ai-badge" data-testid="ai-badge"> AI</span>
                 )}
               </p>

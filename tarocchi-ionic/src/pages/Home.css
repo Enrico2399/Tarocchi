@@ -1,3 +1,32 @@
+.home-header {
+  --background: rgba(26, 10, 46, 0.92);
+}
+
+.home-toolbar-bar {
+  --background: rgba(26, 10, 46, 0.92);
+  --color: #f3e8ff;
+  --border-color: rgba(196, 181, 253, 0.2);
+  --min-height: 56px;
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.ion-palette-dark .home-toolbar-bar {
+  --background: rgba(18, 8, 32, 0.96);
+}
+
+.home-title {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.1rem;
+}
+
+.home-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding-inline-end: 0.25rem;
+}
+
 .home-content {
   --background: transparent;
 }
@@ -7,7 +36,7 @@
   background-size: cover;
   background-position: center;
   position: relative;
-  padding: 4rem 1rem 5rem;
+  padding: 1rem 1rem calc(5rem + env(safe-area-inset-bottom, 0));
 }
 
 .home-bg::before {
@@ -22,21 +51,14 @@
   background: rgba(10, 5, 20, 0.55);
 }
 
-.home-toolbar {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 10;
-  display: flex;
-  gap: 0.5rem;
-}
-
 .home-icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 44px;
+  min-height: 44px;
   border: none;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
@@ -47,7 +69,7 @@
 }
 
 .ion-palette-dark .home-icon-btn {
-  background: rgba(26, 10, 46, 0.92);
+  background: rgba(40, 20, 70, 0.92);
   color: #c4b5fd;
 }
 
@@ -63,11 +85,133 @@
   z-index: 1;
 }
 
-.cards-grid {
+.home-empty {
+  margin: 0.5rem 0 1.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 9999px;
+  background: rgba(26, 10, 46, 0.75);
+  color: #f3e8ff;
+  font-size: 0.95rem;
+  text-align: center;
+  max-width: 22rem;
+}
+
+.home-error {
+  color: #fecaca;
+  background: rgba(127, 29, 29, 0.85);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.spread-picker {
   display: flex;
   flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: center;
-  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 720px;
+  margin-bottom: 1rem;
+}
+
+.spread-picker__btn {
+  flex: 1 1 calc(50% - 0.5rem);
+  min-width: 140px;
+  max-width: 340px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(196, 181, 253, 0.35);
+  border-radius: 12px;
+  background: rgba(26, 10, 46, 0.78);
+  color: #f3e8ff;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.spread-picker__btn--active {
+  border-color: #c4b5fd;
+  background: rgba(91, 33, 182, 0.85);
+  box-shadow: 0 0 0 2px rgba(196, 181, 253, 0.35);
+}
+
+.spread-picker__name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.spread-picker__subtitle {
+  display: block;
+  font-size: 0.72rem;
+  opacity: 0.85;
+  margin-top: 0.15rem;
+}
+
+@media (min-width: 768px) {
+  .spread-picker__btn {
+    flex: 1 1 calc(25% - 0.5rem);
+  }
+}
+
+.cards-grid {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 1.5rem;
+}
+
+.cards-grid--single {
+  grid-template-columns: minmax(160px, 220px);
+}
+
+.cards-grid--three {
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+}
+
+.cards-grid--four {
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+}
+
+.cards-grid--celtic {
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+}
+
+@media (min-width: 768px) {
+  .cards-grid--four {
+    grid-template-columns: repeat(4, minmax(140px, 1fr));
+  }
+
+  .cards-grid--celtic {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  }
+}
+
+.cards-grid__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0.65;
+}
+
+.cards-grid__placeholder-back {
+  width: 140px;
+  height: 200px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.cards-grid__placeholder-label {
+  font-size: 0.7rem;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  max-width: 140px;
 }
 
 .generate-btn {
@@ -85,7 +229,7 @@
 
 .generate-btn__label {
   display: block;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 9999px;
   background: #fff;
   color: #7c3aed;

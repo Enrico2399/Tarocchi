@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cards, getDescriptionByIndex, POSITIONS } from './cardsData';
+import { cards, getCardById, POSITIONS } from './cardsData';
 
 describe('cardsData', () => {
   it('has 22 major arcana', () => {
@@ -15,18 +15,25 @@ describe('cardsData', () => {
     ]);
   });
 
-  it('maps descriptions by position index', () => {
-    const card = cards[0];
-    expect(getDescriptionByIndex(card, 0)).toBe(card.description);
-    expect(getDescriptionByIndex(card, 1)).toBe(card.description1);
-    expect(getDescriptionByIndex(card, 2)).toBe(card.description2);
-    expect(getDescriptionByIndex(card, 3)).toBe(card.description3);
-    expect(getDescriptionByIndex(card, 99)).toBe(card.description);
+  it('stores metadata only (no hardcoded interpretations)', () => {
+    cards.forEach((card) => {
+      expect(card).toHaveProperty('id');
+      expect(card).toHaveProperty('name');
+      expect(card).toHaveProperty('image');
+      expect(card.keywords.length).toBeGreaterThan(0);
+      expect(card).not.toHaveProperty('description');
+      expect(card).not.toHaveProperty('description1');
+    });
   });
 
   it('uses web asset paths for images', () => {
     cards.forEach((card) => {
       expect(card.image).toMatch(/^\/assets\/images\/.+\.(jpeg|jpg)$/);
     });
+  });
+
+  it('finds card by id', () => {
+    expect(getCardById(0)?.name).toBe('Il Matto');
+    expect(getCardById(99)).toBeUndefined();
   });
 });

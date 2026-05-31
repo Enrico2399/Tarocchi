@@ -2,72 +2,80 @@ import { useEffect, useMemo, useState } from 'react';
 import { IonContent, IonModal } from '@ionic/react';
 import { getArcanaOfTheDay } from '../utils/arcanaUtils';
 import { ARCANA_VIEW_STORAGE_KEY, shouldShowArcanaNotificationDot } from '../utils/arcanaStorage';
-import { getAiReadingsEnabled } from '../utils/aiStorage';
 import {
-  generateDailyArcanaDescription,
-  getJsonArcanaDescription,
-  type DescriptionSource,
-} from '../services/localLlm';
+  getDailyArcanaInterpretation,
+  type InterpretationSource,
+} from '../services/interpretation/interpretationService';
 import './ArcanaDelGiorno.css';
 
-const ArcanaDelGiorno: React.FC = () => {
+type ArcanaDelGiornoProps = {
+  variant?: 'toolbar' | 'floating';
+};
+
+const ArcanaDelGiorno: React.FC<ArcanaDelGiornoProps> = ({ variant = 'floating' }) => {
   const [open, setOpen] = useState(false);
   const [showDot, setShowDot] = useState(false);
   const [description, setDescription] = useState('');
-  const [descriptionSource, setDescriptionSource] = useState<DescriptionSource>('json');
+  const [descriptionSource, setDescriptionSource] = useState<InterpretationSource | null>(null);
   const [loadingDescription, setLoadingDescription] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const arcana = useMemo(() => getArcanaOfTheDay(), []);
+  const todayKey = useMemo(() => new Date().toDateString(), []);
 
   useEffect(() => {
     const lastViewed = localStorage.getItem(ARCANA_VIEW_STORAGE_KEY);
-    setShowDot(shouldShowArcanaNotificationDot(lastViewed, new Date().toDateString()));
-  }, []);
+    setShowDot(shouldShowArcanaNotificationDot(lastViewed, todayKey));
+  }, [todayKey]);
 
   useEffect(() => {
     if (!open) {
       return;
     }
 
-    const jsonText = getJsonArcanaDescription(arcana);
-    setDescription(jsonText);
-    setDescriptionSource('json');
-
-    if (!getAiReadingsEnabled()) {
-      return;
-    }
-
     let cancelled = false;
     setLoadingDescription(true);
+    setLoadError(null);
+    setDescription('');
+    setDescriptionSource(null);
 
-    generateDailyArcanaDescription(arcana).then((aiText) => {
-      if (cancelled) {
-        return;
-      }
-
-      if (aiText) {
-        setDescription(aiText);
-        setDescriptionSource('ai');
-      }
-
-      setLoadingDescription(false);
-    });
+    getDailyArcanaInterpretation(arcana, todayKey)
+      .then((result) => {
+        if (cancelled) {
+          return;
+        }
+        setDescription(result.text);
+        setDescriptionSource(result.source);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLoadError('Impossibile generare l\'interpretazione. Riprova.');
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoadingDescription(false);
+        }
+      });
 
     return () => {
       cancelled = true;
     };
-  }, [open, arcana]);
+  }, [open, arcana, todayKey]);
 
   const openModal = () => {
     setOpen(true);
-    localStorage.setItem(ARCANA_VIEW_STORAGE_KEY, new Date().toDateString());
+    localStorage.setItem(ARCANA_VIEW_STORAGE_KEY, todayKey);
     setShowDot(false);
   };
+
+  const showAiBadge =
+    descriptionSource === 'ai' || descriptionSource === 'cloud';
 
   return (
     <>
       <button
         type="button"
-        className="arcana-btn"
+        className={`arcana-btn ${variant === 'toolbar' ? 'arcana-btn--toolbar' : ''}`}
         onClick={openModal}
         aria-label="Arcano del giorno"
         data-testid="arcana-btn"
@@ -88,8 +96,10 @@ const ArcanaDelGiorno: React.FC = () => {
           <h2 className="arcana-modal__title" data-testid="arcana-modal-title">{arcana.name}</h2>
           <img src={arcana.image} alt={arcana.name} className="arcana-modal__image" />
           <div className="arcana-modal__description" data-testid="arcana-description">
-            {loadingDescription ? '✨ L\'oracolo sta interpretando...' : description}
-            {!loadingDescription && descriptionSource === 'ai' && (
+            {loadingDescription && '✨ L\'oracolo sta interpretando...'}
+            {!loadingDescription && loadError && loadError}
+            {!loadingDescription && !loadError && description}
+            {!loadingDescription && !loadError && showAiBadge && (
               <span className="arcana-modal__ai-badge" data-testid="arcana-ai-badge"> AI</span>
             )}
           </div>

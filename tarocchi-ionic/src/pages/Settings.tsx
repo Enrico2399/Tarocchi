@@ -15,7 +15,7 @@ import {
 import { PRIVACY_POLICY_URL } from '../constants/appLinks';
 import { useTheme } from '../hooks/useTheme';
 import { getAiReadingsEnabled, setAiReadingsEnabled } from '../utils/aiStorage';
-import { getLlmAvailability, type LlmAvailability } from '../services/localLlm';
+import { getLlmAvailability, isCloudConfigured, type LlmAvailability } from '../services/interpretation/interpretationService';
 import {
   disableDailyNotifications,
   enableDailyNotifications,
@@ -69,7 +69,9 @@ const Settings: React.FC = () => {
 
   const llmStatusLabel: Record<LlmAvailability, string> = {
     available: 'AI on-device disponibile',
-    unavailable: 'AI non disponibile — uso testi classici',
+    unavailable: isCloudConfigured()
+      ? 'AI cloud configurata (VITE_AI_API_URL)'
+      : 'Generazione dinamica — configura AI cloud o usa device nativo',
     notready: 'AI in preparazione sul dispositivo',
     downloadable: 'Modello AI scaricabile (Android)',
   };

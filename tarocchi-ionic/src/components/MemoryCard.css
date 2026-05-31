@@ -1,8 +1,8 @@
 .memory-card {
-  width: 45vw;
+  width: 100%;
   max-width: 200px;
   aspect-ratio: 1 / 1.4;
-  margin: 0.75rem;
+  margin: 0;
   padding: 0;
   border: none;
   background: transparent;

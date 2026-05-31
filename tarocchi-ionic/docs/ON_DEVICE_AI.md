@@ -1,39 +1,44 @@
-# AI on-device — Tarocchi
+# AI Interpretazioni — Tarocchi
 
-Interpretazioni generate localmente quando il dispositivo supporta l'AI integrata. Nessun dato inviato a server esterni.
+Tutte le interpretazioni visibili all'utente passano dalla pipeline in `src/services/interpretation/`.
 
-## Piattaforme
+## Priorità
 
-| Platform | Engine | Requisiti |
-|----------|--------|-----------|
-| **iOS** | Apple Intelligence (Foundation Models) | iOS 26+, dispositivo compatibile, AI attiva |
-| **Android** | Gemini Nano (ML Kit) | API 28+, dispositivo con AI on-device (es. Pixel 9+) |
-| **Web** | — | Fallback JSON automatico |
+1. **Cache** — localStorage (chiave: carta + posizione + contesto/data)
+2. **On-device** — `@capacitor/local-llm` (iOS Apple Intelligence / Android Gemini Nano)
+3. **Cloud** — API OpenAI-compatible via env (`VITE_AI_API_URL`, `VITE_AI_API_KEY`, `VITE_AI_API_MODEL`)
+4. **Generazione dinamica** — template da keywords (web/dev senza API; mai paragrafi hardcoded)
 
-Plugin: [`@capacitor/local-llm`](https://capacitorjs.com/docs/apis/local-llm) (Capacitor Labs, sperimentale).
+## Dati carte
 
-## Comportamento
-
-1. **Genera Carte** / **Arcano del giorno** → mostra subito testo JSON
-2. Se AI disponibile e toggle attivo → rigenera con LLM on-device
-3. Badge **AI** sulla carta quando la risposta è generata localmente
-4. Se AI non disponibile o errore → resta il JSON (nessun crash)
+`cardsData.ts` contiene **solo metadati**: `id`, `name`, `image`, `keywords[]`.
 
 ## Impostazioni
 
-- Toggle **Interpretazioni AI on-device** in `/settings`
-- Stato: disponibile / non disponibile / in preparazione / scaricabile
+Toggle **Interpretazioni AI on-device** in `/settings` — se disattivo, salta on-device/cloud e usa generazione dinamica.
+
+## Cloud (opzionale)
+
+```env
+VITE_AI_API_URL=https://api.openai.com/v1/chat/completions
+VITE_AI_API_KEY=sk-...
+VITE_AI_API_MODEL=gpt-4o-mini
+```
+
+Documentare in privacy policy se si inviano prompt a terze parti.
 
 ## Codice
 
-- `src/services/localLlm.ts` — wrapper plugin + fallback
-- `src/utils/aiStorage.ts` — preferenza utente
+| File | Ruolo |
+|------|-------|
+| `interpretationService.ts` | Orchestratore |
+| `onDeviceProvider.ts` | Local LLM (dynamic import) |
+| `cloudProvider.ts` | Fetch API |
+| `templateProvider.ts` | Fallback dinamico keywords |
+| `cache.ts` | Persistenza interpretazioni |
+| `prompts.ts` | System prompt tarot |
 
-## Note Play Store / privacy
+## Play Store
 
-- L'AI gira **solo sul dispositivo** — aggiornare Data safety: nessuna raccolta developer per inferenza LLM
-- `minSdk` Android portato a **28** per il plugin
-
-## Test
-
-Su emulatore Android l'AI **non** è disponibile (serve device fisico). Su iOS Simulator funziona se il Mac host ha Apple Intelligence attiva.
+- On-device: nessun dato interpretazione al developer
+- Cloud: aggiornare `docs/DATA_SAFETY.md` e privacy policy

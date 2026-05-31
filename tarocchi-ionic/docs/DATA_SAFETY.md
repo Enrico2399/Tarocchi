@@ -15,8 +15,19 @@
 | `lastArcanaView` | Pallino notifica arcano |
 | `tarocchi-theme` | Tema chiaro/scuro |
 | `dailyArcanaNotifications` | Preferenza notifiche |
+| `tarocchi-spread` | Tipo consulto selezionato |
+| `tarocchi-interpretation:*` | Cache interpretazioni generate |
+| `tarocchi-onboarding-v1` | Onboarding completato |
 
-Non trasmessi al developer.
+Non trasmessi al developer (salvo cloud AI opzionale — vedi sotto).
+
+## Interpretazioni AI
+
+| Modalità | Dati inviati al developer |
+|----------|---------------------------|
+| On-device LLM | No |
+| Cloud API (`VITE_AI_API_*`) | Prompt inviato al provider configurato — dichiarare in privacy |
+| Generazione dinamica (keywords) | No |
 
 ## Google AdMob
 

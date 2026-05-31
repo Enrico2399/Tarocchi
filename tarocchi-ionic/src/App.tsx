@@ -5,9 +5,10 @@ import { useEffect } from 'react';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import Privacy from './pages/Privacy';
+import Onboarding from './components/Onboarding';
 import AdBanner from './components/AdBanner';
 import { applyTheme, getStoredTheme } from './utils/themeStorage';
-import { warmupTarotLlm } from './services/localLlm';
+import { warmupTarotLlm } from './services/interpretation/interpretationService';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -56,6 +57,7 @@ const App: React.FC = () => {
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
+      <Onboarding />
       <AdBanner />
     </IonApp>
   );

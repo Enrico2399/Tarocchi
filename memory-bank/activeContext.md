@@ -1,27 +1,23 @@
 # Active Context
 
-## Stato: Fase 4 completata (submit Play Console manuale)
+## Stato: Milestone **Tarocchi Pro** in corso
 
-App testata su emulatore **Pixel_6a** (Android 17). Documentazione store pronta.
+Fasi 1–4 implementate nel codice; fasi 5–7 parziali.
 
-## Completato Fase 4
-- Install + launch su `emulator-5554`
-- Privacy in-app (`/privacy`) + HTML `store/privacy-policy.html`
-- Testi store IT+EN: `docs/STORE_LISTING.md`
-- Data safety: `docs/DATA_SAFETY.md`
-- Screenshot: `store/screenshots/` (4 file)
-- Guida release: `docs/PLAYSTORE_RELEASE.md`
-- Script keystore: `scripts/create-upload-keystore.ps1`
+## Completato (Tarocchi Pro)
+- GSD `.planning/` inizializzato
+- Fase 1: toolbar IonHeader, fix overlap arcano, lazy-load AdMob/local-llm
+- Fase 2: `cardsData` solo metadati, pipeline `services/interpretation/`, cache
+- Fase 3: design tokens, empty state, onboarding, spread picker UI
+- Fase 4: 1/3/4/6 carte (Croce Celtica semplificata)
 
-## Azioni manuali rimanenti
-1. `.\scripts\create-upload-keystore.ps1` → `npm run android:bundle`
-2. Pubblicare `store/privacy-policy.html` su HTTPS
-3. Play Console: content rating, upload AAB internal testing
-4. AdMob production IDs (`docs/ADMOB.md`)
+## Prossimo
+- Fase 5: temi mazzo/tavolo, i18n IT/EN
+- Fase 6–7: polish AdMob, E2E aggiornato, Play Store final
 
 ## Decisioni
 | Decisione | Valore |
 |-----------|--------|
-| appId | `com.enrico2399.tarocchi` |
-| Monetizzazione | Google AdMob |
-| Store listing | IT + EN |
+| Interpretazioni | cache → on-device → cloud (env) → template keywords |
+| Cloud fallback | `VITE_AI_API_URL` + `VITE_AI_API_KEY` |
+| Spread default | Consulto classico (4 carte) |

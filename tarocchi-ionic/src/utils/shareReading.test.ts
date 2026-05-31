@@ -7,13 +7,20 @@ describe('formatReadingText', () => {
     expect(formatReadingText([])).toBe('');
   });
 
-  it('formats reading with positions and card names from JSON', () => {
-    const text = formatReadingText(cards.slice(0, 2));
+  it('formats reading with positions and card names', () => {
+    const positions = ['Situazione Attuale', 'Sfida da Affrontare'];
+    const text = formatReadingText(
+      cards.slice(0, 2),
+      ['Prima interpretazione', 'Seconda interpretazione'],
+      positions,
+    );
     expect(text).toContain('🔮 Lettura Tarocchi');
     expect(text).toContain('Situazione Attuale');
     expect(text).toContain('Il Matto');
+    expect(text).toContain('Prima interpretazione');
     expect(text).toContain('Sfida da Affrontare');
     expect(text).toContain('Il Mago');
+    expect(text).toContain('Seconda interpretazione');
   });
 
   it('uses custom AI descriptions when provided', () => {
