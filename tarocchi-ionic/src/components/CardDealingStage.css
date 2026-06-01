@@ -30,14 +30,21 @@
 
 .card-deck-stack {
   position: absolute;
-  bottom: 0.25rem;
+  bottom: 1.25rem;
   left: 50%;
   z-index: 12;
-  width: 76px;
-  height: 108px;
+  width: 88px;
+  height: 124px;
   transform: translateX(-50%);
   pointer-events: none;
-  animation: deck-stack-exit 0.45s ease forwards;
+}
+
+.card-deck-stack--enter {
+  animation: deck-stack-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.card-deck-stack--exit {
+  animation: deck-stack-exit 0.75s ease forwards;
 }
 
 .card-deck-stack__layer {
@@ -46,16 +53,19 @@
   border-radius: 8px;
   background-size: cover;
   background-position: center;
-  border: 1px solid rgba(212, 175, 55, 0.55);
+  border: 1px solid rgba(212, 175, 55, 0.65);
   box-shadow:
-    inset 0 0 0 2px rgba(212, 175, 55, 0.35),
-    0 6px 16px rgba(26, 10, 46, 0.4);
+    inset 0 0 0 2px rgba(212, 175, 55, 0.45),
+    0 8px 22px rgba(26, 10, 46, 0.45);
   transform: translate(
     calc(var(--deck-layer) * -2px),
     calc(var(--deck-layer) * -3px)
   )
     rotate(calc(var(--deck-layer) * -1.5deg));
-  animation: deck-breathe 2.2s ease-in-out infinite;
+}
+
+.card-deck-stack--enter .card-deck-stack__layer {
+  animation: deck-breathe 2.4s ease-in-out infinite;
 }
 
 .card-deck-stack__layer:nth-child(1) {
@@ -74,6 +84,17 @@
   animation-delay: 0.45s;
 }
 
+@keyframes deck-stack-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(24px) scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
 @keyframes deck-breathe {
   0%,
   100% {
@@ -86,7 +107,7 @@
   50% {
     transform: translate(
         calc(var(--deck-layer) * -2px),
-        calc(var(--deck-layer) * -5px)
+        calc(var(--deck-layer) * -6px)
       )
       rotate(calc(var(--deck-layer) * -1.5deg));
   }
@@ -99,33 +120,42 @@
   }
   to {
     opacity: 0;
-    transform: translateX(-50%) scale(0.85) translateY(12px);
+    transform: translateX(-50%) scale(0.88) translateY(16px);
   }
 }
 
-.card-deal-slot {
+/* Unified slot — ghost and MemoryCard share identical cell geometry */
+.cards-stage__slot {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   width: calc(50% - 0.4rem);
   max-width: 168px;
+  flex-shrink: 0;
 }
 
-.cards-stage--single .card-deal-slot {
+.cards-stage__slot > .memory-card {
+  width: 100%;
+  max-width: none;
+  animation: none;
+}
+
+.cards-stage--single .cards-stage__slot {
   width: min(52vw, 200px);
 }
 
-.cards-stage--three .card-deal-slot {
+.cards-stage--three .cards-stage__slot {
   width: calc(33.333% - 0.5rem);
   min-width: 102px;
   max-width: 130px;
 }
 
-.cards-stage--four .card-deal-slot {
+.cards-stage--four .cards-stage__slot {
   width: calc(50% - 0.4rem);
   max-width: 168px;
 }
 
-.cards-stage--celtic .card-deal-slot {
+.cards-stage--celtic .cards-stage__slot {
   width: calc(33.333% - 0.45rem);
   min-width: 100px;
   max-width: 128px;
@@ -165,10 +195,10 @@
 @keyframes deal-fly-in {
   0% {
     opacity: 0;
-    transform: translateY(110px) translateX(calc(var(--deal-fan) * 6px)) scale(0.42)
-      rotate(calc(-8deg + var(--deal-fan) * 2deg));
+    transform: translateY(92px) translateX(calc(var(--deal-fan) * 5px)) scale(0.48)
+      rotate(calc(-6deg + var(--deal-fan) * 1.5deg));
   }
-  70% {
+  75% {
     opacity: 1;
   }
   100% {
@@ -186,22 +216,22 @@
 }
 
 @media (min-width: 640px) {
-  .cards-stage--three .card-deal-slot {
+  .cards-stage--three .cards-stage__slot {
     max-width: 160px;
   }
 
-  .cards-stage--four .card-deal-slot {
+  .cards-stage--four .cards-stage__slot {
     width: calc(25% - 0.6rem);
     max-width: 180px;
   }
 
-  .cards-stage--celtic .card-deal-slot {
+  .cards-stage--celtic .cards-stage__slot {
     max-width: 150px;
   }
 }
 
 @media (min-width: 900px) {
-  .cards-stage--celtic .card-deal-slot {
+  .cards-stage--celtic .cards-stage__slot {
     width: calc(16.666% - 0.55rem);
     max-width: 140px;
   }

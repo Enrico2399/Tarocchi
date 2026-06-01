@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { DEAL_DURATION_MS, DEAL_STAGGER_MS, getDealTotalMs, useCardDealAnimation } from './useCardDealAnimation';
+import { DEAL_DURATION_MS, DEAL_INITIAL_DELAY_MS, DEAL_STAGGER_MS, getDealTotalMs, useCardDealAnimation } from './useCardDealAnimation';
 
 vi.mock('../utils/haptics', () => ({
   triggerDealHaptic: vi.fn(),
@@ -11,8 +11,10 @@ describe('getDealTotalMs', () => {
     expect(getDealTotalMs(0)).toBe(0);
   });
 
-  it('computes stagger plus duration', () => {
-    expect(getDealTotalMs(4)).toBe(3 * DEAL_STAGGER_MS + DEAL_DURATION_MS);
+  it('computes stagger plus duration with initial deck pause', () => {
+    expect(getDealTotalMs(4)).toBe(
+      DEAL_INITIAL_DELAY_MS + 3 * DEAL_STAGGER_MS + DEAL_DURATION_MS,
+    );
   });
 });
 

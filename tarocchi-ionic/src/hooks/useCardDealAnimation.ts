@@ -2,14 +2,24 @@ import { useEffect, useRef } from 'react';
 import { triggerDealHaptic } from '../utils/haptics';
 import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
-export const DEAL_STAGGER_MS = 140;
-export const DEAL_DURATION_MS = 550;
+/** Deck visible alone before the first card flies */
+export const DEAL_INITIAL_DELAY_MS = 550;
+export const DEAL_STAGGER_MS = 180;
+export const DEAL_DURATION_MS = 600;
+/** Deck stays on screen after the last card lands */
+export const DECK_HOLD_AFTER_DEAL_MS = 450;
+export const DECK_EXIT_MS = 750;
 
-export function getDealTotalMs(cardCount: number): number {
+export function getCardsDealEndMs(cardCount: number): number {
   if (cardCount <= 0) {
     return 0;
   }
-  return (cardCount - 1) * DEAL_STAGGER_MS + DEAL_DURATION_MS;
+  return DEAL_INITIAL_DELAY_MS + (cardCount - 1) * DEAL_STAGGER_MS + DEAL_DURATION_MS;
+}
+
+/** @deprecated use getCardsDealEndMs — kept for tests/docs */
+export function getDealTotalMs(cardCount: number): number {
+  return getCardsDealEndMs(cardCount);
 }
 
 type UseCardDealAnimationParams = {
@@ -51,13 +61,13 @@ export function useCardDealAnimation({
       hapticTimers.push(
         setTimeout(() => {
           triggerDealHaptic();
-        }, index * DEAL_STAGGER_MS),
+        }, DEAL_INITIAL_DELAY_MS + index * DEAL_STAGGER_MS),
       );
     }
 
     const completeTimer = setTimeout(() => {
       onCompleteRef.current();
-    }, getDealTotalMs(cardCount));
+    }, getCardsDealEndMs(cardCount));
 
     return () => {
       hapticTimers.forEach(clearTimeout);

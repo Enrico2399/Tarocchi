@@ -1,9 +1,11 @@
-import type { ReactNode } from 'react';
+import { Children, isValidElement, useEffect, useState, type ReactNode } from 'react';
 import type { ReadingSpreadId } from '../constants/readingSpreads';
 import {
   DEAL_DURATION_MS,
+  DEAL_INITIAL_DELAY_MS,
   DEAL_STAGGER_MS,
-  getDealTotalMs,
+  DECK_EXIT_MS,
+  DECK_HOLD_AFTER_DEAL_MS,
   useCardDealAnimation,
 } from '../hooks/useCardDealAnimation';
 import './CardDealingStage.css';
@@ -40,8 +42,37 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
     onComplete: onDealComplete,
   });
 
-  const showDeck = isDealing && cardCount > 0;
-  const deckFadeDelay = Math.max(0, getDealTotalMs(cardCount) - DEAL_DURATION_MS);
+  const [deckVisible, setDeckVisible] = useState(false);
+  const [deckExiting, setDeckExiting] = useState(false);
+
+  useEffect(() => {
+    if (dealEnabled && cardCount > 0) {
+      setDeckVisible(true);
+      setDeckExiting(false);
+    }
+  }, [dealEnabled, cardCount, generation]);
+
+  useEffect(() => {
+    if (isDealing || !deckVisible) {
+      return;
+    }
+
+    const holdTimer = setTimeout(() => {
+      setDeckExiting(true);
+    }, DECK_HOLD_AFTER_DEAL_MS);
+
+    const hideTimer = setTimeout(() => {
+      setDeckVisible(false);
+      setDeckExiting(false);
+    }, DECK_HOLD_AFTER_DEAL_MS + DECK_EXIT_MS);
+
+    return () => {
+      clearTimeout(holdTimer);
+      clearTimeout(hideTimer);
+    };
+  }, [isDealing, deckVisible]);
+
+  const showDeck = deckVisible && cardCount > 0;
 
   return (
     <div
@@ -58,9 +89,8 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
 
       {showDeck && (
         <div
-          className={`card-deck-stack ${deckClass}`.trim()}
+          className={`card-deck-stack ${deckExiting ? 'card-deck-stack--exit' : 'card-deck-stack--enter'} ${deckClass}`.trim()}
           data-testid="card-deck-stack"
-          style={{ animationDelay: `${deckFadeDelay}ms` }}
           aria-hidden
         >
           {[0, 1, 2, 3].map((layer) => (
@@ -84,7 +114,7 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
           ? positions.slice(0, cardCount).map((position, index) => (
               <div
                 key={`deal-${generation}-${index}`}
-                className="card-deal-slot"
+                className="cards-stage__slot"
                 data-testid="card-deal-slot"
               >
                 <div
@@ -93,7 +123,7 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
                     ['--deal-index' as string]: index,
                     ['--deal-fan' as string]: index - (cardCount - 1) / 2,
                     ['--deal-duration' as string]: `${DEAL_DURATION_MS}ms`,
-                    ['--deal-delay' as string]: `${index * DEAL_STAGGER_MS}ms`,
+                    ['--deal-delay' as string]: `${DEAL_INITIAL_DELAY_MS + index * DEAL_STAGGER_MS}ms`,
                     backgroundImage: `url('${cardBackImage}')`,
                   }}
                   data-testid="card-deal-ghost"
@@ -102,7 +132,16 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
                 </div>
               </div>
             ))
-          : children}
+          : Children.toArray(children).map((child, index) =>
+              isValidElement(child) ? (
+                <div
+                  key={child.key ?? `slot-${generation}-${index}`}
+                  className="cards-stage__slot"
+                >
+                  {child}
+                </div>
+              ) : null,
+            )}
       </div>
     </div>
   );
