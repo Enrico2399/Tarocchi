@@ -40,6 +40,17 @@ describe('Tarocchi reading flow', () => {
     cy.get('.settings-history__item').should('have.length.at.least', 1);
   });
 
+  it('shows only deck before cards fly in on regenerate', () => {
+    cy.visit('/home');
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+    cy.get('[data-testid="generate-btn"]').click();
+    cy.get('[data-testid="dealing-ritual"]', { timeout: 4000 }).should('be.visible');
+    cy.get('[data-testid="card-deck-stack"]').should('be.visible');
+    cy.get('[data-testid="memory-card"]').should('not.exist');
+    cy.get('[data-testid="card-deal-ghost"]', { timeout: 4000 }).should('have.length.at.least', 1);
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+  });
+
   it('shows deal ritual with status above deck on regenerate', () => {
     cy.visit('/home');
     cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);

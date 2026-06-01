@@ -70,7 +70,7 @@ const Home: React.FC = () => {
     error: null,
   });
   const [generation, setGeneration] = useState(0);
-  const [dealComplete, setDealComplete] = useState(true);
+  const [dealComplete, setDealComplete] = useState(() => !getDealAnimationsEnabled());
   const [intention, setIntention] = useState(getStoredIntention);
   const dealAnimationsEnabled = getDealAnimationsEnabled();
   const requestIdRef = useRef(0);

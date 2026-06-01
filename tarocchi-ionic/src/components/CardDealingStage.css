@@ -10,14 +10,45 @@
 }
 
 .card-dealing-stage__ritual {
+  flex-shrink: 0;
+  z-index: 3;
+  pointer-events: none;
+  width: 100%;
+}
+
+/* Reserve box: shrinks slowly so cards below do not jump */
+.card-dealing-stage__ritual-collapse {
+  overflow: hidden;
+  max-height: 220px;
+  transition: max-height 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-dealing-stage__ritual--exiting .card-dealing-stage__ritual-collapse {
+  max-height: 0;
+}
+
+.card-dealing-stage__ritual-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.85rem;
   padding: 0.35rem 0 0.75rem;
+  transition: opacity 0.14s ease;
+}
+
+/* Mazzo e testo spariscono subito; lo spazio resta finché collapse non finisce */
+.card-dealing-stage__ritual--exiting .card-dealing-stage__ritual-inner {
+  opacity: 0;
+}
+
+.card-dealing-stage__ritual--exiting .card-dealing-stage__status {
+  animation: none;
+}
+
+.card-dealing-stage__deck-slot {
   flex-shrink: 0;
-  z-index: 3;
-  pointer-events: none;
+  width: 88px;
+  height: 124px;
 }
 
 .card-dealing-stage__status {
@@ -68,6 +99,33 @@
   pointer-events: auto;
 }
 
+.cards-stage--dealing {
+  /* Solo ghost in volo — nessuna MemoryCard montata fino a fine deal */
+  min-height: 200px;
+}
+
+.cards-stage--landed .cards-stage__slot > .memory-card {
+  animation: card-deal-land 0.42s ease both;
+}
+
+.cards-stage__slot--empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes card-deal-land {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cards-stage--dealing .cards-stage__slot {
+  pointer-events: none;
+}
+
 .cards-stage--single {
   align-content: center;
 }
@@ -116,8 +174,8 @@
   animation: deck-stack-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.card-deck-stack--exit {
-  animation: deck-stack-exit 0.75s ease forwards;
+.card-deck-stack--vanish {
+  animation: deck-stack-vanish 0.18s ease-out forwards;
 }
 
 .card-deck-stack__layer {
@@ -186,20 +244,19 @@
   }
 }
 
-@keyframes deck-stack-exit {
+@keyframes deck-stack-vanish {
   from {
     opacity: 1;
     transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: scale(0.88) translateY(16px);
+    transform: scale(0.92);
   }
 }
 
 .card-deal-ghost {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 2;
   width: 100%;
   pointer-events: none;
@@ -250,8 +307,14 @@
 @media (prefers-reduced-motion: reduce) {
   .card-deal-ghost,
   .card-deck-stack,
-  .card-dealing-stage__status {
+  .card-dealing-stage__status,
+  .cards-stage--landed .cards-stage__slot > .memory-card {
     animation: none !important;
+  }
+
+  .card-dealing-stage__ritual-collapse,
+  .card-dealing-stage__ritual-inner {
+    transition: none;
   }
 }
 
