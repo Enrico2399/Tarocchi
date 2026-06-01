@@ -40,6 +40,8 @@
   color: var(--esoteric-text);
   padding: 1rem;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;

@@ -1,7 +1,14 @@
-# STATE — Tarocchi Pro
+# STATE — Tarocchi
+
+## Milestone
+**Tarocchi Esoteric UI v2** ✅ (fasi 29–36)
 
 ## Sessione
-Fase 16 completata: mazzo animato + distribuzione carte
+- Interaction fix + E2E + milestone chiusa
+- 71 test Vitest
 
 ## Blockers
 Nessuno
+
+## Prossimo (suggerito)
+Nuova milestone backlog: widget arcano, reversed cards, o AdMob production

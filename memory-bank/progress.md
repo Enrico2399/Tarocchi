@@ -1,16 +1,17 @@
 # Progress
 
 ## Funziona
-- Lettura 4/3 carte, flip, Leggi tutto, deal animato (flex ritual, no overlap)
+- Lettura 4/3 carte, flip, Leggi tutto, deal animato
+- Tap su carte e CTA «Evoca le Carte» dopo deal
 - Intenzione, share PNG, journal, enciclopedia
 - Design system esoterico + temi tavolo/mazzo
-- Tipografia Cinzel, 70 test unit, lint + build
+- 71 test, AAB in `tarocchi-ionic/store/tarocchi-release.aab`
 
 ## Release
-- Store listing v1.1 aggiornato in `tarocchi-ionic/docs/STORE_LISTING.md`
-- AAB: `npm run android:bundle` → `store/tarocchi-release.aab`
+- Store listing v1.1 in `docs/STORE_LISTING.md`
+- Rigenerare AAB: `npm run android:bundle`
 
-## Da fare (backlog prodotto)
+## Backlog
 - AdMob production IDs
-- Privacy policy HTTPS pubblicata
+- Privacy policy HTTPS
 - Widget / reversed cards

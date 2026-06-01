@@ -70,6 +70,26 @@ describe('Tarocchi reading flow', () => {
     });
   });
 
+  it('enables Evoca le Carte and flip after deal completes', () => {
+    cy.visit('/home');
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+    cy.get('[data-testid="card-dealing-stage"]', { timeout: 15000 }).should(
+      'have.attr',
+      'data-dealing',
+      'false',
+    );
+    cy.get('[data-testid="generate-btn"]').should('not.be.disabled');
+    cy.get('[data-testid="memory-card"]').first().find('.memory-card__flip').click();
+    cy.get('[data-testid="memory-card"]').first().should('have.attr', 'data-flipped', 'false');
+    cy.get('[data-testid="generate-btn"]').click();
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+    cy.get('[data-testid="card-dealing-stage"]', { timeout: 10000 }).should(
+      'have.attr',
+      'data-dealing',
+      'false',
+    );
+  });
+
   it('opens settings with language and theme selectors', () => {
     cy.visit('/settings');
     cy.get('[data-testid="language-select"]').should('exist');
