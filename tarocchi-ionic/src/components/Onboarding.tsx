@@ -1,5 +1,5 @@
 import { useTranslation } from '../i18n/useTranslation';
-import { IonModal, IonContent } from '@ionic/react';
+import { IonModal } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import './Onboarding.css';
 
@@ -28,26 +28,24 @@ const Onboarding: React.FC = () => {
     <IonModal
       isOpen
       onDidDismiss={dismiss}
-      className="onboarding-modal"
+      className="onboarding-modal ion-palette-dark"
       backdropDismiss={false}
       keepContentsMounted={false}
       data-testid="onboarding-alert"
     >
-      <IonContent className="onboarding-modal__content">
-        <div className="onboarding-modal__inner esoteric-grain">
-          <p className="onboarding-modal__sigil" aria-hidden>
-            ✦ ☽ ✦
-          </p>
-          <h1 className="onboarding-modal__title">{t.onboardingHeader}</h1>
-          <div className="esoteric-divider" aria-hidden>
-            ✦
-          </div>
-          <p className="onboarding-modal__message">{t.onboardingMessage}</p>
-          <button type="button" className="esoteric-cta onboarding-modal__cta" onClick={dismiss}>
-            <span className="esoteric-cta__label">{t.onboardingStart}</span>
-          </button>
+      <div className="onboarding-modal__panel">
+        <p className="onboarding-modal__sigil" aria-hidden>
+          ✦ ☽ ✦
+        </p>
+        <h1 className="onboarding-modal__title">{t.onboardingHeader}</h1>
+        <div className="esoteric-divider" aria-hidden>
+          ✦
         </div>
-      </IonContent>
+        <p className="onboarding-modal__message">{t.onboardingMessage}</p>
+        <button type="button" className="esoteric-cta onboarding-modal__cta" onClick={dismiss}>
+          <span className="esoteric-cta__label">{t.onboardingStart}</span>
+        </button>
+      </div>
     </IonModal>
   );
 };

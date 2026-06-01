@@ -1,8 +1,9 @@
 describe('Tarocchi reading flow', () => {
-  beforeEach(() => {
-    localStorage.clear();
-    localStorage.setItem('tarocchi-onboarding-v2', 'done');
-  });
+  describe('with onboarding completed', () => {
+    beforeEach(() => {
+      localStorage.clear();
+      localStorage.setItem('tarocchi-onboarding-v2', 'done');
+    });
 
   it('loads four cards on start, flips one, and opens daily arcana', () => {
     cy.visit('/home');
@@ -95,5 +96,16 @@ describe('Tarocchi reading flow', () => {
     cy.get('[data-testid="language-select"]').should('exist');
     cy.get('[data-testid="table-theme-select"]').should('exist');
     cy.get('[data-testid="deck-theme-select"]').should('exist');
+  });
+  });
+
+  it('shows visible welcome modal on first visit', () => {
+    localStorage.clear();
+    cy.visit('/home');
+    cy.get('[data-testid="onboarding-alert"]').should('be.visible');
+    cy.get('.onboarding-modal__title').should('not.be.empty');
+    cy.get('.onboarding-modal__cta').should('be.visible').click();
+    cy.get('[data-testid="onboarding-alert"]').should('not.exist');
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
   });
 });
