@@ -51,27 +51,28 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
       aria-live="polite"
     >
       {isDealing && (
-        <p className="card-dealing-stage__status" data-testid="dealing-status">
-          {dealingLabel}
-        </p>
-      )}
-
-      {showDeck && (
-        <div
-          className={`card-deck-stack card-deck-stack--enter ${deckClass}`.trim()}
-          data-testid="card-deck-stack"
-          aria-hidden
-        >
-          {[0, 1, 2, 3].map((layer) => (
+        <div className="card-dealing-stage__ritual" data-testid="dealing-ritual">
+          <p className="card-dealing-stage__status" data-testid="dealing-status">
+            {dealingLabel}
+          </p>
+          {showDeck && (
             <div
-              key={layer}
-              className="card-deck-stack__layer"
-              style={{
-                backgroundImage: `url('${cardBackImage}')`,
-                ['--deck-layer' as string]: layer,
-              }}
-            />
-          ))}
+              className={`card-deck-stack card-deck-stack--enter ${deckClass}`.trim()}
+              data-testid="card-deck-stack"
+              aria-hidden
+            >
+              {[0, 1, 2, 3].map((layer) => (
+                <div
+                  key={layer}
+                  className="card-deck-stack__layer"
+                  style={{
+                    backgroundImage: `url('${cardBackImage}')`,
+                    ['--deck-layer' as string]: layer,
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
 

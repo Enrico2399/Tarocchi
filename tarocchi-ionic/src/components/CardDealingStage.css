@@ -7,8 +7,18 @@
   min-height: 280px;
 }
 
+.card-dealing-stage__ritual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.35rem 0 0.75rem;
+  flex-shrink: 0;
+  z-index: 3;
+}
+
 .card-dealing-stage__status {
-  margin: 0 0 0.5rem;
+  margin: 0;
   text-align: center;
   font-family: var(--font-ritual);
   font-size: 0.82rem;
@@ -31,23 +41,17 @@
 }
 
 .card-deck-stack {
-  position: absolute;
-  bottom: 1.25rem;
-  left: 50%;
-  z-index: 1;
+  position: relative;
   width: 88px;
   height: 124px;
-  transform: translateX(-50%);
+  flex-shrink: 0;
   pointer-events: none;
 }
 
 .cards-stage {
   position: relative;
   z-index: 2;
-}
-
-.card-dealing-stage[data-dealing='true'] .cards-stage {
-  padding-bottom: 132px;
+  flex: 1;
 }
 
 .card-deck-stack--enter {
@@ -98,11 +102,11 @@
 @keyframes deck-stack-enter {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(24px) scale(0.82);
+    transform: translateY(20px) scale(0.82);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -127,11 +131,11 @@
 @keyframes deck-stack-exit {
   from {
     opacity: 1;
-    transform: translateX(-50%) scale(1);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: translateX(-50%) scale(0.88) translateY(16px);
+    transform: scale(0.88) translateY(16px);
   }
 }
 
