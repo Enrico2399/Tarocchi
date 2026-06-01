@@ -21,6 +21,7 @@ describe('getDealTotalMs', () => {
 describe('useCardDealAnimation', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    vi.clearAllMocks();
   });
 
   afterEach(() => {
@@ -68,6 +69,30 @@ describe('useCardDealAnimation', () => {
     act(() => {
       vi.advanceTimersByTime(getDealTotalMs(3));
     });
+    expect(onComplete).toHaveBeenCalledTimes(1);
+  });
+
+  it('triggers deal haptics per card when enabled', async () => {
+    const { triggerDealHaptic } = await import('../utils/haptics');
+    const onComplete = vi.fn();
+    renderHook(() =>
+      useCardDealAnimation({
+        cardCount: 4,
+        generation: 1,
+        enabled: true,
+        onComplete,
+      }),
+    );
+
+    act(() => {
+      vi.advanceTimersByTime(DEAL_INITIAL_DELAY_MS);
+    });
+    expect(triggerDealHaptic).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      vi.advanceTimersByTime(getDealTotalMs(4) - DEAL_INITIAL_DELAY_MS);
+    });
+    expect(triggerDealHaptic).toHaveBeenCalledTimes(4);
     expect(onComplete).toHaveBeenCalledTimes(1);
   });
 });

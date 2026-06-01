@@ -20,8 +20,8 @@
 .esoteric-toolbar ion-title {
   font-family: var(--font-ritual);
   font-weight: 700;
-  letter-spacing: 0.08em;
-  font-size: 1.05rem;
+  letter-spacing: var(--letter-ritual-wide);
+  font-size: var(--text-ritual-lg);
 }
 
 .esoteric-content {

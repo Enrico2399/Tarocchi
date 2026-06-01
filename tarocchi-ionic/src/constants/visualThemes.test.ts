@@ -24,4 +24,8 @@ describe('visualThemes', () => {
     expect(getTableTheme().overlayClass).toBe('home-bg--night');
     expect(getDeckTheme().deckClass).toBe('memory-card--fantasy');
   });
+
+  it('classic table uses esoteric overlay class', () => {
+    expect(getTableTheme('classic').overlayClass).toBe('home-bg--classic');
+  });
 });

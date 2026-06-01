@@ -20,7 +20,7 @@ export const TABLE_THEMES: Record<TableThemeId, TableTheme> = {
   classic: {
     id: 'classic',
     backgroundImage: TABLE_IMAGE,
-    overlayClass: '',
+    overlayClass: 'home-bg--classic',
   },
   velvet: {
     id: 'velvet',

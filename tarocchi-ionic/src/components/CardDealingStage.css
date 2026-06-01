@@ -21,9 +21,9 @@
   margin: 0;
   text-align: center;
   font-family: var(--font-ritual);
-  font-size: 0.82rem;
+  font-size: var(--text-ritual-sm);
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--letter-ritual-wide);
   text-transform: uppercase;
   color: var(--esoteric-gold);
   text-shadow: 0 1px 8px rgba(26, 10, 46, 0.8);

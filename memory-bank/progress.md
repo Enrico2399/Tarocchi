@@ -1,17 +1,16 @@
 # Progress
 
-## Milestone Tarocchi Esoteric UI ✅ (fasi 21–28)
+## Funziona
+- Lettura 4/3 carte, flip, Leggi tutto, deal animato (flex ritual, no overlap)
+- Intenzione, share PNG, journal, enciclopedia
+- Design system esoterico + temi tavolo/mazzo
+- Tipografia Cinzel, 70 test unit, lint + build
 
-- [x] Design system: variables.css + esoteric.css
-- [x] Home, MemoryCard, Deal, Spread, Arcana, Onboarding
-- [x] Journal, Encyclopedia, Settings, Privacy
-- [x] i18n poetico IT/EN
-- [x] 68 test verify OK
+## Release
+- Store listing v1.1 aggiornato in `tarocchi-ionic/docs/STORE_LISTING.md`
+- AAB: `npm run android:bundle` → `store/tarocchi-release.aab`
 
-## Milestone precedente: Tarocchi Growth ✅ (17–20)
-
-## Comandi
-```bash
-cd tarocchi-ionic && npm run dev
-npm run verify
-```
+## Da fare (backlog prodotto)
+- AdMob production IDs
+- Privacy policy HTTPS pubblicata
+- Widget / reversed cards

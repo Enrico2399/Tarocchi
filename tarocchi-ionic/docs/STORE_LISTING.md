@@ -17,12 +17,12 @@ Copia-incolla in Play Console. Aggiornare URL privacy policy quando pubblicata.
 
 ### IT
 ```
-Lettura tarocchi a 4 carte e arcano del giorno. Esoterico e gratuito.
+Studio esoterico: lettura tarocchi, diario e arcano del giorno. Gratuito.
 ```
 
 ### EN
 ```
-4-card tarot reading and daily arcana. Mystical, free, with ads.
+Esoteric tarot studio: readings, journal, daily arcana. Free with ads.
 ```
 
 ## Descrizione completa — IT
@@ -63,6 +63,12 @@ Works offline. No account required. Google AdMob ads.
 
 For entertainment and personal reflection only.
 ```
+
+## Release notes v1.1 (Esoteric UI)
+
+**IT:** Interfaccia esoterica rinnovata: tipografia Cinzel, animazione distribuzione mazzo migliorata, temi tavolo e mazzo, diario, enciclopedia, intenzione e condivisione immagine.
+
+**EN:** Esoteric UI refresh: Cinzel typography, improved deal animation, table and deck themes, journal, encyclopedia, intention, and image sharing.
 
 ## Release notes v1.0
 

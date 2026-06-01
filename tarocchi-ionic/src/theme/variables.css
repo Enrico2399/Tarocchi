@@ -37,8 +37,16 @@
   --esoteric-border-strong: rgba(212, 175, 55, 0.55);
   --esoteric-vignette: rgba(18, 8, 32, 0.65);
 
-  --font-ritual: Georgia, 'Times New Roman', serif;
+  --font-ritual: 'Cinzel', Georgia, 'Times New Roman', serif;
   --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-ritual-xs: 0.72rem;
+  --text-ritual-sm: 0.85rem;
+  --text-ritual-md: 1rem;
+  --text-ritual-lg: 1.15rem;
+  --text-ritual-xl: 1.35rem;
+  --letter-ritual: 0.06em;
+  --letter-ritual-wide: 0.1em;
 
   --radius-sigil: 9999px;
   --radius-panel: 12px;

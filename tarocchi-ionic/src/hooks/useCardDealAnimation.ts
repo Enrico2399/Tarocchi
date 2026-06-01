@@ -6,9 +6,6 @@ import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 export const DEAL_INITIAL_DELAY_MS = 550;
 export const DEAL_STAGGER_MS = 180;
 export const DEAL_DURATION_MS = 600;
-/** Deck stays on screen after the last card lands */
-export const DECK_HOLD_AFTER_DEAL_MS = 450;
-export const DECK_EXIT_MS = 750;
 
 export function getCardsDealEndMs(cardCount: number): number {
   if (cardCount <= 0) {

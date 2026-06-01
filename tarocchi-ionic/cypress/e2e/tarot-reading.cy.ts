@@ -39,6 +39,24 @@ describe('Tarocchi reading flow', () => {
     cy.get('.settings-history__item').should('have.length.at.least', 1);
   });
 
+  it('shows deal ritual with status above deck on regenerate', () => {
+    cy.visit('/home');
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+    cy.get('[data-testid="generate-btn"]').click();
+    cy.get('[data-testid="dealing-ritual"]', { timeout: 4000 }).should('be.visible');
+    cy.get('[data-testid="dealing-status"]').should('not.be.empty');
+    cy.get('[data-testid="card-deck-stack"]').should('be.visible');
+    cy.get('[data-testid="dealing-ritual"]').then(($ritual) => {
+      const children = $ritual.children().toArray();
+      const statusIdx = children.findIndex((el) => el.getAttribute('data-testid') === 'dealing-status');
+      const deckIdx = children.findIndex((el) => el.getAttribute('data-testid') === 'card-deck-stack');
+      expect(statusIdx).to.be.greaterThan(-1);
+      expect(deckIdx).to.be.greaterThan(-1);
+      expect(statusIdx).to.be.lessThan(deckIdx);
+    });
+    cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+  });
+
   it('regenerates cards with backs visible', () => {
     cy.visit('/home');
     cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
