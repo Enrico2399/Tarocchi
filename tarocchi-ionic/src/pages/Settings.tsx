@@ -46,6 +46,10 @@ import {
   setNotificationsEnabled,
 } from '../utils/notificationStorage';
 import {
+  getDealAnimationsEnabled,
+  setDealAnimationsEnabled,
+} from '../utils/dealAnimationStorage';
+import {
   clearReadingHistory,
   getReadingHistory,
 } from '../utils/readingHistory';
@@ -60,6 +64,7 @@ const Settings: React.FC = () => {
   const [adsEnabled, setAdsEnabledState] = useState(true);
   const [tableThemeId, setTableThemeId] = useState<TableThemeId>('classic');
   const [deckThemeId, setDeckThemeId] = useState<DeckThemeId>('classic');
+  const [dealAnimationsEnabled, setDealAnimationsEnabledState] = useState(true);
   const [llmStatus, setLlmStatus] = useState<LlmAvailability>('unavailable');
   const [history, setHistory] = useState(getReadingHistory());
   const isNative = Capacitor.isNativePlatform();
@@ -70,6 +75,7 @@ const Settings: React.FC = () => {
     setAdsEnabledState(getAdsEnabled());
     setTableThemeId(getStoredTableThemeId());
     setDeckThemeId(getStoredDeckThemeId());
+    setDealAnimationsEnabledState(getDealAnimationsEnabled());
     getLlmAvailability().then(setLlmStatus);
   }, []);
 
@@ -187,6 +193,20 @@ const Settings: React.FC = () => {
                 </IonSelectOption>
               ))}
             </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonLabel>
+              <h2>{t.settingsDealAnimations}</h2>
+              <p>{t.settingsDealAnimationsHint}</p>
+            </IonLabel>
+            <IonToggle
+              checked={dealAnimationsEnabled}
+              onIonChange={(e) => {
+                setDealAnimationsEnabledState(e.detail.checked);
+                setDealAnimationsEnabled(e.detail.checked);
+              }}
+              data-testid="deal-animations-toggle"
+            />
           </IonItem>
           <IonItem>
             <IonLabel>{t.settingsNotifications}</IonLabel>

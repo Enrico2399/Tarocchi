@@ -12,6 +12,7 @@ Milestone precedente **Tarocchi Pro** ✅ (fasi 1–7)
 | 13 | UI/UX fix | ✅ done | Auto-generate, chip spread, flex layout, footer CTA |
 | 14 | Testi carte + UX | ✅ done | AI 128 token, line-clamp, modal Leggi tutto, buckets |
 | 15 | Tarot UI polish | ✅ done | Fix Leggi tutto, oro/viola, vignette, stagger |
+| 16 | Animated deal | ✅ done | Mazzo stack, deal CSS, haptics, reduced motion |
 
 ## Definition of Done ✅
 - [x] Code-splitting Vite (ionic, react, router, capacitor)

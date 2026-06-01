@@ -1,19 +1,14 @@
 # Progress
 
-## Fase 15 Tarot UI polish ✅
+## Fase 16 Animated deal ✅
 
-- [x] Fix Leggi tutto pre-flip (hasRevealed + front face)
-- [x] UI oro/viola carte, tavolo, chip, CTA, modal
-- [x] Stagger animazione carte
-- [x] Cypress read-more guards
-- [x] 54 test, verify OK
-
-## Fase 14 ✅
-interpretationText, line-clamp, modal expand
+- [x] CardDealingStage + deck stack
+- [x] CSS deal-fly-in stagger 140ms
+- [x] Settings toggle animazioni
+- [x] RESEARCH.md (CSS vs GSAP)
+- [x] 59 test verify OK
 
 ## Comandi
 ```bash
-cd tarocchi-ionic
-npm run dev
-npm run verify
+cd tarocchi-ionic && npm run dev
 ```

@@ -12,6 +12,7 @@ import {
 } from '@ionic/react';
 import { settingsOutline, shareOutline } from 'ionicons/icons';
 import ArcanaDelGiorno from '../components/ArcanaDelGiorno';
+import CardDealingStage from '../components/CardDealingStage';
 import MemoryCard from '../components/MemoryCard';
 import SpreadSelector from '../components/SpreadSelector';
 import { CardData, cards } from '../constants/cardsData';
@@ -30,6 +31,7 @@ import {
 } from '../constants/visualThemes';
 import { useTranslation } from '../i18n/useTranslation';
 import { pickRandomCards } from '../utils/cardUtils';
+import { getDealAnimationsEnabled } from '../utils/dealAnimationStorage';
 import { formatReadingText } from '../utils/shareReading';
 import {
   getReadingInterpretations,
@@ -60,6 +62,8 @@ const Home: React.FC = () => {
     error: null,
   });
   const [generation, setGeneration] = useState(0);
+  const [dealComplete, setDealComplete] = useState(false);
+  const dealAnimationsEnabled = getDealAnimationsEnabled();
   const requestIdRef = useRef(0);
   const titleColor = useRainbowColor(selectedCards.length > 0);
 
@@ -71,6 +75,7 @@ const Home: React.FC = () => {
       const requestId = requestIdRef.current + 1;
       requestIdRef.current = requestId;
 
+      setDealComplete(false);
       setSelectedCards(picked);
       setActivePositions(positions);
       setGeneration((g) => g + 1);
@@ -80,6 +85,10 @@ const Home: React.FC = () => {
         loading: true,
         error: null,
       });
+
+      if (!dealAnimationsEnabled) {
+        setDealComplete(true);
+      }
 
       try {
         const results = await getReadingInterpretations(picked, positions);
@@ -110,7 +119,7 @@ const Home: React.FC = () => {
         });
       }
     },
-    [locale, t.readingError],
+    [dealAnimationsEnabled, locale, t.readingError],
   );
 
   useEffect(() => {
@@ -118,7 +127,7 @@ const Home: React.FC = () => {
   }, [spreadId, locale, runReading]);
 
   const handleSpreadChange = (id: ReadingSpreadId) => {
-    if (id === spreadId) {
+    if (id === spreadId || !dealComplete) {
       return;
     }
     setSpreadId(id);
@@ -126,11 +135,18 @@ const Home: React.FC = () => {
   };
 
   const regenerate = () => {
+    if (!dealComplete) {
+      return;
+    }
     void runReading(spreadId);
   };
 
+  const handleDealComplete = useCallback(() => {
+    setDealComplete(true);
+  }, []);
+
   const shareReading = async () => {
-    if (selectedCards.length === 0 || reading.loading) {
+    if (selectedCards.length === 0 || reading.loading || !dealComplete) {
       return;
     }
 
@@ -155,6 +171,12 @@ const Home: React.FC = () => {
   };
 
   const hasReading = selectedCards.length > 0;
+  const isDealing = dealAnimationsEnabled && !dealComplete && hasReading;
+  const footerLabel = isDealing
+    ? t.dealingInProgress
+    : reading.loading
+      ? t.generating
+      : t.generate;
 
   return (
     <IonPage className="home-page">
@@ -165,7 +187,7 @@ const Home: React.FC = () => {
           </IonButtons>
           <IonTitle className="home-title">{t.appTitle}</IonTitle>
           <IonButtons slot="end" className="home-toolbar-actions">
-            {hasReading && !reading.loading && (
+            {hasReading && dealComplete && !reading.loading && (
               <button
                 type="button"
                 className="home-icon-btn"
@@ -197,12 +219,19 @@ const Home: React.FC = () => {
             <SpreadSelector
               value={spreadId}
               onChange={handleSpreadChange}
-              disabled={reading.loading}
+              disabled={!dealComplete || reading.loading}
             />
 
-            <div
-              className={`cards-stage cards-stage--${spreadId}`}
-              data-testid="cards-grid"
+            <CardDealingStage
+              spreadId={spreadId}
+              cardCount={selectedCards.length}
+              generation={generation}
+              positions={activePositions}
+              cardBackImage={deckTheme.cardBackImage}
+              deckClass={deckTheme.deckClass}
+              dealEnabled={dealAnimationsEnabled && !dealComplete}
+              dealingLabel={t.dealingInProgress}
+              onDealComplete={handleDealComplete}
             >
               {selectedCards.map((card, index) => (
                 <MemoryCard
@@ -222,12 +251,11 @@ const Home: React.FC = () => {
                   readMoreLabel={t.readMore}
                   fullInterpretationLabel={t.fullInterpretation}
                   closeLabel={t.close}
-                  revealDelayMs={index * 80}
                 />
               ))}
-            </div>
+            </CardDealingStage>
 
-            {reading.error && (
+            {reading.error && dealComplete && (
               <p className="home-error" data-testid="reading-error">
                 {reading.error}
               </p>
@@ -239,12 +267,10 @@ const Home: React.FC = () => {
               type="button"
               className="generate-btn"
               onClick={regenerate}
-              disabled={reading.loading}
+              disabled={!dealComplete || reading.loading}
               data-testid="generate-btn"
             >
-              <span className="generate-btn__label">
-                {reading.loading ? t.generating : t.generate}
-              </span>
+              <span className="generate-btn__label">{footerLabel}</span>
             </button>
           </div>
         </div>

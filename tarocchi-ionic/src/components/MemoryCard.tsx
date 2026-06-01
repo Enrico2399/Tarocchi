@@ -25,7 +25,6 @@ type MemoryCardProps = {
   readMoreLabel?: string;
   fullInterpretationLabel?: string;
   closeLabel?: string;
-  revealDelayMs?: number;
 };
 
 const MemoryCard: React.FC<MemoryCardProps> = ({
@@ -44,7 +43,6 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
   readMoreLabel = 'Leggi tutto',
   fullInterpretationLabel = 'Interpretazione completa',
   closeLabel = 'Chiudi',
-  revealDelayMs = 0,
 }) => {
   const [flipped, setFlipped] = useState(true);
   const [hasRevealed, setHasRevealed] = useState(false);
@@ -86,7 +84,6 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
         data-testid="memory-card"
         data-flipped={flipped}
         data-revealed={hasRevealed}
-        style={{ animationDelay: `${revealDelayMs}ms` }}
       >
         <button
           type="button"
