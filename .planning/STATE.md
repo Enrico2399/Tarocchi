@@ -1,11 +1,10 @@
 # STATE — Tarocchi Pro
 
 ## Sessione
-Fase 14 completata: testi carte leggibili + UX incrementale
+Fase 15 completata: fix Leggi tutto + UI tarocchi premium
 
 ## Prossimo
 - Push / Play Console (manuale)
-- Opzionale: rebuild AAB
 
 ## Blockers
 Nessuno

@@ -49,12 +49,24 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.08);
+  background:
+    radial-gradient(ellipse at center, transparent 35%, rgba(26, 10, 46, 0.55) 100%),
+    rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.home-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 55%);
   pointer-events: none;
 }
 
 .ion-palette-dark .home-bg::before {
-  background: rgba(10, 5, 20, 0.55);
+  background:
+    radial-gradient(ellipse at center, transparent 30%, rgba(5, 2, 15, 0.75) 100%),
+    rgba(10, 5, 20, 0.45);
 }
 
 .home-icon-btn {
@@ -222,19 +234,22 @@ html.has-ad-banner .home-bg {
   padding: 2px;
   border: none;
   border-radius: 9999px;
-  background: linear-gradient(to bottom right, #9333ea, #3b82f6);
+  background: linear-gradient(135deg, #d4af37 0%, #7c3aed 45%, #5b21b6 100%);
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(147, 51, 234, 0.4);
+  box-shadow:
+    0 4px 18px rgba(124, 58, 237, 0.45),
+    0 0 0 1px rgba(212, 175, 55, 0.35);
 }
 
 .generate-btn__label {
   display: block;
   padding: 12px 28px;
   border-radius: 9999px;
-  background: #fff;
-  color: #7c3aed;
-  font-weight: bold;
+  background: rgba(255, 255, 255, 0.97);
+  color: #5b21b6;
+  font-weight: 700;
   font-size: 14px;
+  letter-spacing: 0.02em;
   transition: background 0.2s ease, color 0.2s ease;
 }
 

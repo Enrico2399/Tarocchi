@@ -25,6 +25,7 @@ type MemoryCardProps = {
   readMoreLabel?: string;
   fullInterpretationLabel?: string;
   closeLabel?: string;
+  revealDelayMs?: number;
 };
 
 const MemoryCard: React.FC<MemoryCardProps> = ({
@@ -43,14 +44,22 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
   readMoreLabel = 'Leggi tutto',
   fullInterpretationLabel = 'Interpretazione completa',
   closeLabel = 'Chiudi',
+  revealDelayMs = 0,
 }) => {
   const [flipped, setFlipped] = useState(true);
+  const [hasRevealed, setHasRevealed] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
 
   const flipCard = () => {
     playFlipSound();
     triggerFlipHaptic();
-    setFlipped((f) => !f);
+    setFlipped((current) => {
+      const next = !current;
+      if (!next) {
+        setHasRevealed(true);
+      }
+      return next;
+    });
   };
 
   const showAiBadge =
@@ -58,9 +67,15 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
 
   const textBucket = getTextLengthBucket(description);
   const showReadMore =
-    !flipped && !descriptionLoading && description.length > 0 && shouldShowReadMore(description);
+    hasRevealed &&
+    !flipped &&
+    !descriptionLoading &&
+    description.length > 0 &&
+    shouldShowReadMore(description);
 
-  const openExpand = () => {
+  const openExpand = (event: React.MouseEvent | React.KeyboardEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
     setExpandOpen(true);
   };
 
@@ -70,6 +85,8 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
         className={`memory-card ${deckClass}`.trim()}
         data-testid="memory-card"
         data-flipped={flipped}
+        data-revealed={hasRevealed}
+        style={{ animationDelay: `${revealDelayMs}ms` }}
       >
         <button
           type="button"
@@ -89,15 +106,35 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
                     <div className="memory-card__skeleton-line memory-card__skeleton-line--short" />
                   </div>
                 ) : (
-                  <p
-                    className={`memory-card__description memory-card__description--${textBucket}`}
-                    data-testid="card-description"
-                  >
-                    {description}
-                    {showAiBadge && (
-                      <span className="memory-card__ai-badge" data-testid="ai-badge">{aiBadge}</span>
+                  <>
+                    <p
+                      className={`memory-card__description memory-card__description--${textBucket} ${
+                        hasRevealed && !flipped ? 'memory-card__description--visible' : ''
+                      }`}
+                      data-testid="card-description"
+                    >
+                      {description}
+                      {showAiBadge && (
+                        <span className="memory-card__ai-badge" data-testid="ai-badge">{aiBadge}</span>
+                      )}
+                    </p>
+                    {showReadMore && (
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        className="memory-card__read-more"
+                        onClick={openExpand}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' || event.key === ' ') {
+                            openExpand(event);
+                          }
+                        }}
+                        data-testid="read-more-btn"
+                      >
+                        {readMoreLabel}
+                      </span>
                     )}
-                  </p>
+                  </>
                 )}
               </div>
             </div>
@@ -111,16 +148,6 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
             </div>
           </div>
         </button>
-        {showReadMore && (
-          <button
-            type="button"
-            className="memory-card__read-more"
-            onClick={openExpand}
-            data-testid="read-more-btn"
-          >
-            {readMoreLabel}
-          </button>
-        )}
       </div>
 
       <IonModal

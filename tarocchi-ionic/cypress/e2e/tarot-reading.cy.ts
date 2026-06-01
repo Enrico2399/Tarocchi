@@ -9,9 +9,11 @@ describe('Tarocchi reading flow', () => {
 
     cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
     cy.get('[data-testid="memory-card"]').first().should('have.attr', 'data-flipped', 'true');
+    cy.get('[data-testid="read-more-btn"]').should('not.exist');
 
     cy.get('[data-testid="memory-card"]').first().click();
     cy.get('[data-testid="memory-card"]').first().should('have.attr', 'data-flipped', 'false');
+    cy.get('[data-testid="memory-card"]').first().should('have.attr', 'data-revealed', 'true');
 
     cy.get('[data-testid="arcana-btn"]').click();
     cy.get('[data-testid="arcana-modal"]').should('be.visible');
@@ -43,8 +45,10 @@ describe('Tarocchi reading flow', () => {
     cy.get('[data-testid="memory-card"]').first().click();
     cy.get('[data-testid="generate-btn"]').click();
     cy.get('[data-testid="memory-card"]', { timeout: 15000 }).should('have.length', 4);
+    cy.get('[data-testid="read-more-btn"]').should('not.exist');
     cy.get('[data-testid="memory-card"]').each(($card) => {
       cy.wrap($card).should('have.attr', 'data-flipped', 'true');
+      cy.wrap($card).should('have.attr', 'data-revealed', 'false');
     });
   });
 

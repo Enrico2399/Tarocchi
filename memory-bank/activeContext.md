@@ -1,21 +1,15 @@
 # Active Context
 
-## Stato: Fase 14 testi carte + UX incrementale ✅
+## Stato: Fase 15 Tarot UI polish ✅
 
-## Completato (fase 14)
-- `interpretationText.ts`: normalize, truncate, buckets, expand threshold
-- AI vincolata: 128 token, prompt max 80 parole, aiSystem aggiornato
-- Template accorciato (2 keyword, 2 frasi)
-- MemoryCard: line-clamp 4, font bucket, modal "Leggi tutto"
-- Spread celtic: scroll verticale stage
-- 53 test Vitest, verify verde
+## Completato (fase 15)
+- Fix "Leggi tutto": dentro front face 3D + `hasRevealed` + CSS guard
+- Stile tarocchi: oro/viola, bordi carte, vignette tavolo, chip oro, CTA sigillo
+- Animazioni: deal-in stagger, fade-in testo, flip fluido
+- 54 test Vitest, verify verde
 
-## Fase 13 ✅
-Auto-generate, chip spread, flex layout, footer CTA
-
-## Prossimo (manuale)
-- Push GitHub + Play Console
-- Rebuild AAB se necessario
+## Fase 14 ✅
+Testi carte, line-clamp, modal expand, AI 128 token
 
 ## Git
-Commit fase 14: fededev9
+Commit fase 15: fededev9 (pending push)

@@ -18,20 +18,23 @@
   scroll-snap-align: start;
   padding: 0.45rem 0.85rem;
   border-radius: 9999px;
-  border: 1px solid rgba(196, 181, 253, 0.4);
-  background: rgba(26, 10, 46, 0.72);
-  color: #f3e8ff;
+  border: 1px solid rgba(196, 181, 253, 0.25);
+  background: rgba(26, 10, 46, 0.55);
+  color: rgba(243, 232, 255, 0.82);
   font-size: 0.78rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 
 .spread-selector__chip--active {
-  background: rgba(124, 58, 237, 0.95);
-  border-color: #e9d5ff;
-  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.45);
+  background: rgba(91, 33, 182, 0.92);
+  border-color: var(--tarocchi-gold, #d4af37);
+  color: #fffef9;
+  box-shadow:
+    0 2px 12px rgba(212, 175, 55, 0.35),
+    0 0 0 1px rgba(212, 175, 55, 0.25);
 }
 
 .spread-selector__chip:disabled {
@@ -41,4 +44,8 @@
 
 .spread-selector__chip:not(:disabled):active {
   transform: scale(0.97);
+}
+
+.spread-selector__chip:not(:disabled):hover {
+  border-color: rgba(212, 175, 55, 0.45);
 }

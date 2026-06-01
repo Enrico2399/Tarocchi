@@ -222,6 +222,7 @@ const Home: React.FC = () => {
                   readMoreLabel={t.readMore}
                   fullInterpretationLabel={t.fullInterpretation}
                   closeLabel={t.close}
+                  revealDelayMs={index * 80}
                 />
               ))}
             </div>

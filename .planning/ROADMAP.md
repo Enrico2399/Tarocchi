@@ -11,6 +11,7 @@ Milestone precedente **Tarocchi Pro** ✅ (fasi 1–7)
 | 12 | Bundle + QA | ✅ done | AAB firmato ~15.6 MB, 47 test, E2E history |
 | 13 | UI/UX fix | ✅ done | Auto-generate, chip spread, flex layout, footer CTA |
 | 14 | Testi carte + UX | ✅ done | AI 128 token, line-clamp, modal Leggi tutto, buckets |
+| 15 | Tarot UI polish | ✅ done | Fix Leggi tutto, oro/viola, vignette, stagger |
 
 ## Definition of Done ✅
 - [x] Code-splitting Vite (ionic, react, router, capacitor)
