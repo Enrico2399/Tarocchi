@@ -44,3 +44,9 @@ Creare in Canva/Figma con:
 1. Store listing → carica screenshot (min 2)
 2. Graphic assets → feature graphic + icon 512
 3. App content → privacy URL + ads + content rating
+
+## AAB release
+
+- File locale: `store/tarocchi-release.aab` (gitignored — rigenerare con `npm run android:bundle`)
+- Gradle output: `android/app/build/outputs/bundle/release/app-release.aab`
+- Ultimo build: maggio 2026 — fasi 13–16 UI/UX + deal animato

@@ -11,4 +11,9 @@
 ## Comandi
 ```bash
 cd tarocchi-ionic && npm run dev
+npm run android:bundle  # → store/tarocchi-release.aab
 ```
+
+## Release
+- AAB firmato ricostruito (fasi 13–16 UI/UX + deal)
+- Path: `tarocchi-ionic/store/tarocchi-release.aab`
