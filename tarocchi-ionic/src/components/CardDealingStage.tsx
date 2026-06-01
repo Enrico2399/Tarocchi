@@ -1,11 +1,9 @@
-import { Children, isValidElement, useEffect, useState, type ReactNode } from 'react';
+import { Children, isValidElement, type ReactNode } from 'react';
 import type { ReadingSpreadId } from '../constants/readingSpreads';
 import {
   DEAL_DURATION_MS,
   DEAL_INITIAL_DELAY_MS,
   DEAL_STAGGER_MS,
-  DECK_EXIT_MS,
-  DECK_HOLD_AFTER_DEAL_MS,
   useCardDealAnimation,
 } from '../hooks/useCardDealAnimation';
 import './CardDealingStage.css';
@@ -42,42 +40,13 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
     onComplete: onDealComplete,
   });
 
-  const [deckVisible, setDeckVisible] = useState(false);
-  const [deckExiting, setDeckExiting] = useState(false);
-
-  useEffect(() => {
-    if (dealEnabled && cardCount > 0) {
-      setDeckVisible(true);
-      setDeckExiting(false);
-    }
-  }, [dealEnabled, cardCount, generation]);
-
-  useEffect(() => {
-    if (isDealing || !deckVisible) {
-      return;
-    }
-
-    const holdTimer = setTimeout(() => {
-      setDeckExiting(true);
-    }, DECK_HOLD_AFTER_DEAL_MS);
-
-    const hideTimer = setTimeout(() => {
-      setDeckVisible(false);
-      setDeckExiting(false);
-    }, DECK_HOLD_AFTER_DEAL_MS + DECK_EXIT_MS);
-
-    return () => {
-      clearTimeout(holdTimer);
-      clearTimeout(hideTimer);
-    };
-  }, [isDealing, deckVisible]);
-
-  const showDeck = deckVisible && cardCount > 0;
+  const showDeck = isDealing && cardCount > 0;
 
   return (
     <div
       className="card-dealing-stage"
       data-testid="card-dealing-stage"
+      data-dealing={isDealing ? 'true' : 'false'}
       aria-busy={isDealing}
       aria-live="polite"
     >
@@ -89,7 +58,7 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
 
       {showDeck && (
         <div
-          className={`card-deck-stack ${deckExiting ? 'card-deck-stack--exit' : 'card-deck-stack--enter'} ${deckClass}`.trim()}
+          className={`card-deck-stack card-deck-stack--enter ${deckClass}`.trim()}
           data-testid="card-deck-stack"
           aria-hidden
         >

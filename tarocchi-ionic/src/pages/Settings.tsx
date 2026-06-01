@@ -126,16 +126,16 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <IonPage>
+    <IonPage className="esoteric-page settings-page">
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar className="esoteric-toolbar">
           <IonButtons slot="start">
             <IonBackButton defaultHref="/home" text={t.back} />
           </IonButtons>
           <IonTitle>{t.settings}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="settings-content ion-padding">
+      <IonContent className="settings-content esoteric-content ion-padding">
         <IonList>
           <IonItem>
             <IonLabel>{t.settingsLanguage}</IonLabel>

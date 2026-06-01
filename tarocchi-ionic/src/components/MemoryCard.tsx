@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { IonContent, IonModal } from '@ionic/react';
 import { playFlipSound } from '../utils/audio';
 import { triggerFlipHaptic } from '../utils/haptics';
@@ -47,6 +47,27 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
   const [flipped, setFlipped] = useState(true);
   const [hasRevealed, setHasRevealed] = useState(false);
   const [expandOpen, setExpandOpen] = useState(false);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const [isClamped, setIsClamped] = useState(false);
+
+  const textBucket = getTextLengthBucket(description);
+
+  useLayoutEffect(() => {
+    const el = descRef.current;
+    if (!el || descriptionLoading || !hasRevealed || flipped || !description) {
+      setIsClamped(false);
+      return undefined;
+    }
+
+    const measure = () => {
+      setIsClamped(el.scrollHeight > el.clientHeight + 1);
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [description, descriptionLoading, flipped, hasRevealed, textBucket]);
 
   const flipCard = () => {
     playFlipSound();
@@ -63,13 +84,12 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
   const showAiBadge =
     descriptionSource === 'ai' || descriptionSource === 'cloud';
 
-  const textBucket = getTextLengthBucket(description);
   const showReadMore =
     hasRevealed &&
     !flipped &&
     !descriptionLoading &&
     description.length > 0 &&
-    shouldShowReadMore(description);
+    (isClamped || shouldShowReadMore(description));
 
   const openExpand = (event: React.MouseEvent | React.KeyboardEvent) => {
     event.stopPropagation();
@@ -105,7 +125,8 @@ const MemoryCard: React.FC<MemoryCardProps> = ({
                 ) : (
                   <>
                     <p
-                      className={`memory-card__description memory-card__description--${textBucket} ${
+                      ref={descRef}
+                      className={`memory-card__description memory-card__description--${textBucket} memory-card__description--clamped ${
                         hasRevealed && !flipped ? 'memory-card__description--visible' : ''
                       }`}
                       data-testid="card-description"

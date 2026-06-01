@@ -1,21 +1,19 @@
 .encyclopedia-page {
-  --background: #120820;
-}
-
-.encyclopedia-toolbar {
-  --background: rgba(26, 10, 46, 0.96);
-  --color: #f3e8ff;
+  --background: var(--esoteric-void);
 }
 
 .encyclopedia-content {
-  --background: linear-gradient(180deg, #1a0a2e 0%, #120820 100%);
+  --background: transparent;
 }
 
 .encyclopedia-intro {
-  color: #c4b5fd;
+  color: var(--esoteric-lavender-dim);
   text-align: center;
   margin: 0 0 1.25rem;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+  font-family: var(--font-ritual);
+  font-style: italic;
+  letter-spacing: 0.02em;
 }
 
 .encyclopedia-grid {
@@ -29,32 +27,51 @@
 
 .encyclopedia-card {
   width: 100%;
-  background: rgba(45, 27, 78, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  border-radius: 12px;
+  background: var(--esoteric-panel);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-panel);
   padding: 0.5rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.35rem;
-  color: #f3e8ff;
+  color: var(--esoteric-text);
+  transition:
+    border-color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    transform var(--motion-fast);
+  min-height: 44px;
+}
+
+.encyclopedia-card:hover,
+.encyclopedia-card:focus-visible {
+  border-color: var(--esoteric-gold);
+  box-shadow: var(--shadow-gold);
+  outline: none;
+}
+
+.encyclopedia-card:active {
+  transform: scale(0.98);
 }
 
 .encyclopedia-card img {
   width: 100%;
   aspect-ratio: 2 / 3;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--esoteric-border);
 }
 
 .encyclopedia-card__num {
-  font-size: 0.75rem;
-  color: #d4af37;
+  font-size: 0.72rem;
+  color: var(--esoteric-gold);
+  letter-spacing: 0.12em;
 }
 
 .encyclopedia-card__name {
-  font-size: 0.8rem;
+  font-family: var(--font-ritual);
+  font-size: 0.78rem;
   text-align: center;
   line-height: 1.2;
 }
@@ -67,37 +84,42 @@
 }
 
 .encyclopedia-detail {
-  background: linear-gradient(180deg, #2d1b4e 0%, #1a0a2e 100%);
+  background: linear-gradient(180deg, var(--esoteric-mist) 0%, var(--esoteric-deep) 100%);
   padding: 1.25rem;
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 16px;
-  color: #f3e8ff;
+  border: 1px solid var(--esoteric-border-strong);
+  border-radius: var(--radius-panel);
+  color: var(--esoteric-text);
   text-align: center;
 }
 
 .encyclopedia-detail__image {
   width: min(220px, 70vw);
-  border-radius: 12px;
+  border-radius: var(--radius-panel);
   margin-bottom: 0.75rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-gold);
 }
 
 .encyclopedia-detail h2 {
   margin: 0 0 0.25rem;
-  color: #d4af37;
+  font-family: var(--font-ritual);
+  color: var(--esoteric-gold);
+  letter-spacing: 0.04em;
 }
 
 .encyclopedia-detail__arcana {
-  color: #a78bfa;
+  color: var(--esoteric-lavender-dim);
   margin: 0 0 1rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .encyclopedia-detail__keywords h3 {
-  font-size: 0.85rem;
+  font-family: var(--font-ritual);
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #c4b5fd;
+  letter-spacing: 0.12em;
+  color: var(--esoteric-lavender);
   margin: 0 0 0.5rem;
 }
 
@@ -112,20 +134,28 @@
 }
 
 .encyclopedia-detail__keywords li {
-  background: rgba(18, 8, 32, 0.7);
-  border: 1px solid rgba(196, 181, 253, 0.25);
-  border-radius: 999px;
+  background: rgba(18, 8, 32, 0.75);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-sigil);
   padding: 0.25rem 0.65rem;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  color: var(--esoteric-text-muted);
 }
 
 .encyclopedia-detail__close {
   margin-top: 1.25rem;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  color: #d4af37;
-  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid var(--esoteric-border-strong);
+  color: var(--esoteric-gold);
+  border-radius: var(--radius-sigil);
   padding: 0.55rem 1.25rem;
+  min-height: 44px;
   cursor: pointer;
+  font-family: var(--font-ritual);
   font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.encyclopedia-detail__close:hover {
+  background: rgba(212, 175, 55, 0.18);
 }

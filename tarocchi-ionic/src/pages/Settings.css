@@ -1,38 +1,49 @@
 .settings-content {
-  --background: var(--ion-background-color);
+  --background: transparent;
 }
 
 .settings-error {
   margin: 1rem;
-  color: var(--ion-color-danger);
+  color: #fca5a5;
   font-size: 0.9rem;
 }
 
 .settings-about {
   margin-top: 2rem;
-  padding: 0 1rem;
-  color: var(--ion-text-color);
+  padding: 1rem;
+  color: var(--esoteric-text-muted);
+  background: var(--esoteric-panel);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-panel);
 }
 
 .settings-about h2 {
   margin: 0 0 0.5rem;
-  font-size: 1.25rem;
+  font-family: var(--font-ritual);
+  font-size: 1.2rem;
+  color: var(--esoteric-gold);
+  letter-spacing: 0.06em;
 }
 
 .settings-about p {
   margin: 0.25rem 0;
-  opacity: 0.85;
+  opacity: 0.9;
+  font-size: 0.9rem;
 }
 
 .settings-about__package {
   font-family: monospace;
-  font-size: 0.85rem;
-  opacity: 0.65;
+  font-size: 0.8rem;
+  opacity: 0.55;
+  color: var(--esoteric-lavender-dim);
 }
 
 .settings-history {
   margin-top: 1.5rem;
-  padding: 0 1rem;
+  padding: 1rem;
+  background: var(--esoteric-panel);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-panel);
 }
 
 .settings-history__header {
@@ -45,24 +56,31 @@
 
 .settings-history__header h2 {
   margin: 0;
-  font-size: 1.1rem;
+  font-family: var(--font-ritual);
+  font-size: 1.05rem;
+  color: var(--esoteric-gold);
+  letter-spacing: 0.05em;
 }
 
 .settings-history__journal-link {
   font-size: 0.85rem;
-  color: var(--ion-color-primary);
+  color: var(--esoteric-lavender);
   text-decoration: none;
   white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: color var(--motion-fast), border-color var(--motion-fast);
 }
 
-.settings-history h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1.1rem;
+.settings-history__journal-link:hover {
+  color: var(--esoteric-gold);
+  border-bottom-color: var(--esoteric-gold);
 }
 
 .settings-history__empty {
-  opacity: 0.7;
+  opacity: 0.75;
   font-size: 0.9rem;
+  font-style: italic;
+  color: var(--esoteric-lavender-dim);
 }
 
 .settings-history__list {
@@ -75,21 +93,29 @@
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid rgba(124, 58, 237, 0.15);
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(196, 181, 253, 0.12);
   font-size: 0.85rem;
+  color: var(--esoteric-text-muted);
 }
 
 .settings-history__item time {
   opacity: 0.65;
   font-size: 0.75rem;
+  color: var(--esoteric-lavender-dim);
 }
 
 .settings-history__clear {
-  border: none;
+  border: 1px solid rgba(239, 68, 68, 0.35);
   background: transparent;
-  color: var(--ion-color-primary);
+  color: #fca5a5;
   font-size: 0.85rem;
   cursor: pointer;
-  padding: 0.25rem 0;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sigil);
+  min-height: 44px;
+}
+
+.settings-history__clear:hover {
+  background: rgba(239, 68, 68, 0.1);
 }

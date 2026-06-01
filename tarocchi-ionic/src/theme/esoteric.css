@@ -1,0 +1,257 @@
+/* Shared esoteric UI patterns — Tarocchi */
+
+/* ── Page shell ── */
+.esoteric-page {
+  --background: var(--esoteric-void);
+}
+
+.esoteric-toolbar {
+  --background: rgba(26, 10, 46, 0.94);
+  --color: var(--esoteric-text);
+  --border-color: rgba(196, 181, 253, 0.18);
+  --min-height: 56px;
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+.ion-palette-dark .esoteric-toolbar {
+  --background: rgba(18, 8, 32, 0.97);
+}
+
+.esoteric-toolbar ion-title {
+  font-family: var(--font-ritual);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 1.05rem;
+}
+
+.esoteric-content {
+  --background: linear-gradient(180deg, var(--esoteric-deep) 0%, var(--esoteric-void) 100%);
+  position: relative;
+}
+
+.esoteric-content::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at center, transparent 40%, var(--esoteric-vignette) 100%);
+}
+
+.esoteric-content > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle grain */
+.esoteric-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ── Panels ── */
+.esoteric-panel {
+  background: var(--esoteric-panel);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-ritual);
+}
+
+.esoteric-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  color: var(--esoteric-gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  opacity: 0.75;
+}
+
+.esoteric-divider::before,
+.esoteric-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--esoteric-border), transparent);
+}
+
+/* ── Sigil icon button ── */
+.esoteric-sigil-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-sigil);
+  background: rgba(26, 10, 46, 0.85);
+  color: var(--esoteric-lavender);
+  box-shadow: var(--shadow-gold);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color var(--motion-fast),
+    color var(--motion-fast),
+    box-shadow var(--motion-fast),
+    transform var(--motion-fast);
+}
+
+.esoteric-sigil-btn ion-icon {
+  font-size: 1.25rem;
+}
+
+.esoteric-sigil-btn:hover,
+.esoteric-sigil-btn:focus-visible {
+  border-color: var(--esoteric-gold);
+  color: var(--esoteric-gold);
+  outline: none;
+  box-shadow: 0 0 12px var(--esoteric-gold-glow);
+}
+
+.esoteric-sigil-btn:active {
+  transform: scale(0.96);
+}
+
+/* ── Ceremonial CTA ── */
+.esoteric-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: none;
+  border-radius: var(--radius-sigil);
+  background: linear-gradient(
+    135deg,
+    var(--esoteric-gold) 0%,
+    var(--esoteric-copper) 35%,
+    #7c3aed 70%,
+    var(--esoteric-deep) 100%
+  );
+  cursor: pointer;
+  box-shadow: var(--shadow-gold), 0 6px 22px rgba(91, 33, 182, 0.4);
+  transition: filter var(--motion-fast), transform var(--motion-fast);
+}
+
+.esoteric-cta__label {
+  display: block;
+  padding: 12px 28px;
+  border-radius: var(--radius-sigil);
+  background: rgba(18, 8, 32, 0.92);
+  color: var(--esoteric-lavender);
+  font-family: var(--font-ritual);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  transition:
+    background var(--motion-fast),
+    color var(--motion-fast);
+}
+
+.esoteric-cta:hover .esoteric-cta__label,
+.esoteric-cta:focus-visible .esoteric-cta__label {
+  background: transparent;
+  color: var(--esoteric-text);
+}
+
+.esoteric-cta:focus-visible {
+  outline: 2px solid var(--esoteric-gold);
+  outline-offset: 3px;
+}
+
+.esoteric-cta:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.esoteric-cta:not(:disabled):active {
+  transform: scale(0.98);
+}
+
+/* ── Ritual input ── */
+.esoteric-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(18, 8, 32, 0.8);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-sigil);
+  color: var(--esoteric-text);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+.esoteric-input::placeholder {
+  color: var(--esoteric-lavender-dim);
+  font-style: italic;
+}
+
+.esoteric-input:focus {
+  outline: none;
+  border-color: var(--esoteric-gold);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.esoteric-input:disabled {
+  opacity: 0.55;
+}
+
+.esoteric-label {
+  font-family: var(--font-ritual);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--esoteric-gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Ionic list theming (Settings) ── */
+.esoteric-content ion-list {
+  background: transparent;
+}
+
+.esoteric-content ion-item {
+  --background: rgba(45, 27, 78, 0.45);
+  --border-color: rgba(196, 181, 253, 0.12);
+  --color: var(--esoteric-text);
+  margin-bottom: 2px;
+}
+
+.esoteric-content ion-item h2 {
+  font-family: var(--font-ritual);
+  color: var(--esoteric-text);
+  font-size: 0.95rem;
+}
+
+.esoteric-content ion-item p {
+  color: var(--esoteric-lavender-dim);
+  font-size: 0.82rem;
+}
+
+/* ── Scrollbar (celtic spread) ── */
+.esoteric-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.esoteric-scroll::-webkit-scrollbar-thumb {
+  background: var(--esoteric-border);
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .esoteric-cta,
+  .esoteric-sigil-btn {
+    transition: none;
+  }
+}

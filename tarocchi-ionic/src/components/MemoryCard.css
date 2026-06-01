@@ -44,17 +44,15 @@
   position: absolute;
   inset: 0;
   backface-visibility: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 8px;
-  background: linear-gradient(165deg, #fffef9 0%, #f8f4ff 100%);
+  border: 1px solid var(--esoteric-border);
+  border-radius: var(--radius-card);
+  background: linear-gradient(165deg, #fffef9 0%, #f3ebff 48%, #ebe0f8 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
   overflow: hidden;
-  box-shadow:
-    0 4px 14px rgba(26, 10, 46, 0.22),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-ritual);
   box-sizing: border-box;
 }
 
@@ -64,11 +62,11 @@
   background-position: center;
   justify-content: center;
   padding: 1rem;
-  border-color: rgba(212, 175, 55, 0.75);
+  border-color: var(--esoteric-border-strong);
   box-shadow:
-    inset 0 0 0 2px var(--tarocchi-gold, #d4af37),
-    inset 0 0 12px rgba(212, 175, 55, 0.25),
-    0 6px 18px rgba(26, 10, 46, 0.35);
+    inset 0 0 0 2px var(--esoteric-gold),
+    inset 0 0 14px rgba(212, 175, 55, 0.2),
+    var(--shadow-ritual);
 }
 
 .memory-card__title {
@@ -113,7 +111,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 2px;
-  gap: 4px;
+  gap: 2px;
   justify-content: flex-end;
 }
 
@@ -124,11 +122,16 @@
   text-align: left;
   margin: 0;
   font-weight: 500;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
   overflow: hidden;
   opacity: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.memory-card__description--clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .memory-card__description--visible {
@@ -156,10 +159,15 @@
   line-height: 1.28;
 }
 
+.memory-card__description--long.memory-card__description--clamped {
+  -webkit-line-clamp: 2;
+}
+
 .memory-card__read-more {
   align-self: flex-start;
+  flex-shrink: 0;
   margin: 0;
-  padding: 1px 0;
+  padding: 2px 0;
   border: none;
   background: transparent;
   color: var(--tarocchi-purple-mist, #5b21b6);
@@ -168,6 +176,7 @@
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 2px;
+  line-height: 1.2;
 }
 
 .memory-card__read-more:hover,
@@ -258,44 +267,59 @@
 
 /* Modal interpretazione completa */
 .card-text-modal__content {
-  --background: linear-gradient(180deg, #f8f5ff 0%, #fffef9 45%, #f3e8ff 100%);
+  --background: linear-gradient(180deg, var(--esoteric-mist) 0%, var(--esoteric-deep) 45%, var(--esoteric-void) 100%);
   text-align: center;
-  border-top: 3px solid var(--tarocchi-gold, #d4af37);
-}
-
-.ion-palette-dark .card-text-modal__content {
-  --background: linear-gradient(180deg, #1a0a2e 0%, #120820 45%, #1f0f35 100%);
+  border-top: 3px solid var(--esoteric-gold);
 }
 
 .card-text-modal__subtitle {
-  font-size: 0.85rem;
-  color: var(--tarocchi-gold, #d4af37);
+  font-family: var(--font-ritual);
+  font-size: 0.82rem;
+  color: var(--esoteric-gold);
   margin: 0.5rem 0 0.25rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 .card-text-modal__title {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.4rem;
-  color: var(--tarocchi-purple-deep, #1a0a2e);
+  font-family: var(--font-ritual);
+  font-size: 1.45rem;
+  color: var(--esoteric-text);
   margin: 0 0 0.25rem;
-}
-
-.ion-palette-dark .card-text-modal__title {
-  color: #e9d5ff;
+  letter-spacing: 0.04em;
 }
 
 .card-text-modal__position {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: var(--esoteric-lavender-dim);
   margin: 0 0 1rem;
   font-style: italic;
 }
 
-.ion-palette-dark .card-text-modal__position {
-  color: #c4b5fd;
+.card-text-modal__close {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 1rem;
+  padding: 12px 24px;
+  min-height: 44px;
+  border: 1px solid var(--esoteric-border-strong);
+  border-radius: var(--radius-sigil);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--esoteric-gold);
+  font-family: var(--font-ritual);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.card-text-modal__close:hover,
+.card-text-modal__close:focus-visible {
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--esoteric-text);
 }
 
 .card-text-modal__image {
@@ -311,35 +335,10 @@
 .card-text-modal__description {
   font-size: 1rem;
   line-height: 1.6;
-  color: #374151;
+  color: var(--esoteric-text-muted);
   text-align: left;
   margin: 0 0 1.5rem;
   padding: 0.75rem 0.5rem;
-  border-top: 1px solid rgba(212, 175, 55, 0.25);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
-}
-
-.ion-palette-dark .card-text-modal__description {
-  color: #e5e7eb;
-}
-
-.card-text-modal__close {
-  display: block;
-  width: 100%;
-  max-width: 280px;
-  margin: 0 auto 1rem;
-  padding: 12px 24px;
-  border: 1px solid rgba(212, 175, 55, 0.45);
-  border-radius: 9999px;
-  background: linear-gradient(135deg, #5b21b6 0%, #7c3aed 50%, #d4af37 100%);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(91, 33, 182, 0.35);
-}
-
-.card-text-modal__close:hover,
-.card-text-modal__close:focus-visible {
-  filter: brightness(1.06);
+  border-top: 1px solid var(--esoteric-border);
+  border-bottom: 1px solid var(--esoteric-border);
 }

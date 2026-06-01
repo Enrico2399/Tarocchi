@@ -20,16 +20,16 @@ const Encyclopedia: React.FC = () => {
   const [selected, setSelected] = useState<CardData | null>(null);
 
   return (
-    <IonPage className="encyclopedia-page">
+    <IonPage className="esoteric-page encyclopedia-page">
       <IonHeader>
-        <IonToolbar className="encyclopedia-toolbar">
+        <IonToolbar className="esoteric-toolbar">
           <IonButtons slot="start">
             <IonBackButton defaultHref="/home" text={t.back} />
           </IonButtons>
           <IonTitle>{t.encyclopediaTitle}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="encyclopedia-content ion-padding">
+      <IonContent className="encyclopedia-content esoteric-content ion-padding">
         <p className="encyclopedia-intro">{t.encyclopediaIntro}</p>
         <ul className="encyclopedia-grid" data-testid="encyclopedia-grid">
           {cards.map((card) => (

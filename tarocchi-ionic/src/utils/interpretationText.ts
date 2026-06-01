@@ -1,5 +1,6 @@
 export const INTERPRETATION_MAX_CHARS = 320;
-export const CARD_EXPAND_THRESHOLD = 120;
+/** Fallback char threshold — overflow detection in MemoryCard is primary */
+export const CARD_EXPAND_THRESHOLD = 55;
 
 export type TextLengthBucket = 'short' | 'medium' | 'long';
 

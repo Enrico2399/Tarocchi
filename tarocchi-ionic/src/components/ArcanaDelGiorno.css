@@ -7,13 +7,12 @@
   height: calc(2.5rem * 1.2);
   padding: 0;
   border: none;
-  border-radius: 9999px;
+  border-radius: var(--radius-sigil);
   background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: visible;
 }
 
@@ -27,7 +26,17 @@
   min-width: 44px;
   min-height: 44px;
   margin-inline-start: 0.25rem;
-  box-shadow: none;
+  border: 1px solid var(--esoteric-border);
+  background: rgba(18, 8, 32, 0.75);
+  box-shadow: var(--shadow-gold);
+}
+
+.arcana-btn--toolbar::after {
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-width: 2px;
 }
 
 .arcana-btn::after {
@@ -37,85 +46,83 @@
   left: -5px;
   right: -5px;
   bottom: -5px;
-  border-radius: 9999px;
-  border: 3px solid transparent;
-  animation: pulse-cylinder 1.5s infinite ease-in-out alternate;
+  border-radius: var(--radius-sigil);
+  border: 2px solid transparent;
+  animation: arcana-sigil-pulse 2.8s infinite ease-in-out;
   z-index: -1;
 }
 
-@keyframes pulse-cylinder {
-  0% {
-    transform: scale(1);
-    opacity: 0.7;
-    border-color: rgba(0, 191, 255, 0.7);
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-    border-color: rgba(0, 255, 255, 1);
-  }
+@keyframes arcana-sigil-pulse {
+  0%,
   100% {
     transform: scale(1);
-    opacity: 0.7;
-    border-color: rgba(0, 191, 255, 0.7);
+    opacity: 0.5;
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.95;
+    border-color: rgba(212, 175, 55, 0.75);
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.25);
   }
 }
 
 .arcana-btn__img {
-  width: 120%;
-  height: 120%;
+  width: 115%;
+  height: 115%;
   object-fit: contain;
   z-index: 1;
+  filter: drop-shadow(0 2px 6px rgba(26, 10, 46, 0.5));
 }
 
 .arcana-btn__dot {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 2px;
+  right: 2px;
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #e53935;
+  background: var(--esoteric-amber);
+  border: 1px solid var(--esoteric-gold-dark);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
   z-index: 2;
 }
 
 .arcana-modal__content {
-  --background: linear-gradient(180deg, #f8f5ff 0%, #fff 40%);
+  --background: linear-gradient(180deg, var(--esoteric-mist) 0%, var(--esoteric-deep) 45%, var(--esoteric-void) 100%);
   text-align: center;
   border-radius: 16px 16px 0 0;
-}
-
-.ion-palette-dark .arcana-modal__content {
-  --background: linear-gradient(180deg, #1a0a2e 0%, #120820 40%);
+  border-top: 2px solid var(--esoteric-gold);
 }
 
 .arcana-modal__description {
   text-align: justify;
+  font-family: var(--font-ui);
   font-size: 14px;
-  line-height: 1.5;
-  color: #444;
+  line-height: 1.55;
+  color: var(--esoteric-text-muted);
   max-height: 180px;
   overflow-y: auto;
   margin-bottom: 12px;
   padding: 0 8px;
 }
 
-.ion-palette-dark .arcana-modal__subtitle,
-.ion-palette-dark .arcana-modal__title {
-  color: #f3e8ff;
-}
-
 .arcana-modal__subtitle {
-  color: #666;
-  font-size: 14px;
+  color: var(--esoteric-gold);
+  font-family: var(--font-ritual);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   margin-top: 16px;
 }
 
 .arcana-modal__title {
-  font-size: 20px;
+  font-family: var(--font-ritual);
+  font-size: 1.35rem;
   font-weight: bold;
-  color: #333;
+  color: var(--esoteric-text);
   margin: 4px 0 12px;
+  letter-spacing: 0.04em;
 }
 
 .arcana-modal__image {
@@ -124,6 +131,8 @@
   object-fit: contain;
   margin: 0 auto 16px;
   display: block;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-gold);
 }
 
 .arcana-modal__ai-badge {
@@ -133,18 +142,37 @@
   border-radius: 4px;
   font-size: 10px;
   font-weight: 700;
-  color: #7c3aed;
-  background: rgba(124, 58, 237, 0.15);
+  color: var(--esoteric-lavender);
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(196, 181, 253, 0.25);
 }
 
 .arcana-modal__close {
   margin-top: 12px;
-  padding: 8px 20px;
-  background-color: #6e3b6e;
-  color: white;
+  padding: 10px 24px;
+  min-height: 44px;
+  background: transparent;
+  color: var(--esoteric-gold);
+  font-family: var(--font-ritual);
   font-weight: bold;
-  font-size: 16px;
-  border: none;
-  border-radius: 9999px;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--esoteric-border-strong);
+  border-radius: var(--radius-sigil);
   cursor: pointer;
+  transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.arcana-modal__close:hover,
+.arcana-modal__close:focus-visible {
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--esoteric-text);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcana-btn::after {
+    animation: none;
+    border-color: rgba(212, 175, 55, 0.45);
+  }
 }

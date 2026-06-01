@@ -1,20 +1,17 @@
 # Progress
 
-## Milestone Tarocchi Growth ✅ (fasi 17–20)
+## Milestone Tarocchi Esoteric UI ✅ (fasi 21–28)
 
-- [x] Fase 17: Intenzione consulto → prompt AI + cache v4
-- [x] Fase 18: Share scheda PNG (canvas branded)
-- [x] Fase 19: Diario journal (25 letture, note, /journal)
-- [x] Fase 20: Enciclopedia 22 Arcani (/encyclopedia)
-- [x] Deal UX fix (deck timing, card jump)
+- [x] Design system: variables.css + esoteric.css
+- [x] Home, MemoryCard, Deal, Spread, Arcana, Onboarding
+- [x] Journal, Encyclopedia, Settings, Privacy
+- [x] i18n poetico IT/EN
 - [x] 68 test verify OK
+
+## Milestone precedente: Tarocchi Growth ✅ (17–20)
 
 ## Comandi
 ```bash
 cd tarocchi-ionic && npm run dev
-npm run android:bundle  # → store/tarocchi-release.aab
+npm run verify
 ```
-
-## Release
-- Ultimo push: `873d221` enhancement ui ux
-- Growth milestone pronta per commit locale

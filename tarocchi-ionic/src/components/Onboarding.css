@@ -1,0 +1,64 @@
+.onboarding-modal {
+  --width: min(92vw, 380px);
+  --height: auto;
+  --border-radius: 16px;
+  --background: transparent;
+}
+
+.onboarding-modal__content {
+  --background: transparent;
+}
+
+.onboarding-modal__inner {
+  position: relative;
+  margin: 1.5rem;
+  padding: 2rem 1.5rem 1.75rem;
+  text-align: center;
+  background: linear-gradient(165deg, var(--esoteric-mist) 0%, var(--esoteric-deep) 55%, var(--esoteric-void) 100%);
+  border: 1px solid var(--esoteric-border-strong);
+  border-radius: var(--radius-panel);
+  box-shadow:
+    var(--shadow-ritual),
+    0 0 40px rgba(212, 175, 55, 0.12);
+}
+
+.onboarding-modal__sigil {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+  letter-spacing: 0.4em;
+  color: var(--esoteric-gold);
+  opacity: 0.85;
+}
+
+.onboarding-modal__title {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-ritual);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--esoteric-text);
+  line-height: 1.3;
+}
+
+.onboarding-modal__message {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--esoteric-lavender);
+  font-style: italic;
+}
+
+.onboarding-modal__cta {
+  width: 100%;
+  max-width: 260px;
+}
+
+.onboarding-modal__cta .esoteric-cta__label {
+  width: 100%;
+  text-align: center;
+}
+
+.onboarding-modal__inner .esoteric-divider {
+  margin: 0.75rem 0 1rem;
+}

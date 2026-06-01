@@ -101,7 +101,7 @@ export function renderReadingCardCanvas(options: ReadingImageOptions): HTMLCanva
 
   const gradient = ctx.createLinearGradient(0, 0, CARD_WIDTH, canvas.height);
   gradient.addColorStop(0, '#1a0a2e');
-  gradient.addColorStop(0.5, '#2d1b4e');
+  gradient.addColorStop(0.45, '#2d1b4e');
   gradient.addColorStop(1, '#120820');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, CARD_WIDTH, canvas.height);

@@ -30,5 +30,6 @@ describe('interpretationText', () => {
   it('shows read more above threshold', () => {
     expect(shouldShowReadMore('x'.repeat(CARD_EXPAND_THRESHOLD))).toBe(false);
     expect(shouldShowReadMore('x'.repeat(CARD_EXPAND_THRESHOLD + 1))).toBe(true);
+    expect(shouldShowReadMore('Breve.')).toBe(false);
   });
 });

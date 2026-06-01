@@ -1,8 +1,9 @@
 import { useTranslation } from '../i18n/useTranslation';
-import { IonAlert } from '@ionic/react';
+import { IonModal, IonContent } from '@ionic/react';
 import { useEffect, useState } from 'react';
+import './Onboarding.css';
 
-const ONBOARDING_KEY = 'tarocchi-onboarding-v1';
+const ONBOARDING_KEY = 'tarocchi-onboarding-v2';
 
 const Onboarding: React.FC = () => {
   const { t } = useTranslation();
@@ -20,19 +21,29 @@ const Onboarding: React.FC = () => {
   };
 
   return (
-    <IonAlert
+    <IonModal
       isOpen={show}
       onDidDismiss={dismiss}
-      header={t.onboardingHeader}
-      message={t.onboardingMessage}
-      buttons={[
-        {
-          text: t.onboardingStart,
-          handler: dismiss,
-        },
-      ]}
+      className="onboarding-modal"
+      backdropDismiss={false}
       data-testid="onboarding-alert"
-    />
+    >
+      <IonContent className="onboarding-modal__content">
+        <div className="onboarding-modal__inner esoteric-grain">
+          <p className="onboarding-modal__sigil" aria-hidden>
+            ✦ ☽ ✦
+          </p>
+          <h1 className="onboarding-modal__title">{t.onboardingHeader}</h1>
+          <div className="esoteric-divider" aria-hidden>
+            ✦
+          </div>
+          <p className="onboarding-modal__message">{t.onboardingMessage}</p>
+          <button type="button" className="esoteric-cta onboarding-modal__cta" onClick={dismiss}>
+            <span className="esoteric-cta__label">{t.onboardingStart}</span>
+          </button>
+        </div>
+      </IonContent>
+    </IonModal>
   );
 };
 

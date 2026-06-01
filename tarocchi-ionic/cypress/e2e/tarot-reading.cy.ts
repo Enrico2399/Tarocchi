@@ -1,7 +1,7 @@
 describe('Tarocchi reading flow', () => {
   beforeEach(() => {
     localStorage.clear();
-    localStorage.setItem('tarocchi-onboarding-v1', 'done');
+    localStorage.setItem('tarocchi-onboarding-v2', 'done');
   });
 
   it('loads four cards on start, flips one, and opens daily arcana', () => {

@@ -1,18 +1,20 @@
 # ROADMAP — Tarocchi
 
-Milestone **Tarocchi Pro** ✅ (fasi 1–16)
+| Milestone | Fasi | Stato |
+|-----------|------|-------|
+| Tarocchi Pro | 1–16 | ✅ |
+| Tarocchi Growth | 17–20 | ✅ |
+| **Tarocchi Esoteric UI** | **21–28** | 🔄 in progress |
+
+## Fasi 21–28 — Esoteric UI
 
 | Fase | Nome | Stato | Focus |
 |------|------|-------|-------|
-| 8–16 | Pro milestone | ✅ done | UX, storico, deal, UI polish |
-| 17 | Intenzione consulto | ✅ done | Campo intenzione, prompt AI, cache v4 |
-| 18 | Share scheda PNG | ✅ done | Canvas branded, share/download |
-| 19 | Diario journal | ✅ done | 25 letture, note, route /journal |
-| 20 | Enciclopedia Arcani | ✅ done | Griglia 22 carte, modal keywords |
-
-## Milestone Tarocchi Growth ✅
-- [x] Market research (.planning/research/)
-- [x] 4 feature ad alto impatto
-- [x] Fasi 17–20 implementate
-- [x] i18n IT/EN
-- [x] Test unitari aggiornati
+| 21 | Design system esoterico | ✅ | variables.css, esoteric.css, UI-SPEC |
+| 22 | Home tavolo rituale | ✅ | Toolbar, intenzione, CTA, vignette |
+| 23 | MemoryCard + modal | ✅ | Facciate, modal pergamena, Leggi tutto |
+| 24 | Deal + SpreadSelector | ✅ | Sigilli spread, deal status |
+| 25 | Arcano + Onboarding | ✅ | Portal gold pulse, modal benvenuto |
+| 26 | Journal + Encyclopedia | ✅ | Grimorio, biblioteca arcana |
+| 27 | Settings + Privacy + PNG | ✅ | Pannello mago, privacy, share |
+| 28 | QA + i18n poetico | ✅ | Copy rituale, verify, docs |

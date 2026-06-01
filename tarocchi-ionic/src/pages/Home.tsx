@@ -217,7 +217,7 @@ const Home: React.FC = () => {
   return (
     <IonPage className="home-page">
       <IonHeader className="home-header">
-        <IonToolbar className="home-toolbar-bar">
+        <IonToolbar className="home-toolbar-bar esoteric-toolbar">
           <IonButtons slot="start">
             <ArcanaDelGiorno variant="toolbar" />
           </IonButtons>
@@ -225,7 +225,7 @@ const Home: React.FC = () => {
           <IonButtons slot="end" className="home-toolbar-actions">
             <Link
               to="/encyclopedia"
-              className="home-icon-btn"
+              className="esoteric-sigil-btn"
               aria-label={t.encyclopediaTitle}
               data-testid="encyclopedia-link"
             >
@@ -235,7 +235,7 @@ const Home: React.FC = () => {
               <>
                 <button
                   type="button"
-                  className="home-icon-btn"
+                  className="esoteric-sigil-btn"
                   onClick={shareReadingImage}
                   aria-label={t.shareImage}
                   data-testid="share-image-btn"
@@ -244,7 +244,7 @@ const Home: React.FC = () => {
                 </button>
                 <button
                   type="button"
-                  className="home-icon-btn"
+                  className="esoteric-sigil-btn"
                   onClick={shareReading}
                   aria-label={t.shareReading}
                   data-testid="share-btn"
@@ -255,7 +255,7 @@ const Home: React.FC = () => {
             )}
             <Link
               to="/settings"
-              className="home-icon-btn"
+              className="esoteric-sigil-btn"
               aria-label={t.settings}
               data-testid="settings-link"
             >
@@ -271,12 +271,12 @@ const Home: React.FC = () => {
           style={{ backgroundImage: `url('${tableTheme.backgroundImage}')` }}
         >
           <div className="home-inner">
-            <label className="home-intention" htmlFor="reading-intention">
-              <span className="home-intention__label">{t.intentionLabel}</span>
+            <label className="home-intention esoteric-field" htmlFor="reading-intention">
+              <span className="esoteric-label">{t.intentionLabel}</span>
               <input
                 id="reading-intention"
                 type="text"
-                className="home-intention__input"
+                className="esoteric-input"
                 value={intention}
                 onChange={(e) => handleIntentionChange(e.target.value)}
                 placeholder={t.intentionPlaceholder}
@@ -335,12 +335,12 @@ const Home: React.FC = () => {
           <div className="home-footer">
             <button
               type="button"
-              className="generate-btn"
+              className="esoteric-cta"
               onClick={regenerate}
               disabled={!dealComplete || reading.loading}
               data-testid="generate-btn"
             >
-              <span className="generate-btn__label">{footerLabel}</span>
+              <span className="esoteric-cta__label">{footerLabel}</span>
             </button>
           </div>
         </div>

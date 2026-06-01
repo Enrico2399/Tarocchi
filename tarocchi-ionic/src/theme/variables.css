@@ -1,4 +1,4 @@
-/* Ionic theme tokens — Tarocchi */
+/* Ionic theme tokens — Tarocchi Esoteric */
 
 :root {
   --ion-color-primary: #7c3aed;
@@ -11,14 +11,56 @@
   --ion-background-color: #f8f5ff;
   --ion-text-color: #1a0a2e;
 
+  /* Legacy aliases */
   --tarocchi-gold: #d4af37;
   --tarocchi-purple-deep: #1a0a2e;
   --tarocchi-purple-mist: #5b21b6;
   --tarocchi-lavender: #c4b5fd;
-  --tarocchi-accent-cyan: #22d3ee;
+  --tarocchi-accent-cyan: #67e8f9;
+
+  /* Esoteric design system */
+  --esoteric-void: #120820;
+  --esoteric-deep: #1a0a2e;
+  --esoteric-mist: #2d1b4e;
+  --esoteric-panel: rgba(45, 27, 78, 0.72);
+  --esoteric-gold: #d4af37;
+  --esoteric-gold-dark: #b8860b;
+  --esoteric-gold-glow: rgba(212, 175, 55, 0.35);
+  --esoteric-lavender: #c4b5fd;
+  --esoteric-lavender-dim: rgba(196, 181, 253, 0.55);
+  --esoteric-text: #f3e8ff;
+  --esoteric-text-muted: #e9d5ff;
+  --esoteric-amber: #f59e0b;
+  --esoteric-copper: #b87333;
+  --esoteric-cyan-soft: #67e8f9;
+  --esoteric-border: rgba(212, 175, 55, 0.35);
+  --esoteric-border-strong: rgba(212, 175, 55, 0.55);
+  --esoteric-vignette: rgba(18, 8, 32, 0.65);
+
+  --font-ritual: Georgia, 'Times New Roman', serif;
+  --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-sigil: 9999px;
+  --radius-panel: 12px;
+  --radius-card: 8px;
+
+  --shadow-ritual: 0 4px 18px rgba(26, 10, 46, 0.45);
+  --shadow-gold: 0 0 0 1px var(--esoteric-border), 0 4px 14px var(--esoteric-gold-glow);
+
+  --motion-ritual: 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-flip: 0.85s cubic-bezier(0.34, 1.2, 0.48, 1);
+  --motion-fast: 0.25s ease;
 }
 
 .ion-palette-dark {
-  --ion-background-color: #120820;
-  --ion-text-color: #f3e8ff;
+  --ion-background-color: var(--esoteric-void);
+  --ion-text-color: var(--esoteric-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-ritual: 0.01ms;
+    --motion-flip: 0.01ms;
+    --motion-fast: 0.01ms;
+  }
 }

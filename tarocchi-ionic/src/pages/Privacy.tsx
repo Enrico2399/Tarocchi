@@ -14,16 +14,16 @@ const Privacy: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <IonPage>
+    <IonPage className="esoteric-page privacy-page">
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar className="esoteric-toolbar">
           <IonButtons slot="start">
             <IonBackButton defaultHref="/settings" text={t.back} />
           </IonButtons>
           <IonTitle>{t.privacyTitle}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="privacy-content ion-padding">
+      <IonContent className="privacy-content esoteric-content ion-padding">
         <p className="privacy-updated">{t.privacyUpdated}</p>
         <p>{t.privacyIntro}</p>
 

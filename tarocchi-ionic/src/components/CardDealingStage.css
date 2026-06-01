@@ -10,12 +10,14 @@
 .card-dealing-stage__status {
   margin: 0 0 0.5rem;
   text-align: center;
+  font-family: var(--font-ritual);
   font-size: 0.82rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--tarocchi-gold, #d4af37);
-  text-shadow: 0 1px 4px rgba(26, 10, 46, 0.6);
-  animation: dealing-pulse 1.4s ease-in-out infinite;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--esoteric-gold);
+  text-shadow: 0 1px 8px rgba(26, 10, 46, 0.8);
+  animation: dealing-pulse 2.2s ease-in-out infinite;
 }
 
 @keyframes dealing-pulse {
@@ -32,11 +34,20 @@
   position: absolute;
   bottom: 1.25rem;
   left: 50%;
-  z-index: 12;
+  z-index: 1;
   width: 88px;
   height: 124px;
   transform: translateX(-50%);
   pointer-events: none;
+}
+
+.cards-stage {
+  position: relative;
+  z-index: 2;
+}
+
+.card-dealing-stage[data-dealing='true'] .cards-stage {
+  padding-bottom: 132px;
 }
 
 .card-deck-stack--enter {

@@ -1,16 +1,15 @@
 # Active Context
 
-## Stato: Milestone Tarocchi Growth ✅
+## Stato: Milestone Tarocchi Esoteric UI ✅
 
 ## Completato
-- Intenzione consulto (localStorage, AI prompt, cache separata)
-- Share PNG lettura (canvas viola/oro)
-- Diario `/journal` — 25 letture, note personali
-- Enciclopedia `/encyclopedia` — griglia 22 Arcani
-- Fix deal: mazzo più visibile, niente jump bordo oro
-- Research + ROADMAP fasi 17–20
+- Design system esoterico centralizzato (token + pattern CSS)
+- Tutte le pagine e componenti allineati allo stile "studio mistico"
+- Onboarding modal rituale (v2 key)
+- Copy poetico IT/EN
+- Fix UX precedenti inclusi (Leggi tutto overflow, deck overlap)
 
-## Prossimi passi (backlog)
+## Backlog
 - Widget arcano del giorno
 - Carte rovesciate (reversed)
-- Notifiche retention
+- Font Cinzel via @font-face (opzionale)

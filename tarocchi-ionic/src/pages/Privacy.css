@@ -1,17 +1,27 @@
 .privacy-content {
-  --background: var(--ion-background-color);
-  line-height: 1.6;
+  --background: transparent;
+  line-height: 1.65;
+  color: var(--esoteric-text-muted);
+  font-family: var(--font-ui);
 }
 
 .privacy-content h2 {
-  margin-top: 1.5rem;
-  font-size: 1.1rem;
-  color: var(--ion-color-primary);
+  margin-top: 1.75rem;
+  font-family: var(--font-ritual);
+  font-size: 1.05rem;
+  color: var(--esoteric-gold);
+  letter-spacing: 0.06em;
+}
+
+.privacy-content h2:first-of-type {
+  margin-top: 0.5rem;
 }
 
 .privacy-updated {
   opacity: 0.7;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--esoteric-lavender-dim);
 }
 
 .privacy-content ul {
@@ -19,5 +29,10 @@
 }
 
 .privacy-content a {
-  color: var(--ion-color-primary);
+  color: var(--esoteric-lavender);
+  text-decoration-color: var(--esoteric-gold-dark);
+}
+
+.privacy-content p {
+  font-size: 0.92rem;
 }

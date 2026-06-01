@@ -47,16 +47,16 @@ const Journal: React.FC = () => {
   };
 
   return (
-    <IonPage className="journal-page">
+    <IonPage className="esoteric-page journal-page">
       <IonHeader>
-        <IonToolbar className="journal-toolbar">
+        <IonToolbar className="esoteric-toolbar">
           <IonButtons slot="start">
             <IonBackButton defaultHref="/home" text={t.back} />
           </IonButtons>
           <IonTitle>{t.journalTitle}</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="journal-content ion-padding">
+      <IonContent className="journal-content esoteric-content ion-padding">
         {entries.length === 0 ? (
           <p className="journal-empty" data-testid="journal-empty">
             {t.journalEmpty}
