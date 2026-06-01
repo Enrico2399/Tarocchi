@@ -10,7 +10,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { settingsOutline, shareOutline } from 'ionicons/icons';
+import { settingsOutline, shareOutline, bookOutline, imagesOutline } from 'ionicons/icons';
 import ArcanaDelGiorno from '../components/ArcanaDelGiorno';
 import CardDealingStage from '../components/CardDealingStage';
 import MemoryCard from '../components/MemoryCard';
@@ -33,6 +33,11 @@ import { useTranslation } from '../i18n/useTranslation';
 import { pickRandomCards } from '../utils/cardUtils';
 import { getDealAnimationsEnabled } from '../utils/dealAnimationStorage';
 import { formatReadingText } from '../utils/shareReading';
+import { shareReadingAsImage } from '../utils/readingShareImage';
+import {
+  getStoredIntention,
+  setStoredIntention,
+} from '../utils/intentionStorage';
 import {
   getReadingInterpretations,
   type InterpretationSource,
@@ -63,6 +68,7 @@ const Home: React.FC = () => {
   });
   const [generation, setGeneration] = useState(0);
   const [dealComplete, setDealComplete] = useState(false);
+  const [intention, setIntention] = useState(getStoredIntention);
   const dealAnimationsEnabled = getDealAnimationsEnabled();
   const requestIdRef = useRef(0);
   const titleColor = useRainbowColor(selectedCards.length > 0);
@@ -99,7 +105,14 @@ const Home: React.FC = () => {
         const descriptions = results.map((r) => r.text);
         const cardNames = picked.map((c) => getCardDisplayName(c, locale));
 
-        saveReadingToHistory(nextSpreadId, picked, positions, descriptions, cardNames);
+        saveReadingToHistory(
+          nextSpreadId,
+          picked,
+          positions,
+          descriptions,
+          cardNames,
+          getStoredIntention(),
+        );
 
         setReading({
           descriptions,
@@ -145,6 +158,11 @@ const Home: React.FC = () => {
     setDealComplete(true);
   }, []);
 
+  const handleIntentionChange = (value: string) => {
+    setIntention(value);
+    setStoredIntention(value);
+  };
+
   const shareReading = async () => {
     if (selectedCards.length === 0 || reading.loading || !dealComplete) {
       return;
@@ -170,6 +188,24 @@ const Home: React.FC = () => {
     }
   };
 
+  const shareReadingImage = async () => {
+    if (selectedCards.length === 0 || reading.loading || !dealComplete) {
+      return;
+    }
+
+    try {
+      await shareReadingAsImage({
+        cards: selectedCards,
+        descriptions: reading.descriptions,
+        positions: activePositions,
+        locale,
+        intention: getStoredIntention(),
+      });
+    } catch {
+      // Utente ha annullato o share non disponibile
+    }
+  };
+
   const hasReading = selectedCards.length > 0;
   const isDealing = dealAnimationsEnabled && !dealComplete && hasReading;
   const footerLabel = isDealing
@@ -187,16 +223,35 @@ const Home: React.FC = () => {
           </IonButtons>
           <IonTitle className="home-title">{t.appTitle}</IonTitle>
           <IonButtons slot="end" className="home-toolbar-actions">
+            <Link
+              to="/encyclopedia"
+              className="home-icon-btn"
+              aria-label={t.encyclopediaTitle}
+              data-testid="encyclopedia-link"
+            >
+              <IonIcon icon={bookOutline} />
+            </Link>
             {hasReading && dealComplete && !reading.loading && (
-              <button
-                type="button"
-                className="home-icon-btn"
-                onClick={shareReading}
-                aria-label={t.shareReading}
-                data-testid="share-btn"
-              >
-                <IonIcon icon={shareOutline} />
-              </button>
+              <>
+                <button
+                  type="button"
+                  className="home-icon-btn"
+                  onClick={shareReadingImage}
+                  aria-label={t.shareImage}
+                  data-testid="share-image-btn"
+                >
+                  <IonIcon icon={imagesOutline} />
+                </button>
+                <button
+                  type="button"
+                  className="home-icon-btn"
+                  onClick={shareReading}
+                  aria-label={t.shareReading}
+                  data-testid="share-btn"
+                >
+                  <IonIcon icon={shareOutline} />
+                </button>
+              </>
             )}
             <Link
               to="/settings"
@@ -216,6 +271,21 @@ const Home: React.FC = () => {
           style={{ backgroundImage: `url('${tableTheme.backgroundImage}')` }}
         >
           <div className="home-inner">
+            <label className="home-intention" htmlFor="reading-intention">
+              <span className="home-intention__label">{t.intentionLabel}</span>
+              <input
+                id="reading-intention"
+                type="text"
+                className="home-intention__input"
+                value={intention}
+                onChange={(e) => handleIntentionChange(e.target.value)}
+                placeholder={t.intentionPlaceholder}
+                maxLength={200}
+                disabled={!dealComplete || reading.loading}
+                data-testid="intention-input"
+              />
+            </label>
+
             <SpreadSelector
               value={spreadId}
               onChange={handleSpreadChange}

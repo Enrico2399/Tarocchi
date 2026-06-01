@@ -108,6 +108,40 @@
   padding: 0.5rem 0.75rem 0;
 }
 
+.home-intention {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+
+.home-intention__label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #d4af37;
+  letter-spacing: 0.04em;
+}
+
+.home-intention__input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(18, 8, 32, 0.75);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 999px;
+  color: #f3e8ff;
+  padding: 0.55rem 1rem;
+  font-size: 0.92rem;
+  font-family: inherit;
+}
+
+.home-intention__input::placeholder {
+  color: rgba(196, 181, 253, 0.55);
+}
+
+.home-intention__input:disabled {
+  opacity: 0.6;
+}
+
 .home-bg--velvet::before {
   background: rgba(91, 33, 182, 0.42) !important;
 }

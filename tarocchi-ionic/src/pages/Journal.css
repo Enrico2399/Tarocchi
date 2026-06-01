@@ -1,0 +1,133 @@
+.journal-page {
+  --background: #120820;
+}
+
+.journal-toolbar {
+  --background: rgba(26, 10, 46, 0.96);
+  --color: #f3e8ff;
+}
+
+.journal-content {
+  --background: linear-gradient(180deg, #1a0a2e 0%, #120820 100%);
+}
+
+.journal-empty {
+  color: #c4b5fd;
+  text-align: center;
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+.journal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.journal-item {
+  background: rgba(45, 27, 78, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.journal-item__header {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #f3e8ff;
+  padding: 1rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.journal-item__header time {
+  font-size: 0.85rem;
+  color: #a78bfa;
+}
+
+.journal-item__spread {
+  font-weight: 700;
+  color: #d4af37;
+}
+
+.journal-item__cards {
+  font-size: 0.9rem;
+  color: #e9d5ff;
+}
+
+.journal-item__body {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid rgba(196, 181, 253, 0.15);
+}
+
+.journal-item__intention {
+  color: #c4b5fd;
+  font-style: italic;
+  margin: 0.75rem 0;
+}
+
+.journal-item__lines {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.journal-item__lines li {
+  color: #e9d5ff;
+  font-size: 0.92rem;
+}
+
+.journal-item__position {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a78bfa;
+}
+
+.journal-item__card {
+  display: block;
+  font-weight: 700;
+  color: #f3e8ff;
+  margin-bottom: 0.25rem;
+}
+
+.journal-item__note-label {
+  display: block;
+  color: #d4af37;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+.journal-item__note {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(18, 8, 32, 0.8);
+  border: 1px solid rgba(196, 181, 253, 0.25);
+  border-radius: 8px;
+  color: #f3e8ff;
+  padding: 0.65rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.journal-item__delete {
+  margin-top: 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}

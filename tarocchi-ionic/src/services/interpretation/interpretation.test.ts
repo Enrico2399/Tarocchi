@@ -2,6 +2,7 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { cards } from '../../constants/cardsData';
 import { getDailyArcanaPositionLabel } from '../../constants/readingSpreads';
 import { setStoredLocale } from '../../i18n/localeStorage';
+import { setStoredIntention } from '../../utils/intentionStorage';
 import { generateTemplateInterpretation } from './templateProvider';
 import { getCachedInterpretation, setCachedInterpretation } from './cache';
 
@@ -48,5 +49,13 @@ describe('interpretation cache', () => {
   it('stores and retrieves cached interpretations', () => {
     setCachedInterpretation(0, 'Situazione Attuale', 'reading', 'Testo cache');
     expect(getCachedInterpretation(0, 'Situazione Attuale', 'reading')).toBe('Testo cache');
+  });
+
+  it('separates cache by intention', () => {
+    setCachedInterpretation(0, 'Situazione Attuale', 'reading', 'Senza intenzione');
+    setStoredIntention('Amore');
+    expect(getCachedInterpretation(0, 'Situazione Attuale', 'reading')).toBeNull();
+    setCachedInterpretation(0, 'Situazione Attuale', 'reading', 'Con intenzione');
+    expect(getCachedInterpretation(0, 'Situazione Attuale', 'reading')).toBe('Con intenzione');
   });
 });

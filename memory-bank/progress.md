@@ -1,12 +1,13 @@
 # Progress
 
-## Fase 16 Animated deal ✅
+## Milestone Tarocchi Growth ✅ (fasi 17–20)
 
-- [x] CardDealingStage + deck stack
-- [x] CSS deal-fly-in stagger 140ms
-- [x] Settings toggle animazioni
-- [x] RESEARCH.md (CSS vs GSAP)
-- [x] 59 test verify OK
+- [x] Fase 17: Intenzione consulto → prompt AI + cache v4
+- [x] Fase 18: Share scheda PNG (canvas branded)
+- [x] Fase 19: Diario journal (25 letture, note, /journal)
+- [x] Fase 20: Enciclopedia 22 Arcani (/encyclopedia)
+- [x] Deal UX fix (deck timing, card jump)
+- [x] 68 test verify OK
 
 ## Comandi
 ```bash
@@ -15,5 +16,5 @@ npm run android:bundle  # → store/tarocchi-release.aab
 ```
 
 ## Release
-- AAB firmato ricostruito (fasi 13–16 UI/UX + deal)
-- Path: `tarocchi-ionic/store/tarocchi-release.aab`
+- Ultimo push: `873d221` enhancement ui ux
+- Growth milestone pronta per commit locale

@@ -1,8 +1,9 @@
 import { getStoredLocale } from '../../i18n/localeStorage';
 import { getDailyArcanaPositionLabel } from '../../constants/readingSpreads';
+import { getIntentionCacheSuffix } from '../../utils/intentionStorage';
 
 const CACHE_PREFIX = 'tarocchi-interpretation:';
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 
 export type CacheContext = 'reading' | 'daily';
 
@@ -14,7 +15,8 @@ function cacheKey(
 ): string {
   const locale = getStoredLocale();
   const datePart = context === 'daily' ? dateKey ?? 'today' : 'reading';
-  return `${CACHE_PREFIX}${CACHE_VERSION}:${locale}:${context}:${cardId}:${position}:${datePart}`;
+  const intentionPart = context === 'reading' ? getIntentionCacheSuffix() : '';
+  return `${CACHE_PREFIX}${CACHE_VERSION}:${locale}:${context}:${cardId}:${position}:${datePart}${intentionPart}`;
 }
 
 export function getCachedInterpretation(

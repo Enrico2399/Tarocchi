@@ -1,13 +1,16 @@
 # Active Context
 
-## Stato: Fase 16 Animated deal ✅
+## Stato: Milestone Tarocchi Growth ✅
 
-## Completato (fase 16)
-- CardDealingStage: mazzo stack + ghost cards fly-in
-- useCardDealAnimation hook (CSS, 0 deps)
-- Haptics deal, reduced motion, toggle Settings
-- AI fetch in parallelo durante deal
-- 59 test, verify verde
+## Completato
+- Intenzione consulto (localStorage, AI prompt, cache separata)
+- Share PNG lettura (canvas viola/oro)
+- Diario `/journal` — 25 letture, note personali
+- Enciclopedia `/encyclopedia` — griglia 22 Arcani
+- Fix deal: mazzo più visibile, niente jump bordo oro
+- Research + ROADMAP fasi 17–20
 
-## Git
-Commit fase 16 fededev9
+## Prossimi passi (backlog)
+- Widget arcano del giorno
+- Carte rovesciate (reversed)
+- Notifiche retention

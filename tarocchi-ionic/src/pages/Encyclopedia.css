@@ -1,0 +1,131 @@
+.encyclopedia-page {
+  --background: #120820;
+}
+
+.encyclopedia-toolbar {
+  --background: rgba(26, 10, 46, 0.96);
+  --color: #f3e8ff;
+}
+
+.encyclopedia-content {
+  --background: linear-gradient(180deg, #1a0a2e 0%, #120820 100%);
+}
+
+.encyclopedia-intro {
+  color: #c4b5fd;
+  text-align: center;
+  margin: 0 0 1.25rem;
+  font-size: 0.95rem;
+}
+
+.encyclopedia-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.encyclopedia-card {
+  width: 100%;
+  background: rgba(45, 27, 78, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 12px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: #f3e8ff;
+}
+
+.encyclopedia-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.encyclopedia-card__num {
+  font-size: 0.75rem;
+  color: #d4af37;
+}
+
+.encyclopedia-card__name {
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.encyclopedia-modal {
+  --background: transparent;
+  --width: min(92vw, 420px);
+  --height: auto;
+  --border-radius: 16px;
+}
+
+.encyclopedia-detail {
+  background: linear-gradient(180deg, #2d1b4e 0%, #1a0a2e 100%);
+  padding: 1.25rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 16px;
+  color: #f3e8ff;
+  text-align: center;
+}
+
+.encyclopedia-detail__image {
+  width: min(220px, 70vw);
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.encyclopedia-detail h2 {
+  margin: 0 0 0.25rem;
+  color: #d4af37;
+}
+
+.encyclopedia-detail__arcana {
+  color: #a78bfa;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+
+.encyclopedia-detail__keywords h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c4b5fd;
+  margin: 0 0 0.5rem;
+}
+
+.encyclopedia-detail__keywords ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.encyclopedia-detail__keywords li {
+  background: rgba(18, 8, 32, 0.7);
+  border: 1px solid rgba(196, 181, 253, 0.25);
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  font-size: 0.8rem;
+}
+
+.encyclopedia-detail__close {
+  margin-top: 1.25rem;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #d4af37;
+  border-radius: 999px;
+  padding: 0.55rem 1.25rem;
+  cursor: pointer;
+  font-weight: 600;
+}

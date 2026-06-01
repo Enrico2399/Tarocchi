@@ -11,6 +11,8 @@ import { warmupTarotLlm } from './services/interpretation/interpretationService'
 
 const Settings = lazy(() => import('./pages/Settings'));
 const Privacy = lazy(() => import('./pages/Privacy'));
+const Journal = lazy(() => import('./pages/Journal'));
+const Encyclopedia = lazy(() => import('./pages/Encyclopedia'));
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -52,6 +54,12 @@ const App: React.FC = () => {
               </Route>
               <Route exact path="/settings">
                 <Settings />
+              </Route>
+              <Route exact path="/journal">
+                <Journal />
+              </Route>
+              <Route exact path="/encyclopedia">
+                <Encyclopedia />
               </Route>
               <Route exact path="/privacy">
                 <Privacy />

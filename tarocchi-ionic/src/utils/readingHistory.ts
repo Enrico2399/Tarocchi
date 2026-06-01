@@ -5,6 +5,8 @@ export type SavedReadingEntry = {
   id: string;
   createdAt: string;
   spreadId: ReadingSpreadId;
+  intention?: string;
+  note?: string;
   lines: Array<{
     position: string;
     cardName: string;
@@ -13,7 +15,7 @@ export type SavedReadingEntry = {
 };
 
 const HISTORY_KEY = 'tarocchi-reading-history';
-const MAX_HISTORY = 5;
+export const MAX_HISTORY = 25;
 
 export function getReadingHistory(): SavedReadingEntry[] {
   try {
@@ -28,17 +30,28 @@ export function getReadingHistory(): SavedReadingEntry[] {
   }
 }
 
+function persistHistory(entries: SavedReadingEntry[]): void {
+  try {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(entries));
+  } catch {
+    // Storage pieno
+  }
+}
+
 export function saveReadingToHistory(
   spreadId: ReadingSpreadId,
   cards: CardData[],
   positions: string[],
   descriptions: string[],
   cardNames: string[],
+  intention?: string,
 ): void {
+  const trimmedIntention = intention?.trim();
   const entry: SavedReadingEntry = {
     id: `${Date.now()}`,
     createdAt: new Date().toISOString(),
     spreadId,
+    ...(trimmedIntention ? { intention: trimmedIntention } : {}),
     lines: cards.map((_, index) => ({
       position: positions[index] ?? '',
       cardName: cardNames[index] ?? cards[index].name,
@@ -46,12 +59,27 @@ export function saveReadingToHistory(
     })),
   };
 
-  const next = [entry, ...getReadingHistory()].slice(0, MAX_HISTORY);
-  try {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
-  } catch {
-    // Storage pieno
-  }
+  persistHistory([entry, ...getReadingHistory()].slice(0, MAX_HISTORY));
+}
+
+export function updateReadingNote(id: string, note: string): void {
+  const trimmed = note.trim().slice(0, 500);
+  const next = getReadingHistory().map((entry) => {
+    if (entry.id !== id) {
+      return entry;
+    }
+    if (!trimmed) {
+      const { note: removedNote, ...rest } = entry;
+      void removedNote;
+      return rest;
+    }
+    return { ...entry, note: trimmed };
+  });
+  persistHistory(next);
+}
+
+export function deleteReadingEntry(id: string): void {
+  persistHistory(getReadingHistory().filter((entry) => entry.id !== id));
 }
 
 export function clearReadingHistory(): void {

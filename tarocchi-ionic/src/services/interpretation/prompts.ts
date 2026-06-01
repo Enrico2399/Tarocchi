@@ -2,6 +2,7 @@ import type { CardData } from '../../constants/cardsData';
 import { getCardDisplayName, getDailyArcanaPositionLabel } from '../../constants/readingSpreads';
 import { getStoredLocale, type Locale } from '../../i18n/localeStorage';
 import { getTranslations } from '../../i18n/getTranslations';
+import { getStoredIntention } from '../../utils/intentionStorage';
 
 export function getSystemInstructions(locale: Locale = getStoredLocale()): string {
   return getTranslations(locale).aiSystem;
@@ -18,8 +19,15 @@ export function buildReadingPrompt(
     locale === 'en'
       ? 'Maximum 80 words, 2–3 short sentences. No lists or titles.'
       : 'Massimo 80 parole, 2–3 frasi brevi. Niente elenchi o titoli.';
+  const intention = getStoredIntention().trim();
+  const intentionLine = intention
+    ? locale === 'en'
+      ? `Consultation intention: ${intention}\n`
+      : `Intenzione del consulto: ${intention}\n`
+    : '';
 
   return (
+    intentionLine +
     `Posizione: ${position}\n` +
     `Carta: ${cardName}\n` +
     `Arcano: ${card.id}\n` +

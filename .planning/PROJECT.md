@@ -4,7 +4,10 @@
 Trasformare l'app Tarocchi da prototipo funzionale a **studio di lettura digitale professionale** su Ionic React + Capacitor, pronta per Play Store.
 
 ## Milestone attuale
-**Tarocchi Pro** — UX professionale, interpretazioni AI-first, zero testi hardcoded.
+**Tarocchi Growth** ✅ — Intenzione, share PNG, diario, enciclopedia (fasi 17–20)
+
+## Milestone precedente
+**Tarocchi Pro** — UX professionale, interpretazioni AI-first, deal animato
 
 ## Stack
 - Ionic 8 + React 19 + TypeScript + Vite + Capacitor 8

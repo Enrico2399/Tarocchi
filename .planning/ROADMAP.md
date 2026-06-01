@@ -1,24 +1,18 @@
-# ROADMAP — Tarocchi New Functions
+# ROADMAP — Tarocchi
 
-Milestone precedente **Tarocchi Pro** ✅ (fasi 1–7)
+Milestone **Tarocchi Pro** ✅ (fasi 1–16)
 
 | Fase | Nome | Stato | Focus |
 |------|------|-------|-------|
-| 8 | Release hardening | ✅ done | Code-splitting, .env.example |
-| 9 | UX polish | ✅ done | Flip anim, skeleton, modal sheet arcano |
-| 10 | Storico letture | ✅ done | Ultime 5 letture in Settings |
-| 11 | Privacy i18n | ✅ done | Privacy IT/EN |
-| 12 | Bundle + QA | ✅ done | AAB firmato ~15.6 MB, 47 test, E2E history |
-| 13 | UI/UX fix | ✅ done | Auto-generate, chip spread, flex layout, footer CTA |
-| 14 | Testi carte + UX | ✅ done | AI 128 token, line-clamp, modal Leggi tutto, buckets |
-| 15 | Tarot UI polish | ✅ done | Fix Leggi tutto, oro/viola, vignette, stagger |
-| 16 | Animated deal | ✅ done | Mazzo stack, deal CSS, haptics, reduced motion |
+| 8–16 | Pro milestone | ✅ done | UX, storico, deal, UI polish |
+| 17 | Intenzione consulto | ✅ done | Campo intenzione, prompt AI, cache v4 |
+| 18 | Share scheda PNG | ✅ done | Canvas branded, share/download |
+| 19 | Diario journal | ✅ done | 25 letture, note, route /journal |
+| 20 | Enciclopedia Arcani | ✅ done | Griglia 22 carte, modal keywords |
 
-## Definition of Done ✅
-- [x] Code-splitting Vite (ionic, react, router, capacitor)
-- [x] Lazy routes Settings/Privacy
-- [x] Storico letture localStorage
-- [x] Privacy localizzata
-- [x] `.env.example`
-- [x] AAB in `store/tarocchi-release.aab`
-- [x] Commit `new functions` fededev9
+## Milestone Tarocchi Growth ✅
+- [x] Market research (.planning/research/)
+- [x] 4 feature ad alto impatto
+- [x] Fasi 17–20 implementate
+- [x] i18n IT/EN
+- [x] Test unitari aggiornati

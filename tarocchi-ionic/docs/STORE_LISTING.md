@@ -38,8 +38,11 @@ Tarocchi è l'app per scoprire il messaggio delle carte attraverso una lettura g
 Funzionalità:
 🔮 Genera una lettura casuale con i 22 Arcani Maggiori
 ✨ Arcano del giorno — un messaggio quotidiano personalizzato
+💭 Intenzione del consulto — personalizza l'interpretazione AI
+📔 Diario delle letture — storico con note personali
+📚 Enciclopedia dei 22 Arcani Maggiori
+🖼️ Condividi la lettura come scheda immagine o testo
 🌙 Tema chiaro e scuro
-📤 Condividi la tua lettura con amici
 🔔 Promemoria opzionale per l'arcano del giorno
 
 L'app funziona offline: nessun account richiesto. Annunci Google AdMob.
@@ -54,7 +57,7 @@ Tarocchi helps you explore the cards through a guided 4-card reading:
 
 • Current situation • Challenge • Recommended action • Outcome
 
-Features: random Major Arcana reading, daily arcana, dark theme, share, optional notifications.
+Features: random Major Arcana reading, daily arcana, reading intention, journal with notes, arcana encyclopedia, share as image or text, dark theme, optional notifications.
 
 Works offline. No account required. Google AdMob ads.
 

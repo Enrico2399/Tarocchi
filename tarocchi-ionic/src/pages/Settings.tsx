@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   IonBackButton,
   IonButtons,
@@ -255,7 +256,12 @@ const Settings: React.FC = () => {
         )}
 
         <section className="settings-history" data-testid="reading-history">
-          <h2>{t.historyTitle}</h2>
+          <div className="settings-history__header">
+            <h2>{t.historyTitle}</h2>
+            <Link to="/journal" className="settings-history__journal-link" data-testid="journal-link">
+              {t.journalOpen}
+            </Link>
+          </div>
           {history.length === 0 ? (
             <p className="settings-history__empty">{t.historyEmpty}</p>
           ) : (

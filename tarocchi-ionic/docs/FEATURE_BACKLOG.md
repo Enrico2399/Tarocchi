@@ -38,6 +38,11 @@ Priorità derivata da `MinimalTODO.md` e gap vs tarocchi-app/Taro.
 | F-DONE-03 | Flip 3D + suono | MemoryCard + audio.ts |
 | F-DONE-04 | Parity UI Taro | Rainbow titles, gold border, pulse btn |
 | F-DONE-05 | Asset da repo Taro | 39 immagini + flip.mp3 |
+| F-DONE-06 | Intenzione consulto | Campo + AI prompt + cache v4 |
+| F-DONE-07 | Share scheda PNG | Canvas branded share/download |
+| F-DONE-08 | Diario journal | 25 letture, note, /journal |
+| F-DONE-09 | Enciclopedia Arcani | /encyclopedia 22 carte |
+| F-DONE-10 | Deal animation | Mazzo stack + distribuzione CSS |
 
 ## Workflow per feature
 1. Aggiornare questo file (stato → in progress)

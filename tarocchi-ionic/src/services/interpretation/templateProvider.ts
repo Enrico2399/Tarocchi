@@ -2,6 +2,7 @@ import type { CardData } from '../../constants/cardsData';
 import { getCardDisplayName, getDailyArcanaPositionLabel } from '../../constants/readingSpreads';
 import { getStoredLocale, type Locale } from '../../i18n/localeStorage';
 import { normalizeInterpretation } from '../../utils/interpretationText';
+import { getStoredIntention } from '../../utils/intentionStorage';
 
 const INTROS_IT: Record<string, string[]> = {
   reading: ['In questo momento', 'Il consulto indica', 'La carta rivela'],
@@ -33,7 +34,7 @@ export function generateTemplateInterpretation(
   dateKey?: string,
   locale: Locale = getStoredLocale(),
 ): string {
-  const seed = hashSeed([String(card.id), position, dateKey ?? '', locale]);
+  const seed = hashSeed([String(card.id), position, dateKey ?? '', locale, getStoredIntention()]);
   const isDaily = position === getDailyArcanaPositionLabel(locale);
   const intros = locale === 'en' ? INTROS_EN : INTROS_IT;
   const intro = pick(isDaily ? intros.daily : intros.reading, seed);
