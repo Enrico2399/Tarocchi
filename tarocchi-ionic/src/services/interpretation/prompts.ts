@@ -14,6 +14,10 @@ export function buildReadingPrompt(
 ): string {
   const cardName = getCardDisplayName(card, locale);
   const langNote = locale === 'en' ? 'Write in English.' : 'Scrivi in italiano.';
+  const lengthNote =
+    locale === 'en'
+      ? 'Maximum 80 words, 2–3 short sentences. No lists or titles.'
+      : 'Massimo 80 parole, 2–3 frasi brevi. Niente elenchi o titoli.';
 
   return (
     `Posizione: ${position}\n` +
@@ -21,6 +25,7 @@ export function buildReadingPrompt(
     `Arcano: ${card.id}\n` +
     `Keywords: ${card.keywords.join(', ')}\n` +
     `${langNote}\n` +
+    `${lengthNote}\n` +
     `Scrivi l'interpretazione per questa carta in questa posizione del consulto.`
   );
 }
@@ -31,11 +36,16 @@ export function buildDailyArcanaPrompt(
 ): string {
   const cardName = getCardDisplayName(card, locale);
   const langNote = locale === 'en' ? 'Write in English.' : 'Scrivi in italiano.';
+  const lengthNote =
+    locale === 'en'
+      ? 'Maximum 80 words, 2–3 short sentences. No lists or titles.'
+      : 'Massimo 80 parole, 2–3 frasi brevi. Niente elenchi o titoli.';
 
   return (
     `Arcano del giorno: ${cardName}\n` +
     `Keywords: ${card.keywords.join(', ')}\n` +
     `${langNote}\n` +
+    `${lengthNote}\n` +
     `Scrivi un messaggio ispiratore per la giornata di oggi basato su questa carta.`
   );
 }

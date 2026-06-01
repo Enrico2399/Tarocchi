@@ -1,6 +1,7 @@
 import type { CardData } from '../../constants/cardsData';
 import { buildDailyArcanaPrompt, buildReadingPrompt, getSystemInstructions } from './prompts';
 import { getStoredLocale } from '../../i18n/localeStorage';
+import { normalizeInterpretation } from '../../utils/interpretationText';
 
 type ChatMessage = { role: 'system' | 'user'; content: string };
 
@@ -22,7 +23,7 @@ async function callChatApi(messages: ChatMessage[]): Promise<string | null> {
       body: JSON.stringify({
         model: import.meta.env.VITE_AI_API_MODEL ?? 'gpt-4o-mini',
         messages,
-        max_tokens: 256,
+        max_tokens: 128,
         temperature: 0.7,
       }),
     });
@@ -36,7 +37,7 @@ async function callChatApi(messages: ChatMessage[]): Promise<string | null> {
     };
 
     const text = data.choices?.[0]?.message?.content?.trim();
-    return text && text.length > 0 ? text : null;
+    return text && text.length > 0 ? normalizeInterpretation(text) : null;
   } catch {
     return null;
   }

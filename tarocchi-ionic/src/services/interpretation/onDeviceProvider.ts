@@ -2,6 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import type { CardData } from '../../constants/cardsData';
 import { buildDailyArcanaPrompt, buildReadingPrompt, getSystemInstructions } from './prompts';
 import { getStoredLocale } from '../../i18n/localeStorage';
+import { normalizeInterpretation } from '../../utils/interpretationText';
 
 export type LlmAvailability = 'available' | 'unavailable' | 'notready' | 'downloadable';
 
@@ -98,12 +99,12 @@ async function promptLlm(
       prompt,
       options: {
         temperature: 0.7,
-        maximumOutputTokens: 256,
+        maximumOutputTokens: 128,
       },
     });
 
     const trimmed = text.trim();
-    return trimmed.length > 0 ? trimmed : null;
+    return trimmed.length > 0 ? normalizeInterpretation(trimmed) : null;
   } catch {
     return null;
   }

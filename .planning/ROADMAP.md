@@ -9,6 +9,8 @@ Milestone precedente **Tarocchi Pro** ✅ (fasi 1–7)
 | 10 | Storico letture | ✅ done | Ultime 5 letture in Settings |
 | 11 | Privacy i18n | ✅ done | Privacy IT/EN |
 | 12 | Bundle + QA | ✅ done | AAB firmato ~15.6 MB, 47 test, E2E history |
+| 13 | UI/UX fix | ✅ done | Auto-generate, chip spread, flex layout, footer CTA |
+| 14 | Testi carte + UX | ✅ done | AI 128 token, line-clamp, modal Leggi tutto, buckets |
 
 ## Definition of Done ✅
 - [x] Code-splitting Vite (ionic, react, router, capacitor)

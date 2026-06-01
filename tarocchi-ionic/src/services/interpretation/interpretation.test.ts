@@ -32,6 +32,11 @@ describe('interpretation templateProvider', () => {
     const text = generateTemplateInterpretation(cards[0], 'Current Situation', '2026-05-27', 'en');
     expect(text).toContain('The Fool');
   });
+
+  it('keeps template text within card-friendly length', () => {
+    const text = generateTemplateInterpretation(cards[0], 'Situazione Attuale', '2026-05-27', 'it');
+    expect(text.length).toBeLessThanOrEqual(320);
+  });
 });
 
 describe('interpretation cache', () => {

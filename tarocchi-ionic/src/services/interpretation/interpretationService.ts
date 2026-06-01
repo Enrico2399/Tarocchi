@@ -15,6 +15,7 @@ import {
 import { generateTemplateInterpretation } from './templateProvider';
 import { getDailyArcanaPositionLabel } from './cache';
 import { getStoredLocale } from '../../i18n/localeStorage';
+import { normalizeInterpretation } from '../../utils/interpretationText';
 
 export type InterpretationSource = 'ai' | 'cloud' | 'cache' | 'generated';
 
@@ -36,7 +37,7 @@ async function resolveInterpretation(params: RequestParams): Promise<Interpretat
 
   const cached = getCachedInterpretation(card.id, position, context, dateKey);
   if (cached) {
-    return { text: cached, source: 'cache' };
+    return { text: normalizeInterpretation(cached), source: 'cache' };
   }
 
   const aiEnabled = preferAi && getAiReadingsEnabled();

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Share } from '@capacitor/share';
 import {
@@ -13,13 +13,12 @@ import {
 import { settingsOutline, shareOutline } from 'ionicons/icons';
 import ArcanaDelGiorno from '../components/ArcanaDelGiorno';
 import MemoryCard from '../components/MemoryCard';
+import SpreadSelector from '../components/SpreadSelector';
 import { CardData, cards } from '../constants/cardsData';
 import {
-  getAllSpreads,
   getCardDisplayName,
   getSpreadById,
   getStoredSpreadId,
-  READING_SPREAD_IDS,
   setStoredSpreadId,
   type ReadingSpreadId,
 } from '../constants/readingSpreads';
@@ -50,7 +49,6 @@ type ReadingState = {
 const Home: React.FC = () => {
   const { locale, t } = useTranslation();
   const [spreadId, setSpreadId] = useState<ReadingSpreadId>(getStoredSpreadId);
-  const spread = getSpreadById(spreadId, locale);
   const tableTheme = getTableTheme(getStoredTableThemeId());
   const deckTheme = getDeckTheme(getStoredDeckThemeId());
   const [selectedCards, setSelectedCards] = useState<CardData[]>([]);
@@ -58,57 +56,78 @@ const Home: React.FC = () => {
   const [reading, setReading] = useState<ReadingState>({
     descriptions: [],
     sources: [],
-    loading: false,
+    loading: true,
     error: null,
   });
   const [generation, setGeneration] = useState(0);
+  const requestIdRef = useRef(0);
   const titleColor = useRainbowColor(selectedCards.length > 0);
 
-  const handleSpreadChange = (id: ReadingSpreadId) => {
-    setSpreadId(id);
-    setStoredSpreadId(id);
-    setSelectedCards([]);
-    setActivePositions([]);
-    setReading({ descriptions: [], sources: [], loading: false, error: null });
-  };
+  const runReading = useCallback(
+    async (nextSpreadId: ReadingSpreadId) => {
+      const currentSpread = getSpreadById(nextSpreadId, locale);
+      const picked = pickRandomCards(cards, currentSpread.cardCount);
+      const positions = [...currentSpread.positions];
+      const requestId = requestIdRef.current + 1;
+      requestIdRef.current = requestId;
 
-  const generateCards = useCallback(async () => {
-    const currentSpread = getSpreadById(spreadId, locale);
-    const picked = pickRandomCards(cards, currentSpread.cardCount);
-    const positions = [...currentSpread.positions];
-
-    setSelectedCards(picked);
-    setActivePositions(positions);
-    setGeneration((g) => g + 1);
-    setReading({
-      descriptions: positions.map(() => ''),
-      sources: [],
-      loading: true,
-      error: null,
-    });
-
-    try {
-      const results = await getReadingInterpretations(picked, positions);
-      const descriptions = results.map((r) => r.text);
-      const cardNames = picked.map((c) => getCardDisplayName(c, locale));
-
-      saveReadingToHistory(spreadId, picked, positions, descriptions, cardNames);
-
-      setReading({
-        descriptions,
-        sources: results.map((r) => r.source),
-        loading: false,
-        error: null,
-      });
-    } catch {
+      setSelectedCards(picked);
+      setActivePositions(positions);
+      setGeneration((g) => g + 1);
       setReading({
         descriptions: positions.map(() => ''),
         sources: [],
-        loading: false,
-        error: t.readingError,
+        loading: true,
+        error: null,
       });
+
+      try {
+        const results = await getReadingInterpretations(picked, positions);
+        if (requestIdRef.current !== requestId) {
+          return;
+        }
+
+        const descriptions = results.map((r) => r.text);
+        const cardNames = picked.map((c) => getCardDisplayName(c, locale));
+
+        saveReadingToHistory(nextSpreadId, picked, positions, descriptions, cardNames);
+
+        setReading({
+          descriptions,
+          sources: results.map((r) => r.source),
+          loading: false,
+          error: null,
+        });
+      } catch {
+        if (requestIdRef.current !== requestId) {
+          return;
+        }
+        setReading({
+          descriptions: positions.map(() => ''),
+          sources: [],
+          loading: false,
+          error: t.readingError,
+        });
+      }
+    },
+    [locale, t.readingError],
+  );
+
+  useEffect(() => {
+    void runReading(spreadId);
+  }, [spreadId, locale, runReading]);
+
+  const handleSpreadChange = (id: ReadingSpreadId) => {
+    if (id === spreadId) {
+      return;
     }
-  }, [spreadId, locale, t.readingError]);
+    setSpreadId(id);
+    setStoredSpreadId(id);
+  };
+
+  const regenerate = () => {
+    void runReading(spreadId);
+  };
 
   const shareReading = async () => {
     if (selectedCards.length === 0 || reading.loading) {
@@ -136,10 +155,9 @@ const Home: React.FC = () => {
   };
 
   const hasReading = selectedCards.length > 0;
-  const allSpreads = getAllSpreads(locale);
 
   return (
-    <IonPage>
+    <IonPage className="home-page">
       <IonHeader className="home-header">
         <IonToolbar className="home-toolbar-bar">
           <IonButtons slot="start">
@@ -176,58 +194,36 @@ const Home: React.FC = () => {
           style={{ backgroundImage: `url('${tableTheme.backgroundImage}')` }}
         >
           <div className="home-inner">
-            <section className="spread-picker" aria-label={t.settingsTableTheme}>
-              {READING_SPREAD_IDS.map((id) => {
-                const item = allSpreads.find((s) => s.id === id)!;
-                return (
-                  <button
-                    key={id}
-                    type="button"
-                    className={`spread-picker__btn ${spreadId === id ? 'spread-picker__btn--active' : ''}`}
-                    onClick={() => handleSpreadChange(id)}
-                    data-testid={`spread-${id}`}
-                  >
-                    <span className="spread-picker__name">{item.name}</span>
-                    <span className="spread-picker__subtitle">{item.subtitle}</span>
-                  </button>
-                );
-              })}
-            </section>
+            <SpreadSelector
+              value={spreadId}
+              onChange={handleSpreadChange}
+              disabled={reading.loading}
+            />
 
-            {!hasReading && (
-              <p className="home-empty" data-testid="home-empty">
-                {t.emptyState}
-              </p>
-            )}
-
-            <div className={`cards-grid cards-grid--${spreadId}`} data-testid="cards-grid">
-              {hasReading
-                ? selectedCards.map((card, index) => (
-                    <MemoryCard
-                      key={`${generation}-${index}`}
-                      title={activePositions[index] ?? `Carta ${index + 1}`}
-                      cardName={getCardDisplayName(card, locale)}
-                      description={reading.descriptions[index] ?? ''}
-                      image={card.image}
-                      titleColor={titleColor}
-                      descriptionLoading={reading.loading}
-                      descriptionSource={reading.sources[index]}
-                      deckClass={deckTheme.deckClass}
-                      cardBackImage={deckTheme.cardBackImage}
-                      flipLabel={t.flipCard}
-                      loadingLabel={t.arcanaLoading}
-                      aiBadge={t.aiBadge}
-                    />
-                  ))
-                : spread.positions.map((position) => (
-                    <div key={position} className="cards-grid__placeholder" aria-hidden="true">
-                      <div
-                        className="cards-grid__placeholder-back"
-                        style={{ backgroundImage: `url('${deckTheme.cardBackImage}')` }}
-                      />
-                      <span className="cards-grid__placeholder-label">{position}</span>
-                    </div>
-                  ))}
+            <div
+              className={`cards-stage cards-stage--${spreadId}`}
+              data-testid="cards-grid"
+            >
+              {selectedCards.map((card, index) => (
+                <MemoryCard
+                  key={`${generation}-${index}`}
+                  title={activePositions[index] ?? `Carta ${index + 1}`}
+                  cardName={getCardDisplayName(card, locale)}
+                  description={reading.descriptions[index] ?? ''}
+                  image={card.image}
+                  titleColor={titleColor}
+                  descriptionLoading={reading.loading}
+                  descriptionSource={reading.sources[index]}
+                  deckClass={deckTheme.deckClass}
+                  cardBackImage={deckTheme.cardBackImage}
+                  flipLabel={t.flipCard}
+                  loadingLabel={t.arcanaLoading}
+                  aiBadge={t.aiBadge}
+                  readMoreLabel={t.readMore}
+                  fullInterpretationLabel={t.fullInterpretation}
+                  closeLabel={t.close}
+                />
+              ))}
             </div>
 
             {reading.error && (
@@ -235,11 +231,13 @@ const Home: React.FC = () => {
                 {reading.error}
               </p>
             )}
+          </div>
 
+          <div className="home-footer">
             <button
               type="button"
               className="generate-btn"
-              onClick={generateCards}
+              onClick={regenerate}
               disabled={reading.loading}
               data-testid="generate-btn"
             >

@@ -13,6 +13,8 @@ export const translations = {
     arcanaError: 'Impossibile generare l\'interpretazione. Riprova.',
     arcanaModalSubtitle: 'Il tuo Arcano del Giorno',
     close: 'Chiudi',
+    readMore: 'Leggi tutto',
+    fullInterpretation: 'Interpretazione completa',
     aiBadge: ' AI',
     flipCard: 'Gira carta',
     onboardingHeader: 'Benvenuto nello Studio Tarocchi',
@@ -108,7 +110,8 @@ export const translations = {
     },
     aiSystem:
       'Sei un esperto cartomante dei tarocchi. Scrivi interpretazioni brevi, poetiche e incoraggianti in italiano. ' +
-      'Non fare diagnosi mediche o legali. Rispondi solo con il testo dell\'interpretazione, senza titoli o elenchi. Massimo 3 frasi.',
+      'Non fare diagnosi mediche o legali. Rispondi solo con il testo dell\'interpretazione, senza titoli o elenchi. ' +
+      'Massimo 80 parole, 2–3 frasi brevi.',
   },
   en: {
     appTitle: 'Tarot',
@@ -124,6 +127,8 @@ export const translations = {
     arcanaError: 'Unable to generate the interpretation. Try again.',
     arcanaModalSubtitle: 'Your Daily Arcana',
     close: 'Close',
+    readMore: 'Read more',
+    fullInterpretation: 'Full interpretation',
     aiBadge: ' AI',
     flipCard: 'Flip card',
     onboardingHeader: 'Welcome to the Tarot Studio',
@@ -219,7 +224,8 @@ export const translations = {
     },
     aiSystem:
       'You are an expert tarot reader. Write brief, poetic, encouraging interpretations in English. ' +
-      'Do not give medical or legal advice. Reply with interpretation text only, no titles or lists. Maximum 3 sentences.',
+      'Do not give medical or legal advice. Reply with interpretation text only, no titles or lists. ' +
+      'Maximum 80 words, 2–3 short sentences.',
   },
 } as const;
 

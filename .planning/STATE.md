@@ -1,11 +1,11 @@
 # STATE — Tarocchi Pro
 
-## Sessione corrente
-- Avviata milestone Tarocchi Pro
-- Fase 1 in esecuzione: layout + fix web
+## Sessione
+Fase 14 completata: testi carte leggibili + UX incrementale
 
 ## Prossimo
-- Completare Fase 1 → Fase 2 AI pipeline
+- Push / Play Console (manuale)
+- Opzionale: rebuild AAB
 
 ## Blockers
-- Nessuno
+Nessuno
