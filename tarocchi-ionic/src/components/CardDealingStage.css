@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-width: 0;
   min-height: 280px;
+  pointer-events: auto;
 }
 
 .card-dealing-stage__ritual {
@@ -15,6 +17,7 @@
   padding: 0.35rem 0 0.75rem;
   flex-shrink: 0;
   z-index: 3;
+  pointer-events: none;
 }
 
 .card-dealing-stage__status {
@@ -52,6 +55,65 @@
   position: relative;
   z-index: 2;
   flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-width: 0;
+  min-height: 200px;
+  padding: 0.25rem 0 1rem;
+  pointer-events: auto;
+}
+
+.cards-stage--single {
+  align-content: center;
+}
+
+/* Unified slot — ghost and MemoryCard share identical cell geometry */
+.cards-stage__slot {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-shrink: 0;
+  position: relative;
+  pointer-events: auto;
+}
+
+.cards-stage__slot--dealing .memory-card {
+  visibility: hidden;
+}
+
+.cards-stage__slot > .memory-card {
+  width: 100%;
+  max-width: none;
+  animation: none;
+  position: relative;
+  z-index: 1;
+}
+
+.cards-stage--single .cards-stage__slot {
+  width: min(58vw, 220px);
+}
+
+.cards-stage--three .cards-stage__slot {
+  width: calc(33.333% - 0.45rem);
+  min-width: 108px;
+  max-width: 150px;
+}
+
+.cards-stage--four .cards-stage__slot {
+  width: calc(50% - 0.35rem);
+  min-width: 132px;
+  max-width: 188px;
+}
+
+.cards-stage--celtic .cards-stage__slot {
+  width: calc(33.333% - 0.45rem);
+  min-width: 108px;
+  max-width: 140px;
 }
 
 .card-deck-stack--enter {
@@ -139,44 +201,10 @@
   }
 }
 
-/* Unified slot — ghost and MemoryCard share identical cell geometry */
-.cards-stage__slot {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: calc(50% - 0.4rem);
-  max-width: 168px;
-  flex-shrink: 0;
-}
-
-.cards-stage__slot > .memory-card {
-  width: 100%;
-  max-width: none;
-  animation: none;
-}
-
-.cards-stage--single .cards-stage__slot {
-  width: min(52vw, 200px);
-}
-
-.cards-stage--three .cards-stage__slot {
-  width: calc(33.333% - 0.5rem);
-  min-width: 102px;
-  max-width: 130px;
-}
-
-.cards-stage--four .cards-stage__slot {
-  width: calc(50% - 0.4rem);
-  max-width: 168px;
-}
-
-.cards-stage--celtic .cards-stage__slot {
-  width: calc(33.333% - 0.45rem);
-  min-width: 100px;
-  max-width: 128px;
-}
-
 .card-deal-ghost {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   width: 100%;
   aspect-ratio: 1 / 1.45;
   border-radius: 8px;
@@ -232,16 +260,17 @@
 
 @media (min-width: 640px) {
   .cards-stage--three .cards-stage__slot {
-    max-width: 160px;
+    max-width: 168px;
   }
 
   .cards-stage--four .cards-stage__slot {
-    width: calc(25% - 0.6rem);
-    max-width: 180px;
+    width: calc(25% - 0.55rem);
+    min-width: 140px;
+    max-width: 200px;
   }
 
   .cards-stage--celtic .cards-stage__slot {
-    max-width: 150px;
+    max-width: 155px;
   }
 }
 

@@ -153,6 +153,7 @@
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.06em;
+  pointer-events: none;
   transition:
     background var(--motion-fast),
     color var(--motion-fast);

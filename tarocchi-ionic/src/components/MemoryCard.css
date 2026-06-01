@@ -1,6 +1,6 @@
 .memory-card {
-  width: calc(50% - 0.4rem);
-  max-width: 168px;
+  width: 100%;
+  max-width: none;
   aspect-ratio: 1 / 1.45;
   margin: 0;
   padding: 0;
@@ -16,6 +16,8 @@
   border: none;
   background: transparent;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   perspective: 1000px;
   display: block;
   /* Stable box — glow via shadow on face, not filter on inner (avoids layout shift) */
@@ -167,13 +169,16 @@
   align-self: flex-start;
   flex-shrink: 0;
   margin: 0;
-  padding: 2px 0;
+  padding: 6px 4px;
+  min-height: 36px;
   border: none;
   background: transparent;
   color: var(--tarocchi-purple-mist, #5b21b6);
   font-size: 10px;
   font-weight: 700;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   text-decoration: underline;
   text-underline-offset: 2px;
   line-height: 1.2;

@@ -40,6 +40,9 @@ export function useCardDealAnimation({
 
   useEffect(() => {
     if (cardCount === 0) {
+      if (!enabled) {
+        onCompleteRef.current();
+      }
       return;
     }
 

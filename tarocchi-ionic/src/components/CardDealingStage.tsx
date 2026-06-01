@@ -41,6 +41,7 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
   });
 
   const showDeck = isDealing && cardCount > 0;
+  const childSlots = Children.toArray(children);
 
   return (
     <div
@@ -80,38 +81,37 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
         className={`cards-stage cards-stage--${spreadId}`}
         data-testid="cards-grid"
       >
-        {isDealing
-          ? positions.slice(0, cardCount).map((position, index) => (
+        {childSlots.map((child, index) => (
+          <div
+            key={
+              isValidElement(child)
+                ? (child.key ?? `slot-${generation}-${index}`)
+                : `slot-${generation}-${index}`
+            }
+            className={`cards-stage__slot${isDealing ? ' cards-stage__slot--dealing' : ''}`}
+            data-testid={isDealing ? 'card-deal-slot' : undefined}
+          >
+            {isValidElement(child) ? child : null}
+            {isDealing && index < cardCount && (
               <div
-                key={`deal-${generation}-${index}`}
-                className="cards-stage__slot"
-                data-testid="card-deal-slot"
+                className={`card-deal-ghost ${deckClass}`.trim()}
+                style={{
+                  ['--deal-index' as string]: index,
+                  ['--deal-fan' as string]: index - (cardCount - 1) / 2,
+                  ['--deal-duration' as string]: `${DEAL_DURATION_MS}ms`,
+                  ['--deal-delay' as string]: `${DEAL_INITIAL_DELAY_MS + index * DEAL_STAGGER_MS}ms`,
+                  backgroundImage: `url('${cardBackImage}')`,
+                }}
+                data-testid="card-deal-ghost"
+                aria-hidden
               >
-                <div
-                  className={`card-deal-ghost ${deckClass}`.trim()}
-                  style={{
-                    ['--deal-index' as string]: index,
-                    ['--deal-fan' as string]: index - (cardCount - 1) / 2,
-                    ['--deal-duration' as string]: `${DEAL_DURATION_MS}ms`,
-                    ['--deal-delay' as string]: `${DEAL_INITIAL_DELAY_MS + index * DEAL_STAGGER_MS}ms`,
-                    backgroundImage: `url('${cardBackImage}')`,
-                  }}
-                  data-testid="card-deal-ghost"
-                >
-                  <span className="card-deal-ghost__label">{position}</span>
-                </div>
+                <span className="card-deal-ghost__label">
+                  {positions[index] ?? ''}
+                </span>
               </div>
-            ))
-          : Children.toArray(children).map((child, index) =>
-              isValidElement(child) ? (
-                <div
-                  key={child.key ?? `slot-${generation}-${index}`}
-                  className="cards-stage__slot"
-                >
-                  {child}
-                </div>
-              ) : null,
             )}
+          </div>
+        ))}
       </div>
     </div>
   );

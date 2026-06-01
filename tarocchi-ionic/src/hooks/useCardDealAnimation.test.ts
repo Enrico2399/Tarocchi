@@ -28,6 +28,19 @@ describe('useCardDealAnimation', () => {
     vi.useRealTimers();
   });
 
+  it('calls onComplete when disabled with no cards', () => {
+    const onComplete = vi.fn();
+    renderHook(() =>
+      useCardDealAnimation({
+        cardCount: 0,
+        generation: 0,
+        enabled: false,
+        onComplete,
+      }),
+    );
+    expect(onComplete).toHaveBeenCalledTimes(1);
+  });
+
   it('completes immediately when disabled', () => {
     const onComplete = vi.fn();
     renderHook(() =>

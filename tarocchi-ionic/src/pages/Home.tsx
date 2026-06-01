@@ -43,6 +43,7 @@ import {
   type InterpretationSource,
 } from '../services/interpretation/interpretationService';
 import { useRainbowColor } from '../hooks/useRainbowColor';
+import { getCardsDealEndMs } from '../hooks/useCardDealAnimation';
 import { saveReadingToHistory } from '../utils/readingHistory';
 import './Home.css';
 
@@ -137,7 +138,19 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     void runReading(spreadId);
-  }, [spreadId, locale, runReading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run on spread/locale only
+  }, [spreadId, locale]);
+
+  /** Safety net: never leave UI locked if deal timers are cleared (Strict Mode, fast regen) */
+  useEffect(() => {
+    if (!dealAnimationsEnabled || dealComplete || selectedCards.length === 0) {
+      return undefined;
+    }
+    const id = window.setTimeout(() => {
+      setDealComplete(true);
+    }, getCardsDealEndMs(selectedCards.length) + 450);
+    return () => window.clearTimeout(id);
+  }, [dealAnimationsEnabled, dealComplete, selectedCards.length, generation]);
 
   const handleSpreadChange = (id: ReadingSpreadId) => {
     if (id === spreadId || !dealComplete) {
@@ -299,7 +312,9 @@ const Home: React.FC = () => {
               positions={activePositions}
               cardBackImage={deckTheme.cardBackImage}
               deckClass={deckTheme.deckClass}
-              dealEnabled={dealAnimationsEnabled && !dealComplete}
+              dealEnabled={
+                dealAnimationsEnabled && !dealComplete && selectedCards.length > 0
+              }
               dealingLabel={t.dealingInProgress}
               onDealComplete={handleDealComplete}
             >
@@ -337,7 +352,7 @@ const Home: React.FC = () => {
               type="button"
               className="esoteric-cta"
               onClick={regenerate}
-              disabled={!dealComplete || reading.loading}
+              disabled={!dealComplete}
               data-testid="generate-btn"
             >
               <span className="esoteric-cta__label">{footerLabel}</span>
