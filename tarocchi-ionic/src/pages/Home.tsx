@@ -215,7 +215,7 @@ const Home: React.FC = () => {
       : t.generate;
 
   return (
-    <IonPage className="home-page">
+    <IonPage className="home-page esoteric-page">
       <IonHeader className="home-header">
         <IonToolbar className="home-toolbar-bar esoteric-toolbar">
           <IonButtons slot="start">
