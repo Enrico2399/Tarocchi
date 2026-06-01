@@ -27,6 +27,9 @@
   letter-spacing: 0.04em;
   white-space: nowrap;
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
   transition:
     background var(--motion-fast),
     border-color var(--motion-fast),

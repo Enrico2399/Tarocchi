@@ -18,6 +18,9 @@
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
   perspective: 1000px;
   display: block;
   /* Stable box — glow via shadow on face, not filter on inner (avoids layout shift) */

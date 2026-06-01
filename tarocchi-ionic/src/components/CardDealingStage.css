@@ -82,10 +82,6 @@
   pointer-events: auto;
 }
 
-.cards-stage__slot--dealing .memory-card {
-  visibility: hidden;
-}
-
 .cards-stage__slot > .memory-card {
   width: 100%;
   max-width: none;
@@ -206,6 +202,7 @@
   inset: 0;
   z-index: 2;
   width: 100%;
+  pointer-events: none;
   aspect-ratio: 1 / 1.45;
   border-radius: 8px;
   background-size: cover;

@@ -4,7 +4,6 @@ import {
   DEAL_DURATION_MS,
   DEAL_INITIAL_DELAY_MS,
   DEAL_STAGGER_MS,
-  useCardDealAnimation,
 } from '../hooks/useCardDealAnimation';
 import './CardDealingStage.css';
 
@@ -15,9 +14,8 @@ type CardDealingStageProps = {
   positions: string[];
   cardBackImage: string;
   deckClass?: string;
-  dealEnabled: boolean;
+  isDealing: boolean;
   dealingLabel: string;
-  onDealComplete: () => void;
   children: ReactNode;
 };
 
@@ -28,18 +26,10 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
   positions,
   cardBackImage,
   deckClass = '',
-  dealEnabled,
+  isDealing,
   dealingLabel,
-  onDealComplete,
   children,
 }) => {
-  const isDealing = useCardDealAnimation({
-    cardCount,
-    generation,
-    enabled: dealEnabled,
-    onComplete: onDealComplete,
-  });
-
   const showDeck = isDealing && cardCount > 0;
   const childSlots = Children.toArray(children);
 
@@ -88,7 +78,7 @@ const CardDealingStage: React.FC<CardDealingStageProps> = ({
                 ? (child.key ?? `slot-${generation}-${index}`)
                 : `slot-${generation}-${index}`
             }
-            className={`cards-stage__slot${isDealing ? ' cards-stage__slot--dealing' : ''}`}
+            className="cards-stage__slot"
             data-testid={isDealing ? 'card-deal-slot' : undefined}
           >
             {isValidElement(child) ? child : null}

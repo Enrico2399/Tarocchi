@@ -1,5 +1,17 @@
 /* Shared esoteric UI patterns — Tarocchi */
 
+/* Ionic: evita che layer interni blocchino tap su pagine esoteriche */
+ion-content.esoteric-content::part(background),
+ion-content.home-content::part(background) {
+  pointer-events: none;
+}
+
+ion-app,
+ion-router-outlet,
+.ion-page {
+  pointer-events: auto;
+}
+
 /* ── Page shell ── */
 .esoteric-page {
   --background: var(--esoteric-void);
@@ -98,6 +110,9 @@
   color: var(--esoteric-lavender);
   box-shadow: var(--shadow-gold);
   cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
   text-decoration: none;
   transition:
     border-color var(--motion-fast),

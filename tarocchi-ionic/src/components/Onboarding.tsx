@@ -20,12 +20,17 @@ const Onboarding: React.FC = () => {
     setShow(false);
   };
 
+  if (!show) {
+    return null;
+  }
+
   return (
     <IonModal
-      isOpen={show}
+      isOpen
       onDidDismiss={dismiss}
       className="onboarding-modal"
       backdropDismiss={false}
+      keepContentsMounted={false}
       data-testid="onboarding-alert"
     >
       <IonContent className="onboarding-modal__content">

@@ -4,6 +4,7 @@ import { Share } from '@capacitor/share';
 import {
   IonButtons,
   IonContent,
+  IonFooter,
   IonHeader,
   IonIcon,
   IonPage,
@@ -43,7 +44,8 @@ import {
   type InterpretationSource,
 } from '../services/interpretation/interpretationService';
 import { useRainbowColor } from '../hooks/useRainbowColor';
-import { getCardsDealEndMs } from '../hooks/useCardDealAnimation';
+import { getCardsDealEndMs, DEAL_INITIAL_DELAY_MS, DEAL_STAGGER_MS } from '../hooks/useCardDealAnimation';
+import { triggerDealHaptic } from '../utils/haptics';
 import { saveReadingToHistory } from '../utils/readingHistory';
 import './Home.css';
 
@@ -68,11 +70,47 @@ const Home: React.FC = () => {
     error: null,
   });
   const [generation, setGeneration] = useState(0);
-  const [dealComplete, setDealComplete] = useState(false);
+  const [dealComplete, setDealComplete] = useState(true);
   const [intention, setIntention] = useState(getStoredIntention);
   const dealAnimationsEnabled = getDealAnimationsEnabled();
   const requestIdRef = useRef(0);
+  const dealUnlockRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hapticTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const titleColor = useRainbowColor(selectedCards.length > 0);
+
+  const clearDealTimers = useCallback(() => {
+    if (dealUnlockRef.current) {
+      clearTimeout(dealUnlockRef.current);
+      dealUnlockRef.current = null;
+    }
+    hapticTimersRef.current.forEach(clearTimeout);
+    hapticTimersRef.current = [];
+  }, []);
+
+  const scheduleDealUnlock = useCallback(
+    (cardCount: number) => {
+      clearDealTimers();
+      if (!dealAnimationsEnabled || cardCount <= 0) {
+        setDealComplete(true);
+        return;
+      }
+      setDealComplete(false);
+      for (let index = 0; index < cardCount; index += 1) {
+        hapticTimersRef.current.push(
+          setTimeout(() => {
+            triggerDealHaptic();
+          }, DEAL_INITIAL_DELAY_MS + index * DEAL_STAGGER_MS),
+        );
+      }
+      dealUnlockRef.current = setTimeout(() => {
+        setDealComplete(true);
+        dealUnlockRef.current = null;
+      }, getCardsDealEndMs(cardCount) + 300);
+    },
+    [clearDealTimers, dealAnimationsEnabled],
+  );
+
+  useEffect(() => () => clearDealTimers(), [clearDealTimers]);
 
   const runReading = useCallback(
     async (nextSpreadId: ReadingSpreadId) => {
@@ -93,9 +131,7 @@ const Home: React.FC = () => {
         error: null,
       });
 
-      if (!dealAnimationsEnabled) {
-        setDealComplete(true);
-      }
+      scheduleDealUnlock(picked.length);
 
       try {
         const results = await getReadingInterpretations(picked, positions);
@@ -133,24 +169,13 @@ const Home: React.FC = () => {
         });
       }
     },
-    [dealAnimationsEnabled, locale, t.readingError],
+    [locale, scheduleDealUnlock, t.readingError],
   );
 
   useEffect(() => {
     void runReading(spreadId);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run on spread/locale only
   }, [spreadId, locale]);
-
-  /** Safety net: never leave UI locked if deal timers are cleared (Strict Mode, fast regen) */
-  useEffect(() => {
-    if (!dealAnimationsEnabled || dealComplete || selectedCards.length === 0) {
-      return undefined;
-    }
-    const id = window.setTimeout(() => {
-      setDealComplete(true);
-    }, getCardsDealEndMs(selectedCards.length) + 450);
-    return () => window.clearTimeout(id);
-  }, [dealAnimationsEnabled, dealComplete, selectedCards.length, generation]);
 
   const handleSpreadChange = (id: ReadingSpreadId) => {
     if (id === spreadId || !dealComplete) {
@@ -166,10 +191,6 @@ const Home: React.FC = () => {
     }
     void runReading(spreadId);
   };
-
-  const handleDealComplete = useCallback(() => {
-    setDealComplete(true);
-  }, []);
 
   const handleIntentionChange = (value: string) => {
     setIntention(value);
@@ -278,7 +299,7 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen className="home-content">
+      <IonContent className="home-content">
         <div
           className={`home-bg ${tableTheme.overlayClass}`.trim()}
           style={{ backgroundImage: `url('${tableTheme.backgroundImage}')` }}
@@ -294,7 +315,7 @@ const Home: React.FC = () => {
                 onChange={(e) => handleIntentionChange(e.target.value)}
                 placeholder={t.intentionPlaceholder}
                 maxLength={200}
-                disabled={!dealComplete || reading.loading}
+                disabled={!dealComplete}
                 data-testid="intention-input"
               />
             </label>
@@ -302,7 +323,7 @@ const Home: React.FC = () => {
             <SpreadSelector
               value={spreadId}
               onChange={handleSpreadChange}
-              disabled={!dealComplete || reading.loading}
+              disabled={!dealComplete}
             />
 
             <CardDealingStage
@@ -312,11 +333,8 @@ const Home: React.FC = () => {
               positions={activePositions}
               cardBackImage={deckTheme.cardBackImage}
               deckClass={deckTheme.deckClass}
-              dealEnabled={
-                dealAnimationsEnabled && !dealComplete && selectedCards.length > 0
-              }
+              isDealing={isDealing}
               dealingLabel={t.dealingInProgress}
-              onDealComplete={handleDealComplete}
             >
               {selectedCards.map((card, index) => (
                 <MemoryCard
@@ -346,20 +364,20 @@ const Home: React.FC = () => {
               </p>
             )}
           </div>
-
-          <div className="home-footer">
-            <button
-              type="button"
-              className="esoteric-cta"
-              onClick={regenerate}
-              disabled={!dealComplete}
-              data-testid="generate-btn"
-            >
-              <span className="esoteric-cta__label">{footerLabel}</span>
-            </button>
-          </div>
         </div>
       </IonContent>
+
+      <IonFooter className="home-footer">
+        <button
+          type="button"
+          className="esoteric-cta"
+          onClick={regenerate}
+          disabled={!dealComplete}
+          data-testid="generate-btn"
+        >
+          <span className="esoteric-cta__label">{footerLabel}</span>
+        </button>
+      </IonFooter>
     </IonPage>
   );
 };
